@@ -1,5 +1,6 @@
 package com.example.TestSecurity.config;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CsrfFilter;
 
 
 @Configuration
@@ -50,8 +52,31 @@ public class SecurityConfig {
                         .permitAll()
                 );
 
+//        http
+//                .addFilterAfter(new CsrfTokenLogger(), CsrfFilter.class)
+//                .authorizeHttpRequests((auth) -> auth
+//                        .anyRequest().permitAll()
+//                );
+
+
         http
                 .csrf((auth) -> auth.disable()); // csrf토큰을 보내지 않으면 로그인이 진행되지 않기 때문에 잠시 disable
+
+        http
+        // 로그아웃 설정
+                .logout(logout -> logout
+                // 로그아웃 요청을 처리할 URL 설정
+                .logoutUrl("/logout")
+                // 로그아웃 성공 시 리다이렉트할 URL 설정
+                .logoutSuccessUrl("/login")
+                // 로그아웃 핸들러 추가 (세션 무효화 처리)
+                .addLogoutHandler((request, response, authentication) -> {
+                    HttpSession session = request.getSession();
+                    session.invalidate();
+                })
+                // 로그아웃 시 쿠키 삭제 설정 (예: "remember-me" 쿠키 삭제)
+                // .deleteCookies("remember-me")
+        );
 
         // csrf 관련 로직
 //        http

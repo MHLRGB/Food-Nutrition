@@ -75,31 +75,31 @@ const Login = () => {
         <div className="content">
           <div className="login-box">
             <h2 className="login">로그인</h2>
-            <form action="/loginProc" method="post" name="loginForm">
-              <div className="input-group">
-              <input
-                type="text"
-                name="username"
-                placeholder="아이디"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </div>
-            <div className="input-group">
-              <input
-                type="password"
-                name="password"
-                placeholder="비밀번호"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <input type="submit" value="로그인" />
-        </form>
+              <form action="/loginProc" method="post" name="loginForm">
+                  <div className="input-group">
+                      <input
+                          type="text"
+                          name="username"
+                          placeholder="아이디"
+                          value={username}
+                          onChange={(e) => setUsername(e.target.value)}
+                      />
+                  </div>
+                  <div className="input-group">
+                      <input
+                          type="password"
+                          name="password"
+                          placeholder="비밀번호"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                      />
+                  </div>
+                  <input type="submit" value="로그인"/>
+              </form>
           </div>
-          </div>
-      </div>
-        
+        </div>
+        </div>
+
     );
 };
 

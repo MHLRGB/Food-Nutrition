@@ -5,9 +5,16 @@ import axios from "axios";
 
 
 function Header() {
+
+    const sessionData = localStorage.getItem('greeting');
+
     return (
       <header>
-        <div className="main-container">
+          <form action="/logout" method="post">
+              <button type="submit">로그아웃</button>
+          </form>
+          <div>세션 : {sessionData}</div>
+          <div className="main-container">
           <Link to="/pageA" className="circle">AI</Link>
           <Link to="/pageB" className="circle">메인</Link>
           <Link to="/pageC" className="circle">검색</Link>
