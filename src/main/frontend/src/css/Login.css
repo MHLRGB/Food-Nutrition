@@ -5,36 +5,48 @@
   font-weight: 100;
 }
 
-.Login nav ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  background-color: rgb(0, 0, 0);
+
+.navbar {
+  background-color: #C4E9CE ;
   overflow: hidden;
-  text-align: center; /* 가운데 정렬 */
- 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px; 
 }
 
-.Login nav li a {
+.navbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar ul li {
+  float: left;
+}
+
+.navbar ul li a {
   display: block;
-  color: white;
+  color: rgb(0, 0, 0);
   text-align: center;
-  padding: 15px 20px;
+  padding: 14px 20px;
+  text-decoration: none;
 }
 
-.Login nav li a:hover {
-  background-color: #555;
-}
 
 
 .login-box {
   margin: auto;
   width: 400px;
   padding: 50px;
-  border: 1px solid #000000;
-  border-radius: 5px;
+  border: 2px solid #C4E9CE; /* 테두리 선 굵기 증가 */
+  border-radius: 50px; /* 모서리 둥글게 */
   margin-top: 200px;
   text-align: left;
+}
+
+.login1 {
+  text-align: center;
 }
 
 .button-group {
@@ -53,13 +65,33 @@ input[type="password"] {
   width: calc(100% - 20px);
   padding: 10px;
   margin-bottom: 10px;
+  border-radius: 50px;
 }
 
-button {
-  width: 18%;
-  padding: 10px;
-  cursor: pointer;
+.button-group {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
 }
+
+/* 로그인과 password의 스타일과 동일하게 버튼 스타일 지정 */
+button {
+  width: calc(50% - 20px); /* input 필드와 같은 너비 */
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 50px;
+  background-color: #ffffff; /* 배경색 */
+  color: #000; /* 텍스트 색상 */
+  border: 2px solid #000000; /* 테두리 */
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease; /* 변화 효과 */
+}
+
+button:hover {
+  background-color: #C4E9CE ; /* 마우스 호버 시 배경색 변경 */
+  color: #000000; /* 마우스 호버 시 텍스트 색상 변경 */
+}
+
 
 /* 반응형 디자인 */
 @media screen and (max-width: 480px) {
@@ -82,7 +114,7 @@ button {
   .login-box,
   .signup-box {
     width: 80%;
-    transition: width 0.3s ease;
+    transition: width 0.4s ease;
   }
 }
 

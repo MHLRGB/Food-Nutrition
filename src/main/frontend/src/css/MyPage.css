@@ -1,0 +1,81 @@
+.my-page-container {
+  width: 95%;
+  height: 600px;
+  border: 2px solid #C4E9CE ;
+  padding: 20px;
+  margin: 200px auto 0; /* 위에만 마진을 주고, 나머지는 자동으로 가운데로 정렬되도록 합니다 */
+  display: flex;
+  flex-direction: column; /* 자식 요소들을 수직으로 배치합니다 */
+}
+
+.profile-container {
+  display: flex;
+  align-items: center;
+}
+
+.profile-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #ccc; /* 프로필 이미지의 색상은 여기에 추가하세요 */
+}
+
+.username {
+  font-size: 30px;
+  margin-top: 20px;
+  margin-left: 10px;
+}
+
+.my-page-title {
+  font-size: 40px;
+  margin-top: 20px;
+}
+
+.mp-id {
+  display: flex;
+  align-items: center; /* 세로 가운데 정렬 */
+  font-size: 30px;
+}
+
+.mp-id-1 {
+  font-size: 20px;
+}
+
+.mp-id-2 {
+  margin-left: 10px;
+  font-size: 20px;
+  flex-grow: 1; /* 최대한 확장하여 나머지 공간을 채웁니다 */
+}
+
+.mp-ps{
+  display: flex;
+  align-items: center; /* 세로 가운데 정렬 */
+  font-size: 30px;
+}
+
+.mp-ps-1{
+  font-size: 20px;
+}
+
+.mp-ps-2{
+  margin-left: 10px;
+  font-size: 20px;
+ 
+}
+
+.ps-bt {
+  width: calc(10% - 20px); /* input 필드와 같은 너비 */
+  padding: 5px;
+  margin-bottom: 10px;
+  margin-left: 20px;
+  border-radius: 50px;
+  background-color: #ffffff; /* 배경색 */
+  color: #000; /* 텍스트 색상 */
+  border: 2px solid #000000; /* 테두리 */
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease; /* 변화 효과 */
+}
+
+.ps-bt:hover {
+  background-color: #C4E9CE  ; /* 마우스 호버시 배경색 변경 */
+}

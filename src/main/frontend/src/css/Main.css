@@ -9,7 +9,7 @@
   display: inline-block;
   width: 100px;
   height: 100px;
-  background-color: rgb(0, 0, 0);
+  background-color: #C4E9CE ;
   border-radius: 50%;
   text-align: center;
   line-height: 100px;
@@ -22,36 +22,50 @@
   display: flex;
   justify-content: center;
   margin-top: 50px; /* 위 여백 추가 */
+  height: auto; /* 높이를 auto로 설정 */
 }
 
-.con1 {
+.body_blank_left {
   margin-left: 8%;
-  width: 70%; /* 내용의 너비 설정 */
-  background-color: #000000;
+  width: 40%; /* 내용의 너비 설정 */
+  background-color: #c4e9ce3f;
+  padding: 20px;
+  border-radius: 10px;
+  height: auto; /* 높이를 auto로 설정 */
+  color: #000000;
+  border: 3px solid #c4e9ce; /* 테두리 추가 */
+}
+
+.body_left {
+  width: 40%; /* 내용의 너비 설정 */
+  background-color: #ffffff ;
   padding: 20px;
   border-radius: 10px;
   height: 100vb;
-  color: #ffffff;
-}
-
-.con1-top{
-  height: 50vh;
-}
-
-.con1-bottom{
-  height: 50vh;
-  background-color: #ffffff;
   color: #000000;
+  
 }
 
+.body_left_top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.body_left_top_button {
+  width : 150px;
+  background-color: #C4E9CE;
+  font-size : 15px;
+}
 
 
 .con2 {
-  width: 100%; /* 내용의 너비 설정 */
-  background-color: #f0f0f0;
+  width: 120%; /* 내용의 너비 설정 */
+  background-color: #ffffff;
   padding: 20px;
   border-radius: 10px;
   height: 100vb;
+  border: 3px solid #c4e9ce;
 }
 
 .con2-top{
@@ -63,23 +77,92 @@
 
 .con2-bottom{
   height: 60vh;
-  background-color: #ffffff;
+  background-color: #c4e9ce3f;
   color: #000000;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 3px solid #c4e9ce;
 }
 
 
 .con3 {
-  margin-right: 8%;
-  width: 70%; /* 내용의 너비 설정 */
-  background-color: #000000;
+  width: 40%; /* 내용의 너비 설정 */
+  background-color: #ffffff;
   padding: 20px;
   border-radius: 10px;
   height: 100vb;
-  color: #ffffff;
+  color: #000000;
 }
 
+.con3-1 {
+  margin-right: 8%;
+  width: 40%; /* 내용의 너비 설정 */
+  background-color: #c4e9ce3f;
+  padding: 20px;
+  border-radius: 10px;
+  height: auto; /* 높이를 auto로 설정 */
+  color: #000000;
+  border: 3px solid #c4e9ce; /* 테두리 추가 */
+}
+
+.ellipse-container2 {
+  display: flex;
+  flex-direction: column; /* 수직으로 정렬 */
+  align-items: center; /* 가운데 정렬 */
+  margin-top: 90px; /* 이미지와의 간격 */
+}
+
+.ellipse1-1, .ellipse1-2, .ellipse1-3 {
+  width: 200px;
+  height: 60px;
+  border-radius: 25px;
+  background-color: #c4e9ce;
+  margin: 10px 0; /* 상하 간격 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #000;
+  border: 2px solid #c4e9ce ; /* 테두리 */
+  position: relative; /* 가상 요소를 위한 상대적 위치 */
+}
+
+
+.ellipse-container {
+  display: flex;
+  flex-direction: column; /* 수직으로 정렬 */
+  align-items: center; /* 가운데 정렬 */
+  margin-top: 90px; /* 이미지와의 간격 */
+}
+
+.ellipse1, .ellipse2, .ellipse3 {
+  width: 500px;
+  height: 120px;
+  border-radius: 25px;
+  background-color: #c4e9ce00;
+  margin: 10px 0; /* 상하 간격 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #000;
+  border: 2px solid #c4e9ce ; /* 테두리 */
+  position: relative; /* 가상 요소를 위한 상대적 위치 */
+}
+
+.ellipse1::before, .ellipse2::before, .ellipse3::before {
+  content: '';
+  position: absolute;
+  top: 15%;
+  bottom: 15%;
+  left: 30%; /* 가로 기준 30% */
+  width: 2px;
+  background-color: #C4E9CE ; /* 세로선 색상 */
+}
 /* 미디어 쿼리를 사용하여 화면 크기에 따른 스타일 변경 */
-@media (max-width: 420px) {
+@media (max-width: 421px) {
   .main-container {
     flex-direction: column;
     align-items: center;
@@ -96,4 +179,20 @@
   .content {
     margin-bottom: 10px;
   }
+  .ellipse-container{
+    margin-bottom: 10px;
+  }
+  .ellipse {
+    margin-bottom: 10px;
+  }
+}
+
+/* 오른쪽 스티키 배너 스타일 */
+.sticky-banner {
+  position: sticky;
+  top: 200px; /* 화면 상단으로부터 200px 떨어진 위치에 배치됩니다. */
+  background-color: #f1f1f1;
+  padding: 10px;
+  text-align: center;
+  z-index: 1000; /* 다른 요소 위에 나타나도록 설정합니다. */
 }
