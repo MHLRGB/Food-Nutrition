@@ -1,0 +1,5 @@
+.userheader {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px; /* 요소들 사이의 간격 */
+}

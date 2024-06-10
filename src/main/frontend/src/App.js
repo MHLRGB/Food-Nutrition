@@ -6,7 +6,7 @@ import Test from './test.js';
 import Admin from './Adimn.js';
 import Main from './Main.js';
 import Common from './common.js';
-import axios from 'axios';
+import MyPage from "./MyPage";
 
 const App = () => {
     return (
@@ -17,6 +17,7 @@ const App = () => {
                 <Route path="/test" element={<Test />} />
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/common" element={<Common />} />
+                <Route path="/mypage" element={<MyPage />}/>
                 <Route path="/" element={<Main />}/>
             </Routes>
         </div>
