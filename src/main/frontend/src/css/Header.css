@@ -1,5 +1,50 @@
-.userheader {
+@media (max-width: 421px) {
+    .header_main {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .header_main_circle {
+        margin-bottom: 10px;
+    }
+}
+
+.header_main {
+    display: flex;
+    justify-content: space-around;
+    max-width: 800px; /* 예시로 최대 너비를 800px로 설정 */
+    margin: 0 auto; /* 가운데 정렬을 위한 설정 */
+}
+
+.header_main_circle {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background-color: #C4E9CE ;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 100px;
+    font-size: 20px;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+.header_user_container {
+    margin : 20px;
+    margin-right: 20px;
     display: flex;
     justify-content: flex-end;
-    gap: 10px; /* 요소들 사이의 간격 */
+    gap: 10px;
+    font-size:15px;
 }
+
+.header_user_menu {
+    color: black;
+    text-decoration: none;
+}
+
+.header_user_menu:hover {
+    font-weight: bold;
+}
+
