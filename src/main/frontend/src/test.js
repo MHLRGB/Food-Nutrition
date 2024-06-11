@@ -1,32 +1,71 @@
-import React, {useEffect, useState} from 'react';
-import axios from "axios";
-
+import React, { useState, useContext } from 'react';
+import { createContext } from 'react';
 import { Route, Routes } from 'react-router-dom';
 //import axiosInstance from "/axiosInstance";
 
 const Test = () => {
 
-    const [hello1, setHello1] = useState('');
-    const [hello2, setHello2] = useState('');
+    return (
+        <div>
+            <h1>Main Component</h1>
+            <Body/>
+        </div>
 
-    useEffect(() => {
-        axios.get('/hello1')
-            .then((res) => {
-                setHello1(res.data);
-            })
-        axios.post('/hello2')
-            .then((res) => {
-                setHello2(res.data);
-            })
-    }, []);
+    )
+        ;
+};
+const IngredientContext = createContext();
+
+function Body() {
+    const [ingredientCount, setIngredientCount] = useState(0);
 
     return (
-        <>
-            <h2>Test.js입니다.</h2>
-            <div>hello1(get) : {hello1}</div>
-            <div>hello2(post) : {hello2}</div>
-        </>
+        <IngredientContext.Provider value={{ ingredientCount, setIngredientCount }}>
+            <div>
+                <h2>Body Component</h2>
+                <RecipeDetails />
+                <StickyBanner />
+            </div>
+        </IngredientContext.Provider>
     );
-};
+}
+
+function StickyBanner() {
+    const { ingredientCount } = useContext(IngredientContext);
+
+    return (
+        <div>
+            <h3>Sticky Banner</h3>
+            <p>Ingredient Count: {ingredientCount}</p>
+        </div>
+    );
+}
+
+function RecipeDetails() {
+    return (
+        <div>
+            <h2>Recipe Details Component</h2>
+            <IngredientGroup />
+        </div>
+    );
+}
+
+function IngredientGroup() {
+    const { setIngredientCount } = useContext(IngredientContext);
+
+    const updateIngredientCount = () => {
+        // 임의의 정수 값 예시
+        const newCount = 3;
+        setIngredientCount(newCount);
+    };
+
+    return (
+        <div>
+            <h3>Ingredient Group Component</h3>
+            <button onClick={updateIngredientCount}>Update Ingredient Count</button>
+        </div>
+    );
+}
 
 export default Test;
+
