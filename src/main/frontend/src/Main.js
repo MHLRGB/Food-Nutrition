@@ -432,7 +432,7 @@ function RecipeDetails({ recipeName }) {
                     />
                 </div>
             )}
-            
+
         </div>
     );
 }
