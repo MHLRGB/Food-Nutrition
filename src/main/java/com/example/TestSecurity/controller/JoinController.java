@@ -1,12 +1,17 @@
 package com.example.TestSecurity.controller;
 
 import com.example.TestSecurity.dto.JoinDTO;
+import com.example.TestSecurity.model.TestModel;
 import com.example.TestSecurity.service.JoinService;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @Controller
 public class JoinController {
@@ -20,16 +25,30 @@ public class JoinController {
 //
 //        return "join";
 //    }
+    @ResponseBody
+    @PostMapping("/checkdupid")
+    public boolean CheckDupId(@RequestBody String usernameJson) {
 
+        ObjectMapper objectMapper = new ObjectMapper();
+        String username = "";
+        try {
+            JsonNode jsonNode = objectMapper.readTree(usernameJson);
+            username = jsonNode.get("username").asText();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Received username: " + username);
+
+        return joinService.checkDupId(username);
+    }
     @GetMapping("/joinProc")
     public String joinProcess(JoinDTO joinDTO) {
-        log.info("joinController");
-        System.out.println(joinDTO.getUsername());
+        log.info("username : " + joinDTO.getUsername());
 
         joinService.joinProcess(joinDTO);
 
-
-        return "redirect:/test";
+        return "redirect:/login";
     }
 }
 

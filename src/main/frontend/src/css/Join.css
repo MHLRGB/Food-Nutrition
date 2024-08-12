@@ -1,91 +1,75 @@
 
-.Sign {
+.Join {
   text-align: center;
   padding: 0px;
   font-weight: 100;
-}
 
-
-.S-navbar {
-  background-color: #C4E9CE ;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 60px; 
-}
-
-.S-navbar ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-.S-navbar ul li {
-  float: left;
-}
-
-.S-navbar ul li a {
-  display: block;
-  color: rgb(0, 0, 0);
-  text-align: center;
-  padding: 14px 20px;
-  text-decoration: none;
-}
-
-
-
-  /* 회원가입 상자 스타일 */
-  .Sign .signup-box {
+  .join-box {
     margin: auto; /* 가운데 정렬을 위해 자동 마진 추가 */
-    width: 400px; /* 너비 지정 */
-    padding: 50px; /* 안쪽 여백 추가 */
-    border: 2px solid #C4E9CE; /* 테두리 추가 */
+    margin-top: 100px; /* 위쪽 여백 추가 */
+    width: 500px; /* 너비 지정 */
+    height: 500px;
+    padding: 70px; /* 안쪽 여백 추가 */
     border-radius: 50px; /* 테두리 둥글게 만듦 */
-    margin-top: 200px; /* 위쪽 여백 추가 */
-    text-align: left; /* 텍스트를 왼쪽 정렬 */
+    border: 2px solid #C4E9CE;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 가운데 정렬 */
+
+    .join-title {
+      font-size:30px;
+      width: 100%; /* 제목의 너비를 상위 요소와 같게 설정 */
+      text-align: left; /* 텍스트를 왼쪽 정렬 */
+      margin-bottom: 40px; /* 제목과 입력 박스 사이의 여백 추가 */
+    }
+
+    .join-input-box {
+      width: 500px;
+      height: 100%;
+      text-align: center; /* 텍스트가 가운데 정렬되도록 */
+
+      .join-input-group {
+        position: relative;
+        width: 100%;
+
+        .checkIdButton {
+          display: flex;
+          width: 80px;
+          height: 35px;
+          position: absolute;
+          right: 4px;
+          top: 4px;
+          border-radius: 15px;
+          border: 2px solid #000000;
+          background-color: white;
+          color: black;
+          font-weight: bold;
+          cursor: pointer;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
+    .checkIdMessage {
+      font-size:14px;
+      margin-top:0;
+      margin-left: 10px;
+      text-align: left;
+      font-weight: 500;
+    }
+    .join-input {
+      width: calc(100% - 20px);
+      height: 20px;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 20px;
+      border: solid 2px #000000;
+    }
   }
-  
-  /* 입력란 스타일 */
-  .Sign .input-group {
-    margin-bottom: 10px; /* 아래쪽 여백 추가 */
-  }
-  
-  .Sign input[type="text"],
-  .Sign input[type="password"] {
-    width: calc(100% - 20px); /* 입력란 너비 조정 */
-    padding: 10px; 
-    margin-bottom: 10px; 
-  }
-  
-  /* 버튼 스타일 */
-  .Sign button {
+  button {
     width: 30%; /* 너비 100%로 설정 */
     padding: 10px; /* 안쪽 여백 추가 */
     cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능한 것으로 표시 */
   }
-  
-/* 반응형 디자인 */
-@media screen and (max-width: 480px) {
-    .nav ul li:first-child {
-      margin-left: 5px;
-      transition: margin-left 0.3s ease;
-    }
-  
-    .nav ul li a {
-      padding: 12px 6px;
-      font-size: 14px;
-      transition: padding 0.3s ease, font-size 0.3s ease;
-    }
-  
-    .content {
-      flex-direction: column;
-      align-items: center;
-    }
-  
-    .signup-box {
-      width: 80%;
-      transition: width 0.4s ease;
-    }
-  }
-  
+
+}

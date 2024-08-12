@@ -22,13 +22,23 @@ public class JoinService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
+    public boolean checkDupId(String username) {
+        boolean isDup = userRepository.existsByUsername(username);
+
+        if(isDup) {
+            log.info("checkDupId : isDup");
+            return true;
+        }
+        log.info("checkDupId : isNotDup");
+        return false;
+    }
+
     public void joinProcess(JoinDTO joinDTO) {
 
         log.info("joinProcess");
 
         //db에 이미 동일한 username을 가진 회원이 존재하는지?
-        boolean isUser = userRepository.existsByUsername(joinDTO.getUsername());
-        if (isUser) {
+        if (checkDupId(joinDTO.getUsername())) {
             return;
         }
 
@@ -41,5 +51,6 @@ public class JoinService {
 
 
         userRepository.save(data);
+
     }
 }

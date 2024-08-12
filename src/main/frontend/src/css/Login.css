@@ -1,120 +1,81 @@
-
 .Login {
   text-align: center;
-  padding: 0px;
   font-weight: 100;
+
+  .login-box {
+    margin: auto; /* 가운데 정렬을 위해 자동 마진 추가 */
+    margin-top: 50px; /* 위쪽 여백 추가 */
+    width: 500px; /* 너비 지정 */
+    height: 300px;
+    padding: 80px 50px 50px 50px;
+    border-radius: 50px; /* 테두리 둥글게 만듦 */
+    border: 2px solid #C4E9CE;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 가운데 정렬 */
+    justify-content: center;
+    .login-title {
+      margin-bottom: 40px;
+      font-size:30px;
+      width: 100%; /* 제목의 너비를 상위 요소와 같게 설정 */
+      text-align: left; /* 텍스트를 왼쪽 정렬 */
+    }
+
+    .login-input-box {
+      width: 500px;
+      height: 100%;
+      text-align: center; /* 텍스트가 가운데 정렬되도록 */
+      .form-button {
+        margin-top:15px;
+      }
+    }
+    .login-input {
+      width: calc(100% - 20px);
+      height: 20px;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 20px;
+      border: solid 2px #000000;
+    }
+  }
+  button {
+    width: 30%; /* 너비 100%로 설정 */
+    padding: 10px; /* 안쪽 여백 추가 */
+    cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능한 것으로 표시 */
+  }
+  .login-bottom-button-group {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin:30px;
+    .form-button {
+      line-height: 1.0;
+      width: 100px;
+      border-radius: 10px;
+      margin : 5px;
+    }
+  }
 }
 
 
-.navbar {
-  background-color: #C4E9CE ;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 60px; 
-}
-
-.navbar ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-.navbar ul li {
-  float: left;
-}
-
-.navbar ul li a {
-  display: block;
-  color: rgb(0, 0, 0);
+.form-button {
+  /* React의 Link 컴포넌트는 기본적으로 인라인 요소이므로, inline-block으로 바꾸어 길이 변경이 가능하도록 함. */
+  display: inline-block;
+  width : 120px;
+  padding : 10px;
+  font-size : 15px;
+  font-weight: 500;
   text-align: center;
-  padding: 14px 20px;
-  text-decoration: none;
-}
-
-
-
-.login-box {
-  margin: auto;
-  width: 400px;
-  padding: 50px;
-  border: 2px solid #C4E9CE; /* 테두리 선 굵기 증가 */
-  border-radius: 50px; /* 모서리 둥글게 */
-  margin-top: 200px;
-  text-align: left;
-}
-
-.login1 {
-  text-align: center;
-}
-
-.button-group {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-
-/*로그인 박스 내 요소 배치간격*/
-.input-group {
-  margin-bottom: 10px;
-}
-
-input[type="text"],
-input[type="password"] {
-  width: calc(100% - 20px);
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 50px;
-}
-
-.button-group {
-  display: flex;
-  justify-content: center;
-  margin-top: 10px;
-}
-
-/* 로그인과 password의 스타일과 동일하게 버튼 스타일 지정 */
-button {
-  width: calc(50% - 20px); /* input 필드와 같은 너비 */
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 50px;
+  border-radius: 20px;
   background-color: #ffffff; /* 배경색 */
   color: #000; /* 텍스트 색상 */
   border: 2px solid #000000; /* 테두리 */
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease; /* 변화 효과 */
+  text-decoration: none;
 }
-
-button:hover {
+.form-button:hover {
   background-color: #C4E9CE ; /* 마우스 호버 시 배경색 변경 */
   color: #000000; /* 마우스 호버 시 텍스트 색상 변경 */
 }
-
-
-/* 반응형 디자인 */
-@media screen and (max-width: 480px) {
-  .nav ul li:first-child {
-    margin-left: 5px;
-    transition: margin-left 0.3s ease;
-  }
-
-  .nav ul li a {
-    padding: 12px 6px;
-    font-size: 14px;
-    transition: padding 0.3s ease, font-size 0.3s ease;
-  }
-
-  .content {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .login-box,
-  .signup-box {
-    width: 80%;
-    transition: width 0.4s ease;
-  }
-}
-
