@@ -34,7 +34,7 @@ function Header() {
                 <Link to="/pageA" className="header_main_circle">AI</Link>
                 <Link to="/" className="header_main_circle">메인</Link>
                 <Link to="/pageC" className="header_main_circle">검색</Link>
-                <Link to="/pageD" className="header_main_circle">커뮤니티</Link>
+                <Link to="/community" className="header_main_circle">커뮤니티</Link>
             </div>
         </header>
     );

@@ -37,10 +37,16 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers( HttpMethod.GET, "/index*", "/static/**", "/*.js", "/*.json", "/*.ico", "/rest",
-                                "/test","/login","/join","/joinProc","/common","/welcome","/checkdupid", "/")
+                                "/test","/login","/join","/joinProc","/common","/welcome", "/communities", "/communities/*",
+                                "/community","/community/*",
+                                "/")
                         .permitAll()
 
-                        .requestMatchers( HttpMethod.POST, "/checkdupid")
+                        .requestMatchers( HttpMethod.POST, "/checkdupid", "/communities")
+                        .permitAll()
+
+                        // 삭제 권한 설정 필요
+                        .requestMatchers( HttpMethod.DELETE, "/communities/*")
                         .permitAll()
 
                         .requestMatchers("/index.html").permitAll()

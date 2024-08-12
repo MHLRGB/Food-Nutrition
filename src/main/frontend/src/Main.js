@@ -82,7 +82,7 @@ const Body = () => {
                         ))}
                     </div>
                 </div>
-                <div className='body_center'>
+                <div className='main_body_center'>
                     <div className='body_center_top'>
                         <div className='slider'>
                             <button onClick={prevSlide} className='left-arrow'>
