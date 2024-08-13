@@ -54,4 +54,8 @@ public class CommunityService {
         }
         return null;
     }
+
+    public List<CommunityRecipe> getTop3PopularRecipes() {
+        return communityRepository.findTop3ByViews();
+    }
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, createContext } from 'react';
-import '../css/Community_Board.css';
+import './css/Community_Board.css';
 import axios from 'axios';
 import Header from '../Header';
 

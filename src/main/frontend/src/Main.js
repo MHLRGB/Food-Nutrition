@@ -17,19 +17,8 @@ const IngredientContext = createContext();
 
 
 const Main = () => {
-
-    const [auth, setAuth] = useState('');
-
-    useEffect(() => {
-        axios.post('/login')
-            .then((res) => {
-                setAuth(res.data);
-            })
-    }, []);
-
     return (
         <div>
-            <div>{auth}님 안녕하세요.</div>
             <Header/>
             <Body/>
         </div>

@@ -10,6 +10,7 @@ import Community from "./community/Community.js";
 import MyPage from "./MyPage";
 import Community_recipe from "./community/Community_recipe";
 import Community_info_tips from "./community/Community_info_tips";
+import Community_recipe_detail from "./community/Community_recipe_detail";
 
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
                 <Route path="/mypage" element={<MyPage />}/>
                 <Route path="/community" element={<Community />}/>
                 <Route path="/community/recipe" element={<Community_recipe />}/>
+                <Route path="/community/recipe/:id" element={<Community_recipe_detail />} />
                 <Route path="/community/info_tips" element={<Community_info_tips />}/>
                 <Route path="/" element={<Main />}/>
             </Routes>

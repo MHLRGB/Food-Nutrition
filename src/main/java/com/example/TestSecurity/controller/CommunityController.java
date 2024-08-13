@@ -66,15 +66,6 @@ public class CommunityController {
         return new ResponseEntity<>(responseDTOs, HttpStatus.OK);
     }
 
-    @GetMapping("/titles")
-    public ResponseEntity<List<String>> getCommunityTitles() {
-        List<CommunityRecipe> communities = communityService.getAllCommunities();
-        List<String> titles = communities.stream()
-                .map(CommunityRecipe::getTitle)
-                .collect(Collectors.toList());
-        return new ResponseEntity<>(titles, HttpStatus.OK);
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<CommunityResponseDTO> getCommunityById(@PathVariable int id) {
         Optional<CommunityRecipe> community = communityService.getCommunityById(id);
@@ -124,5 +115,23 @@ public class CommunityController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/top-popular-recipe")
+    public ResponseEntity<List<CommunityResponseDTO>> getTop3PopularRecipes() {
+        List<CommunityRecipe> recipes = communityService.getTop3PopularRecipes();
+        List<CommunityResponseDTO> responseDTOs = recipes.stream()
+                .map(recipe -> {
+                    CommunityResponseDTO dto = new CommunityResponseDTO();
+                    dto.setId(recipe.getId());
+                    dto.setTitle(recipe.getTitle());
+                    dto.setContent(recipe.getContent());
+                    dto.setAuthor(recipe.getAuthor());
+                    dto.setCategory(recipe.getCategory());
+                    dto.setCreatedDate(recipe.getCreatedDate());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(responseDTOs, HttpStatus.OK);
     }
 }

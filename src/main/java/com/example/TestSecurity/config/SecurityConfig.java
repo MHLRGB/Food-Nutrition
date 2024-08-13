@@ -37,8 +37,8 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers( HttpMethod.GET, "/index*", "/static/**", "/*.js", "/*.json", "/*.ico", "/rest",
-                                "/test","/login","/join","/joinProc","/common","/welcome", "/communities", "/communities/*",
-                                "/community","/community/*",
+                                "/test","/login", "/logout","/join","/joinProc","/common","/welcome",
+                                "/communities", "/communities/*","/community","/community/*", "/community/recipe/*",
                                 "/")
                         .permitAll()
 
@@ -72,8 +72,8 @@ public class SecurityConfig {
         http
                 .csrf((auth) -> auth.disable()); // csrf토큰을 보내지 않으면 로그인이 진행되지 않기 때문에 잠시 disable
 
-        http
         // 로그아웃 설정
+        http
                 .logout(logout -> logout
                 // 로그아웃 요청을 처리할 URL 설정
                 .logoutUrl("/logout")
