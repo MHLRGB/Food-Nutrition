@@ -1,15 +1,24 @@
 package com.example.TestSecurity.config;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.io.IOException;
 
 
 @Configuration
@@ -36,24 +45,48 @@ public class SecurityConfig {
 //
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers( HttpMethod.GET, "/index*", "/static/**", "/*.js", "/*.json", "/*.ico", "/rest",
-                                "/test","/login", "/logout","/join","/joinProc","/common","/welcome",
-                                "/communities", "/communities/*","/community","/community/*", "/community/recipe/*",
+
+                        /// 리액트 접근 권한
+                        .requestMatchers( HttpMethod.GET, "/index*", "/static/**", "/*.js", "/*.json", "/*.ico", "/rest")
+                        .permitAll()
+
+                        /// 페이지 접근 권한
+                        .requestMatchers("/index.html","/test","/login", "/logout","/join","/joinProc","/common","/welcome",
+                                "/community","/community/recipe", "/community/recipe/*",
                                 "/")
                         .permitAll()
 
-                        .requestMatchers( HttpMethod.POST, "/checkdupid", "/communities")
+                        .requestMatchers("/community/update/*", "/community/write")
+                        .authenticated()
+
+                        .requestMatchers("/admin")
+                        .hasRole("ADMIN")
+
+
+
+                        /// api 호출 접근 권한
+                        .requestMatchers( HttpMethod.GET, "/recipe", "/recipe/*", "/recipe/ingredient/*")
                         .permitAll()
+
+                        /// api 호출 접근 권한
+                        .requestMatchers( HttpMethod.POST, "/checkdupid", "/recipe")
+                        .authenticated()
 
                         // 삭제 권한 설정 필요
-                        .requestMatchers( HttpMethod.DELETE, "/communities/*")
-                        .permitAll()
+                        .requestMatchers( HttpMethod.DELETE, "/recipe/*")
+                        .authenticated()
 
-                        .requestMatchers("/index.html").permitAll()
-                        .requestMatchers("/admin").hasRole("ADMIN")
+                        // 업데이트 권한 설정 필요
+                        .requestMatchers( HttpMethod.PUT, "/recipe/*")
+                        .authenticated()
+
+
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .anyRequest().authenticated()
 
+                ).exceptionHandling((exception)->exception
+                        .authenticationEntryPoint(authenticationEntryPoint()) // 인증되지 않은 페이지 접근 시
+                        .accessDeniedHandler(new DeniedPageHandler()) // 접근 거부된 페이지 접근 시
                 );
         http
                 .formLogin((auth) -> auth.loginPage("/login") // 오류 페이지 접근 시 자동으로 login 페이지로 리다이렉션
@@ -112,6 +145,19 @@ public class SecurityConfig {
         return http.build();
     }
 
+    public AuthenticationEntryPoint authenticationEntryPoint() {
+        return (HttpServletRequest request, HttpServletResponse response, org.springframework.security.core.AuthenticationException authException) -> {
+            response.setContentType("text/html;charset=UTF-8");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write(
+                    "<script>" +
+                            "alert('로그인 후 이용해주세요.');" +
+                            "window.location.href = '/login';" +
+                            "</script>"
+            );
+        };
+    }
+
 //    // CORS 오류 대응
 //    @Bean
 //    public CorsConfigurationSource corsConfigurationSource() {
@@ -127,6 +173,5 @@ public class SecurityConfig {
 //
 //        return source;
 //    }
-
 
 }

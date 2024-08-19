@@ -9,20 +9,20 @@ import java.time.LocalDateTime;
 @Entity
 @Setter
 @Getter
-public class CommunityRecipe {
+public class Recipe {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(nullable = false)
     private String title;
 
     @Column(nullable = false)
-    private String content;
+    private String author;
 
     @Column(nullable = false)
-    private String author;
+    private String content;
 
     @Column(nullable = false)
     private String category;

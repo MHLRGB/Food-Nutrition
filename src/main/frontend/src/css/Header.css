@@ -1,22 +1,17 @@
-@media (max-width: 421px) {
-    .header_main {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .header_main_circle {
-        margin-bottom: 10px;
-    }
+.header_main {
+    width: 100%;
+    background-color: white;
+    height: 210px;
 }
 
-.header_main {
+.header_nav {
     display: flex;
     justify-content: space-around;
     max-width: 800px; /* 예시로 최대 너비를 800px로 설정 */
-    margin: 0 auto; /* 가운데 정렬을 위한 설정 */
+    margin: auto; /* 가운데 정렬을 위한 설정 */
 }
 
-.header_main_circle {
+.header_nav_circle {
     display: inline-block;
     width: 100px;
     height: 100px;
@@ -36,10 +31,11 @@
 }
 
 .header_user_menu {
+    width: auto;
+    padding:7px;
     display: inline-block;
     align-items: center;
     text-align: center;
-    width: 100px;
     color: black;
     margin-bottom: 12px;
     text-decoration: none;
@@ -54,5 +50,7 @@
 }
 
 .greeting_message {
-    font-size:17px;
+    font-size:15px;
+    margin-right: 10px;
+    display: inline-block;
 }

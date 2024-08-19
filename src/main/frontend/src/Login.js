@@ -68,45 +68,36 @@ const Login = () => {
 
     return (
         <div className="Login">
-        <nav>
-          <ul>
-            <li><a href="#">HOME</a></li>
-          </ul>
-        </nav>
-        <div className="content">
-            <div className="login-box">
-                <h2 className="login-title">로그인</h2>
-                <form className="login-input-box" action="/loginProc" method="post" name="loginForm">
-                    <input
-                        className="login-input"
-                        type="text"
-                        name="username"
-                        placeholder="아이디"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
-                    <input
-                        className="login-input"
-                        type="password"
-                        name="password"
-                        placeholder="비밀번호"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    {/*<input type="submit" className="form-button" value="로그인"/>*/}
-                    <button type="submit" className="form-button">로그인</button>
+                <div className="login-box">
+                    <h2 className="login-title">로그인</h2>
+                    <form className="login-input-box" action="/loginProc" method="post" name="loginForm">
+                        <input
+                            className="login-input"
+                            type="text"
+                            name="username"
+                            placeholder="아이디"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                        />
+                        <input
+                            className="login-input"
+                            type="password"
+                            name="password"
+                            placeholder="비밀번호"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        {/*<input type="submit" className="form-button" value="로그인"/>*/}
+                        <button type="submit" className="form-button">로그인</button>
 
-                </form>
-                <div className="login-bottom-button-group">
-                    <Link type="button" className="form-button" to="/join">회원가입</Link>
-                    <Link type="button" className="form-button" to="/join">아이디 찾기</Link>
-                    <Link type="button" className="form-button" to="/join">비밀번호 찾기</Link>
+                    </form>
+                    <div className="login-bottom-button-group">
+                        <Link type="button" className="form-button" to="/join">회원가입</Link>
+                        <Link type="button" className="form-button" to="/join">아이디 찾기</Link>
+                        <Link type="button" className="form-button" to="/join">비밀번호 찾기</Link>
+                    </div>
                 </div>
-
-            </div>
         </div>
-        </div>
-
     );
 };
 

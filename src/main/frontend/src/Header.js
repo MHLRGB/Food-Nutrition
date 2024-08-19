@@ -45,17 +45,13 @@ function Header() {
     };
 
     return (
-        <header>
+        <header className="header_main">
             <div className="header_user_container">
-
                 {auth !== "anonymousUser" ? (
                     <>
-                        <Link type="button" to="/mypage" className="header_user_menu">마이페이지</Link>
-{/*                        <form action="/logout" method="post">
-                            <input type="submit" className="header_user_menu" value="로그아웃"/>
-                        </form>*/}
-                        <div className="header_user_menu" onClick={handleLogout}>로그아웃</div>
                         <div className="greeting_message">{auth}님 안녕하세요.</div>
+                        <Link type="button" to="/mypage" className="header_user_menu">마이페이지</Link>
+                        <div className="header_user_menu" onClick={handleLogout}>로그아웃</div>
                     </>
                 ) : (
                     <>
@@ -68,11 +64,11 @@ function Header() {
 
             </div>
 
-            <div className="header_main">
-                <Link to="/pageA" className="header_main_circle">AI</Link>
-                <Link to="/" className="header_main_circle">메인</Link>
-                <Link to="/pageC" className="header_main_circle">검색</Link>
-                <Link to="/community" className="header_main_circle">커뮤니티</Link>
+            <div className="header_nav">
+                <Link to="/pageA" className="header_nav_circle">AI</Link>
+                <Link to="/" className="header_nav_circle">메인</Link>
+                <Link to="/pageC" className="header_nav_circle">검색</Link>
+                <Link to="/community" className="header_nav_circle">커뮤니티</Link>
             </div>
         </header>
     );

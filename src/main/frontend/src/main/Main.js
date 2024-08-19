@@ -1,16 +1,16 @@
 import React, { useEffect, useState, createContext } from 'react';
 import { Link } from 'react-router-dom';
-import './css/Main.css';
+import '../css/Main.css';
 import axios from 'axios';
-import './css/imageSlider.css';
+import '../css/imageSlider.css';
 
-import image1 from './image/slide-1.png';
-import image2 from './image/slide-2.png';
-import image3 from './image/slide-3.png';
-import foodImg from './image/food.png';
-import recipeImg from './image/recipe.png';
+import image1 from '../image/slide-1.png';
+import image2 from '../image/slide-2.png';
+import image3 from '../image/slide-3.png';
+import foodImg from '../image/food.png';
+import recipeImg from '../image/recipe.png';
 
-import Header from './Header';
+import Header from '../Header';
 
 
 const IngredientContext = createContext();
@@ -18,7 +18,7 @@ const IngredientContext = createContext();
 
 const Main = () => {
     return (
-        <div>
+        <div className='document'>
             <Header/>
             <Body/>
         </div>
@@ -61,7 +61,6 @@ const Body = () => {
     return (
         <IngredientContext.Provider value={{ totalIngredients, setTotalIngredients }}>
             <div className='main_body_container'>
-                <div className='body_blank_left' />
                 <div className='body_left'>
                     <div className='body_left_top'>
                         {images[currentIndex].recipes.map((recipe, index) => (
@@ -92,7 +91,6 @@ const Body = () => {
                 <div className='body_right'>
                     <StickyBanner />
                 </div>
-                <div className='body_blank_right' />
             </div>
         </IngredientContext.Provider>
     );

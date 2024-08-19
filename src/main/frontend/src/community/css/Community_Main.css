@@ -1,17 +1,9 @@
 .community_body_container {
   display: flex;
   justify-content: center;
-
-  margin-top: 50px;
+  width: 1000px;
   border-top: 3px solid #c4e9ce;
   min-height: 100vh;
-}
-
-.body_blank_left, .body_blank_right {
-  width: calc(100%);
-  background-color: #c4e9ce3f;
-  padding: 20px;
-  height: auto;
 }
 
 .community_Main_body_center {

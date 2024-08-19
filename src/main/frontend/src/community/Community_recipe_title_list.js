@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {getAllCommunityRecipes} from "../apis/Community_api";
+import {getAllCommunityRecipes, getAllRecipes} from "../apis/Community_api";
 
 const CommunityRecipeTitleList = () => {
     const [titles, setTitles] = useState([]);
@@ -11,7 +11,7 @@ const CommunityRecipeTitleList = () => {
     useEffect(() => {
         const fetchCommunityRecipes = async () => {
             try {
-                const data = await getAllCommunityRecipes();
+                const data = await getAllRecipes();
                 setTitles(data);
                 setLoading(false);
             } catch (error) {
@@ -30,20 +30,17 @@ const CommunityRecipeTitleList = () => {
     if (error) {
         return <div>Error: {error.message}</div>;
     }
-
-    const handleClick = (id) => {
-        navigate(`/community/recipe/${id}`);
+    const handleNavRecipe = (id) => {
+        window.location.href = `/community/recipe/${id}`;
     };
 
     return (
-        <div>
-            <ul>
-                {titles.map((title, index) => (
-                    <li key={index} onClick={() => handleClick(title.id)}>
-                        {title.title}
-                    </li>
-                ))}
-            </ul>
+        <div className='community_board_title_list'>
+            {titles.map((title, index) => (
+                <div className='community_board_title' key={index} onClick={() => handleNavRecipe(title.id)}>
+                    {title.title}
+                </div>
+            ))}
         </div>
     );
 };
