@@ -1,6 +1,7 @@
 package com.example.TestSecurity.controller;
 
 import com.example.TestSecurity.dto.RecipeRequestDTO;
+import com.example.TestSecurity.dto.RecipeRequestIG;
 import com.example.TestSecurity.dto.RecipeResponseDTO;
 import com.example.TestSecurity.entity.Ingredients;
 import com.example.TestSecurity.entity.Recipe;
@@ -168,6 +169,17 @@ public class RecipeController {
     public ResponseEntity<Ingredients> getIngredientById(@PathVariable(value = "id") Long id) {
         Optional<Ingredients> ingredient = recipeService.getIngredientById(id);
         return ingredient.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/recipeig")
+    public Long createRecipe(@RequestBody RecipeRequestIG request) {
+        return recipeService.createRecipeWithIngredients(
+                request.getTitle(),
+                request.getAuthor(),
+                request.getContent(),
+                request.getCategory(),
+                request.getIngredients()
+        );
     }
 
 }

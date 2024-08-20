@@ -69,8 +69,8 @@ public class SecurityConfig {
                         .permitAll()
 
                         /// api 호출 접근 권한
-                        .requestMatchers( HttpMethod.POST, "/checkdupid", "/recipe")
-                        .authenticated()
+                        .requestMatchers( HttpMethod.POST, "/checkdupid", "/recipe", "/recipe/recipeig")
+                        .permitAll()
 
                         // 삭제 권한 설정 필요
                         .requestMatchers( HttpMethod.DELETE, "/recipe/*")
