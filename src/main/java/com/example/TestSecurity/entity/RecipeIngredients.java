@@ -18,14 +18,24 @@ public class RecipeIngredients {
     @Column(name = "Quantity")
     private Double quantity;
 
+    @ManyToOne
+    @MapsId("recipeId")
+    @JoinColumn(name = "RecipeID", referencedColumnName = "id")
+    private Recipe recipe;
+
+    @ManyToOne
+    @MapsId("ingredientId")
+    @JoinColumn(name = "IngredientID", referencedColumnName = "id")
+    private Ingredients ingredient;
+
     @Getter
     @Setter
     @Embeddable
     public static class RecipeIngredientsId implements Serializable {
-        @Column(name = "RecipeID")
+        @Column(name = "RecipeID", length = 20) // 길이를 20으로 설정
         private Long recipeId;
 
-        @Column(name = "IngredientID")
+        @Column(name = "IngredientID", length = 20) // 길이를 20으로 설정
         private Long ingredientId;
 
         // equals() and hashCode() methods
@@ -43,4 +53,3 @@ public class RecipeIngredients {
         }
     }
 }
-

@@ -14,6 +14,7 @@ public class Ingredients {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(length = 20)
     private Long id;
 
     @Column(name = "식품군")

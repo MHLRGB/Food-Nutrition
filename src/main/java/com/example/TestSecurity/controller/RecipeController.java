@@ -1,5 +1,6 @@
 package com.example.TestSecurity.controller;
 
+import com.example.TestSecurity.dto.RecipeIngredientsResponseDTO;
 import com.example.TestSecurity.dto.RecipeRequestDTO;
 import com.example.TestSecurity.dto.RecipeResponseDTO;
 import com.example.TestSecurity.entity.Ingredients;
@@ -86,26 +87,7 @@ public class RecipeController {
         return new ResponseEntity<>(responseDTOs, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<RecipeResponseDTO> getRecipeById(@PathVariable int id) {
-        Optional<Recipe> recipe = recipeService.getRecipeById(id);
-        if (recipe.isPresent()) {
-            RecipeResponseDTO responseDTO = new RecipeResponseDTO();
-            responseDTO.setId(recipe.get().getId());
-            responseDTO.setTitle(recipe.get().getTitle());
-            responseDTO.setContent(recipe.get().getContent());
-            responseDTO.setAuthor(recipe.get().getAuthor());
-            responseDTO.setCategory(recipe.get().getCategory());
-            responseDTO.setCreatedDate(recipe.get().getCreatedDate());
 
-            // 조회수 증가
-            recipeService.incrementViews(id);
-
-            return new ResponseEntity<>(responseDTO, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
 
 
 
@@ -182,6 +164,41 @@ public class RecipeController {
     public ResponseEntity<Ingredients> getIngredientById(@PathVariable(value = "id") Long id) {
         Optional<Ingredients> ingredient = recipeService.getIngredientById(id);
         return ingredient.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+//    @GetMapping("/{id}")
+//    public ResponseEntity<RecipeResponseDTO> getRecipeById(@PathVariable int id) {
+//        Optional<Recipe> recipe = recipeService.getRecipeById(id);
+//        if (recipe.isPresent()) {
+//            RecipeResponseDTO responseDTO = new RecipeResponseDTO();
+//            responseDTO.setId(recipe.get().getId());
+//            responseDTO.setTitle(recipe.get().getTitle());
+//            responseDTO.setContent(recipe.get().getContent());
+//            responseDTO.setAuthor(recipe.get().getAuthor());
+//            responseDTO.setCategory(recipe.get().getCategory());
+//            responseDTO.setCreatedDate(recipe.get().getCreatedDate());
+//
+//            // 조회수 증가
+//            recipeService.incrementViews(id);
+//
+//            return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<RecipeIngredientsResponseDTO> getRecipeByIdIG(@PathVariable int id) {
+
+        Optional<Recipe> recipe = recipeService.getRecipeById(id);
+        if (recipe.isPresent()) {
+
+            RecipeIngredientsResponseDTO RecipeIngredientsResponseDTO = recipeService.getRecipeByIdIG(id);
+
+            return new ResponseEntity<>(RecipeIngredientsResponseDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
 }

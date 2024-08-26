@@ -13,6 +13,7 @@ public class Recipe {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(length = 20)
     private Long id;
 
     @Column(nullable = false)
