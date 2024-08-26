@@ -1,15 +1,14 @@
-import React, { useEffect, useState, createContext } from 'react';
+import React, { useState } from 'react';
 import './css/Community_Board.css';
-import axios from 'axios';
 import Header from '../Header';
-import {Link, useNavigate} from "react-router-dom";
-import {createRecipe} from "../apis/Community_api";
+import { useNavigate } from 'react-router-dom';
+import { createRecipe } from '../apis/Community_api';
 
 const Recipe_write = () => {
     return (
         <div className='document'>
-            <Header/>
-            <Body/>
+            <Header />
+            <Body />
         </div>
     );
 };
@@ -19,27 +18,37 @@ const Body = () => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [category, setCategory] = useState('');
-
+    const [ingredients, setIngredients] = useState([{ ingredientId: '', quantity: '' }]);
     const [error, setError] = useState(null);
+
+    const handleIngredientChange = (index, event) => {
+        const newIngredients = [...ingredients];
+        newIngredients[index][event.target.name] = event.target.value;
+        setIngredients(newIngredients);
+    };
+
+    const addIngredient = () => {
+        setIngredients([...ingredients, { ingredientId: '', quantity: '' }]);
+    };
+
+    const removeIngredient = (index) => {
+        const newIngredients = ingredients.filter((_, i) => i !== index);
+        setIngredients(newIngredients);
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const requestDTO = {
-            title,
-            content,
-            category,
-        };
-
         try {
-            const response = await createRecipe(requestDTO);
+            // Adjust this as per your API requirements
+            const response = await createRecipe(title, content, category, ingredients);
             navigate('/community');
             console.log('Success:', response);
-            // 필요한 추가 작업 (예: 폼 초기화, 리디렉션 등)
+            // Form reset or additional actions if needed
         } catch (error) {
             setError('Failed to create community. Please try again.');
             console.error('Error:', error);
-            // 에러 처리 (예: 사용자에게 에러 메시지 표시)
+            // Error handling
         }
     };
 
@@ -67,6 +76,33 @@ const Body = () => {
                         onChange={(e) => setCategory(e.target.value)}
                         required
                     />
+
+                    <div>
+                        <h3>Ingredients</h3>
+                        {ingredients.map((ingredient, index) => (
+                            <div key={index} className="ingredient-item">
+                                <input
+                                    type="text"
+                                    name="ingredientId"
+                                    placeholder="Ingredient ID"
+                                    value={ingredient.ingredientId}
+                                    onChange={(event) => handleIngredientChange(index, event)}
+                                    required
+                                />
+                                <input
+                                    type="number"
+                                    name="quantity"
+                                    placeholder="Quantity"
+                                    value={ingredient.quantity}
+                                    onChange={(event) => handleIngredientChange(index, event)}
+                                    required
+                                />
+                                <button type="button" onClick={() => removeIngredient(index)}>Remove</button>
+                            </div>
+                        ))}
+                        <button type="button" onClick={addIngredient}>Add Ingredient</button>
+                    </div>
+
                     <button type="submit">Create Recipe</button>
                     {error && <p style={{ color: 'red' }}>{error}</p>}
                 </form>

@@ -8,20 +8,43 @@ import axios from "axios";
 //     return response.json();
 // };
 
-export const createRecipe = async (requestDTO) => {
+// export const createRecipe = async (requestDTO) => {
+//     try {
+//         const response = await axios.post('/recipe', requestDTO, {
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//         });
+//         return response.data;
+//     } catch (error) {
+//         console.error('Error creating community:', error);
+//         throw error; // 에러를 상위 호출자에게 전달
+//     }
+// };
+
+export const createRecipe = async (title,content, category, ingredients) => {
+    const requestDTO = {
+        title: title,
+        content: content,
+        category: category,
+        ingredients: ingredients.map(ingredient => ({
+            ingredientId: ingredient.ingredientId,
+            quantity: ingredient.quantity
+        }))
+    };
+
     try {
         const response = await axios.post('/recipe', requestDTO, {
             headers: {
                 'Content-Type': 'application/json',
             },
         });
-        return response.data;
+        return response.data; // 서버로부터 받은 데이터를 반환
     } catch (error) {
-        console.error('Error creating community:', error);
+        console.error('Error creating recipe:', error);
         throw error; // 에러를 상위 호출자에게 전달
     }
 };
-
 
 export const getAllRecipes = async () => {
     const response = await axios.get('/recipe');
@@ -59,7 +82,7 @@ export const updateRecipe = async (id, requestDTO) => {
 
 export const getIngredientById = async (id) => {
     try {
-        const response = await axios.get(`/recipe/ingredient/${id}`);
+        const response = await axios.get(`/ingredient/${id}`);
         return response.data;
     } catch (error) {
         console.error("Error fetching ingredient:", error);

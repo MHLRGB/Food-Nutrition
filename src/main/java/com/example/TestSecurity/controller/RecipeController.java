@@ -1,7 +1,6 @@
 package com.example.TestSecurity.controller;
 
 import com.example.TestSecurity.dto.RecipeRequestDTO;
-import com.example.TestSecurity.dto.RecipeRequestIG;
 import com.example.TestSecurity.dto.RecipeResponseDTO;
 import com.example.TestSecurity.entity.Ingredients;
 import com.example.TestSecurity.entity.Recipe;
@@ -28,33 +27,47 @@ public class RecipeController {
     }
 
     @PostMapping
-    public ResponseEntity<RecipeResponseDTO> createRecipe(@RequestBody RecipeRequestDTO requestDTO) {
-        try {
-            Recipe recipe = new Recipe();
-
-            // 접속중인 사용자의 username 반환
-            String username = SecurityContextHolder.getContext().getAuthentication().getName();
-
-            recipe.setTitle(requestDTO.getTitle());
-            recipe.setContent(requestDTO.getContent());
-            recipe.setAuthor(username);
-            recipe.setCategory(requestDTO.getCategory());
-            recipe.setViews(0);
-            Recipe savedRecipe = recipeService.saveRecipe(recipe);
-
-            RecipeResponseDTO responseDTO = new RecipeResponseDTO();
-            responseDTO.setId(savedRecipe.getId());
-            responseDTO.setTitle(savedRecipe.getTitle());
-            responseDTO.setContent(savedRecipe.getContent());
-            responseDTO.setAuthor(savedRecipe.getAuthor());
-            responseDTO.setCategory(savedRecipe.getCategory());
-            responseDTO.setCreatedDate(savedRecipe.getCreatedDate());
-
-            return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    public Long createRecipe(@RequestBody RecipeRequestDTO request) {
+        // 접속중인 사용자의 이름 반환
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return recipeService.createRecipeWithIngredients(
+                request.getTitle(),
+                username,
+                request.getContent(),
+                request.getCategory(),
+                request.getIngredients()
+        );
     }
+
+//
+//    @PostMapping
+//    public ResponseEntity<RecipeResponseDTO> createRecipe(@RequestBody RecipeRequestDTO requestDTO) {
+//        try {
+//            Recipe recipe = new Recipe();
+//
+//            // 접속중인 사용자의 username 반환
+//            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+//
+//            recipe.setTitle(requestDTO.getTitle());
+//            recipe.setContent(requestDTO.getContent());
+//            recipe.setAuthor(username);
+//            recipe.setCategory(requestDTO.getCategory());
+//            recipe.setViews(0);
+//            Recipe savedRecipe = recipeService.saveRecipe(recipe);
+//
+//            RecipeResponseDTO responseDTO = new RecipeResponseDTO();
+//            responseDTO.setId(savedRecipe.getId());
+//            responseDTO.setTitle(savedRecipe.getTitle());
+//            responseDTO.setContent(savedRecipe.getContent());
+//            responseDTO.setAuthor(savedRecipe.getAuthor());
+//            responseDTO.setCategory(savedRecipe.getCategory());
+//            responseDTO.setCreatedDate(savedRecipe.getCreatedDate());
+//
+//            return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
+//    }
 
     @GetMapping
     public ResponseEntity<List<RecipeResponseDTO>> getAllRecipes() {
@@ -169,17 +182,6 @@ public class RecipeController {
     public ResponseEntity<Ingredients> getIngredientById(@PathVariable(value = "id") Long id) {
         Optional<Ingredients> ingredient = recipeService.getIngredientById(id);
         return ingredient.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @PostMapping("/recipeig")
-    public Long createRecipe(@RequestBody RecipeRequestIG request) {
-        return recipeService.createRecipeWithIngredients(
-                request.getTitle(),
-                request.getAuthor(),
-                request.getContent(),
-                request.getCategory(),
-                request.getIngredients()
-        );
     }
 
 }

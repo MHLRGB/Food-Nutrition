@@ -3,6 +3,8 @@ package com.example.TestSecurity.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 public class RecipeRequestDTO {
@@ -11,5 +13,5 @@ public class RecipeRequestDTO {
     private String content;
     private String author;
     private String category;
-
+    private List<IngredientDTO> ingredients;
 }
