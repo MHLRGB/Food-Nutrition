@@ -1,6 +1,81 @@
 import React, {useEffect, useState} from "react";
 import {MainContext} from "./MainContext";
+import recipeImg from "../image/recipe.png";
+import {getRecipeById} from "../apis/Community_api";
 
+const RecipeIngredientsBox = ({recipeId}) => {
+
+    const [ingredients, setIngredients] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [recipe, setRecipe] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // 레시피 데이터 가져오기
+                const recipeData = await getRecipeById(recipeId);
+                setRecipe(recipeData);
+
+                // 재료 데이터 가져오기
+                setIngredients(recipeData.ingredients || []); // `ingredients` 배열을 설정
+            } catch (error) {
+                setError(error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [recipeId]);
+
+    if (loading) {
+        return <div>로딩 중...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error.message}</div>;
+    }
+
+    if (!recipeId || !recipe) {
+        return <div>레시피를 찾을 수 없습니다.</div>;
+    }
+
+    return (
+        <div className='recipe_container'>
+            <div className='recipe_title'>
+                {/*<img*/}
+                {/*    src={}*/}
+                {/*    alt='레시피 이미지'*/}
+                {/*    className='mypage_interaction_image'*/}
+                {/*    onError={(e) => {*/}
+                {/*        e.target.src = recipeImg;*/}
+                {/*    }}*/}
+                {/*/>*/}
+                    {ingredients.length > 0 ? (
+                        <>
+                            <h3>{recipe.title}</h3>
+                            {ingredients.map((item, index) => (
+                                <IngredientGroup
+                                    key={index}
+                                    name={item.ingredientInfo.name}
+                                    standard={item.quantity}
+                                    calorie={item.ingredientInfo.cal}
+                                    sugar={item.ingredientInfo.sugars}
+                                    sodium={item.ingredientInfo.sodium}
+                                    protein={item.ingredientInfo.protein}
+                                    carbohydrate={item.ingredientInfo.carbohydrates}
+                                    fat={item.ingredientInfo.fat}
+                                />
+                            ))}
+                        </>
+                    ) : (
+                        <p>레시피에 재료가 없습니다.</p>
+                    )}
+            </div>
+        </div>
+    );
+}
 const IngredientGroup = ({name, standard, calorie, sugar, sodium, protein, carbohydrate, fat}) => {
 
     const {totalIngredients, setTotalIngredients} = React.useContext(MainContext);
@@ -97,4 +172,4 @@ const IngredientGroup = ({name, standard, calorie, sugar, sodium, protein, carbo
     );
 };
 
-export default IngredientGroup;
+export default RecipeIngredientsBox;

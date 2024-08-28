@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class IngredientDTO {
+public class IngredientRequestDTO {
 
     private Long ingredientId;
     private Double quantity;

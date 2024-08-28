@@ -14,8 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,23 +39,32 @@ public class RecipeService {
     }
 
     @Transactional
-    public Long createRecipeWithIngredients(String title, String author, String content, String category, List<IngredientDTO> ingredients) {
+    public Long createRecipeWithIngredients(String title, String author, String content, String category, List<IngredientRequestDTO> ingredients) {
         // 레시피 저장
         Recipe recipe = new Recipe();
         recipe.setTitle(title);
         recipe.setAuthor(author);
         recipe.setContent(content);
         recipe.setCategory(category);
+
         Recipe savedRecipe = recipeRepository.save(recipe);
 
         // 재료 저장
-        for (IngredientDTO ingredientDTO : ingredients) {
+        for (IngredientRequestDTO ingredientRequestDTO : ingredients) {
             RecipeIngredients recipeIngredients = new RecipeIngredients();
+
             RecipeIngredients.RecipeIngredientsId id = new RecipeIngredients.RecipeIngredientsId();
             id.setRecipeId(savedRecipe.getId());
-            id.setIngredientId(ingredientDTO.getIngredientId());
+            id.setIngredientId(ingredientRequestDTO.getIngredientId());
+
+            recipeIngredients.setRecipe(savedRecipe);  // Recipe 엔티티 설정
+            Ingredients ingredient = ingredientsRepository.findById(ingredientRequestDTO.getIngredientId())
+                    .orElseThrow(() -> new IllegalArgumentException("createRecipeWithIngredients() : Invalid Ingredient ID"));
+            recipeIngredients.setIngredient(ingredient);  // Ingredient 엔티티 설정
+
+
             recipeIngredients.setId(id);
-            recipeIngredients.setQuantity(ingredientDTO.getQuantity());
+            recipeIngredients.setQuantity(ingredientRequestDTO.getQuantity());
             recipeIngredientsRepository.save(recipeIngredients);
         }
 
@@ -77,10 +86,14 @@ public class RecipeService {
 
         // RecipeIngredientsResponseDTO 객체 생성
         RecipeIngredientsResponseDTO recipeIngredientsResponseDTO = new RecipeIngredientsResponseDTO();
+        recipeIngredientsResponseDTO.setId(recipe.getId());
         recipeIngredientsResponseDTO.setTitle(recipe.getTitle());
         recipeIngredientsResponseDTO.setAuthor(recipe.getAuthor());
         recipeIngredientsResponseDTO.setCategory(recipe.getCategory());
         recipeIngredientsResponseDTO.setContent(recipe.getContent());
+        recipeIngredientsResponseDTO.setViews(recipe.getViews());
+        recipeIngredientsResponseDTO.setLikes(recipe.getLikes());
+        recipeIngredientsResponseDTO.setCreatedDate(recipe.getCreatedDate());
 
         // RecipeIngredientsRepository를 사용하여 재료 정보 가져오기
         List<IngredientsInfoResponseDTO> ingredientsInfoResponseDTOs = recipeIngredientsRepository.findById_RecipeId(recipeId).stream()
@@ -119,6 +132,7 @@ public class RecipeService {
 
 
     public void deleteRecipeById(long id) {
+        System.out.println("삭제 서비스 아이디 : " + id);
         recipeRepository.deleteById(id);
     }
 

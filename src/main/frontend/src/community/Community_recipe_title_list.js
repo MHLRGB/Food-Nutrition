@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {getAllCommunityRecipes, getAllRecipes} from "../apis/Community_api";
+import {getAllRecipes} from "../apis/Community_api";
 
 const CommunityRecipeTitleList = () => {
     const [titles, setTitles] = useState([]);

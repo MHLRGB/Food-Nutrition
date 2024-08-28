@@ -57,6 +57,7 @@ export const getRecipeById = async (id) => {
 };
 
 export const deleteRecipeById = async (id) => {
+    console.log("삭제 api 호출 id : "+id);
     const response = await axios.delete(`/recipe/${id}`);
     return response.data;
 };

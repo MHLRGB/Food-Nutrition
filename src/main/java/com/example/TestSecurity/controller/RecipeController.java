@@ -92,8 +92,9 @@ public class RecipeController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRecipeById(@PathVariable int id) {
+    public ResponseEntity<Void> deleteRecipeById(@PathVariable long id) {
         try {
+            System.out.println("삭제 컨트롤러 아이디 : " + id);
             recipeService.deleteRecipeById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
@@ -160,12 +161,6 @@ public class RecipeController {
         return new ResponseEntity<>(responseDTOs, HttpStatus.OK);
     }
 
-    @GetMapping("/ingredient/{id}")
-    public ResponseEntity<Ingredients> getIngredientById(@PathVariable(value = "id") Long id) {
-        Optional<Ingredients> ingredient = recipeService.getIngredientById(id);
-        return ingredient.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
 //    @GetMapping("/{id}")
 //    public ResponseEntity<RecipeResponseDTO> getRecipeById(@PathVariable int id) {
 //        Optional<Recipe> recipe = recipeService.getRecipeById(id);
@@ -188,7 +183,7 @@ public class RecipeController {
 //    }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RecipeIngredientsResponseDTO> getRecipeByIdIG(@PathVariable int id) {
+    public ResponseEntity<RecipeIngredientsResponseDTO> getRecipeByIdIG(@PathVariable long id) {
 
         Optional<Recipe> recipe = recipeService.getRecipeById(id);
         if (recipe.isPresent()) {

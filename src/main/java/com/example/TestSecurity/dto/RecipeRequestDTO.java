@@ -13,5 +13,5 @@ public class RecipeRequestDTO {
     private String content;
     private String author;
     private String category;
-    private List<IngredientDTO> ingredients;
+    private List<IngredientRequestDTO> ingredients;
 }
