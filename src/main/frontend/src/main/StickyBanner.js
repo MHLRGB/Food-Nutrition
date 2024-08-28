@@ -1,5 +1,5 @@
 import React, {createContext, useEffect, useState} from "react";
-import CommunityRecipeTitleList from "../community/Community_recipe_title_list";
+import CommunityRecipeTitleList from "../community/Title_list";
 import {MainContext} from "./MainContext";
 
 const StickyBanner = () => {

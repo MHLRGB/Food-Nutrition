@@ -52,12 +52,13 @@ public class SecurityConfig {
 
                         /// 페이지 접근 권한
                         .requestMatchers("/index.html","/test","/login", "/logout","/join","/joinProc","/common","/welcome",
-                                "/community","/community/recipe", "/community/recipe/*",
+                                "/community","/recipe", "/recipe/*", "/community/board", "community/board/*",
                                 "/")
                         .permitAll()
 
-                        .requestMatchers("/community/update/*", "/community/write")
-                        .authenticated()
+                        .requestMatchers("/community/update/*", "/community/write", "/recipes/write")
+                        .permitAll()
+                        //.authenticated()
 
                         .requestMatchers("/admin")
                         .hasRole("ADMIN")
@@ -65,19 +66,19 @@ public class SecurityConfig {
 
 
                         /// api 호출 접근 권한
-                        .requestMatchers( HttpMethod.GET, "/recipe", "/recipe/*", "/ingredient/*")
+                        .requestMatchers( HttpMethod.GET, "/recipes", "/recipes/*", "/ingredient/*", "/communities", "/communities/*")
                         .permitAll()
 
                         /// api 호출 접근 권한
-                        .requestMatchers( HttpMethod.POST, "/checkdupid", "/recipe", "/recipe/recipeig")
+                        .requestMatchers( HttpMethod.POST, "/checkdupid", "/recipes", "/recipes/recipeig" , "/communities")
                         .permitAll()
 
                         // 삭제 권한 설정 필요
-                        .requestMatchers( HttpMethod.DELETE, "/recipe/*")
+                        .requestMatchers( HttpMethod.DELETE, "/recipes/*", "/communities/*")
                         .authenticated()
 
                         // 업데이트 권한 설정 필요
-                        .requestMatchers( HttpMethod.PUT, "/recipe/*")
+                        .requestMatchers( HttpMethod.PUT, "/recipes/*", "/communities/*")
                         .authenticated()
 
 

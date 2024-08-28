@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {MainContext} from "./MainContext";
 import recipeImg from "../image/recipe.png";
-import {getRecipeById} from "../apis/Community_api";
+import {getRecipeById} from "../apis/Recipe_api";
 
 const RecipeIngredientsBox = ({recipeId}) => {
 

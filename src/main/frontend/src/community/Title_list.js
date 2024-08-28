@@ -1,17 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {getAllRecipes} from "../apis/Community_api";
+import {getAllRecipes} from "../apis/Recipe_api";
+import {getAllCommunities} from "../apis/Community_api";
 
-const CommunityRecipeTitleList = () => {
+const TitleList = ({ category }) => {
     const [titles, setTitles] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchCommunityRecipes = async () => {
+console.log("category : "+category);
+        const fetchRecipes = async () => {
             try {
-                const data = await getAllRecipes();
+            let data;
+            if (category === "board") {
+                data = await getAllCommunities(); // 카테고리 A의 레시피 가져오기
+            } else {
+                data = await getAllRecipes(); // 카테고리 B의 레시피 가져오기
+            }
                 setTitles(data);
                 setLoading(false);
             } catch (error) {
@@ -20,7 +27,7 @@ const CommunityRecipeTitleList = () => {
             }
         };
 
-        fetchCommunityRecipes();
+        fetchRecipes();
     }, []);
 
     if (loading) {
@@ -31,7 +38,12 @@ const CommunityRecipeTitleList = () => {
         return <div>Error: {error.message}</div>;
     }
     const handleNavRecipe = (id) => {
-        window.location.href = `/community/recipe/${id}`;
+        if(category==="recipe") {
+            window.location.href = `/recipe/${id}`;
+        } else {
+            window.location.href = `/community/board/${id}`;
+        }
+
     };
 
     return (
@@ -45,4 +57,4 @@ const CommunityRecipeTitleList = () => {
     );
 };
 
-export default CommunityRecipeTitleList;
+export default TitleList;

@@ -2,10 +2,11 @@ import React, { useEffect, useState, createContext } from 'react';
 import './css/Community_Board.css';
 import axios from 'axios';
 import Header from '../Header';
-import CommunityRecipeTitleList from "./Community_recipe_title_list";
 import {Link, useNavigate} from "react-router-dom";
+import RecipeTitleList from "./Title_list";
+import TitleList from "./Title_list";
 
-const Community_recipe = () => {
+const Community_list = () => {
     return (
         <div className='document'>
             <Header/>
@@ -19,13 +20,12 @@ const Body = () => {
 
     return (
         <div className='community_board_body_container'>
-                <div className='community_board_body_center'>
-                    <h2>커뮤니티 레시피 목록</h2>
-                    <CommunityRecipeTitleList />
-                    <div onClick={() => window.location.href = "community/write"}>글쓰기</div>
-                </div>
+            <div className='community_board_body_center'>
+                <h2>커뮤니티 목록</h2>
+                <TitleList category="board"/>
             </div>
+        </div>
     );
 };
 
-export default Community_recipe;
+export default Community_list;

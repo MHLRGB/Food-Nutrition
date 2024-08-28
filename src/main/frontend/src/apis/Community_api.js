@@ -1,40 +1,15 @@
 import axios from "axios";
 
-// export const getAllRecipes = async () => {
-//     const response = await fetch('/communities');
-//     if (!response.ok) {
-//         throw new Error('Network response was not ok');
-//     }
-//     return response.json();
-// };
 
-// export const createRecipe = async (requestDTO) => {
-//     try {
-//         const response = await axios.post('/recipe', requestDTO, {
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             },
-//         });
-//         return response.data;
-//     } catch (error) {
-//         console.error('Error creating community:', error);
-//         throw error; // 에러를 상위 호출자에게 전달
-//     }
-// };
-
-export const createRecipe = async (title,content, category, ingredients) => {
+export const createCommunity = async (title,content, category) => {
     const requestDTO = {
         title: title,
         content: content,
-        category: category,
-        ingredients: ingredients.map(ingredient => ({
-            ingredientId: ingredient.ingredientId,
-            quantity: ingredient.quantity
-        }))
+        category: category
     };
 
     try {
-        const response = await axios.post('/recipe', requestDTO, {
+        const response = await axios.post('/communities', requestDTO, {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -46,30 +21,20 @@ export const createRecipe = async (title,content, category, ingredients) => {
     }
 };
 
-export const getAllRecipes = async () => {
-    const response = await axios.get('/recipe');
+export const getAllCommunities = async () => {
+    const response = await axios.get('/communities');
     return response.data;
 };
 
-export const getRecipeById = async (id) => {
-    const response = await axios.get(`/recipe/${id}`);
+export const getBoardById = async (id) => {
+    console.log("id:"+id);
+    const response = await axios.get(`/communities/${id}`);
     return response.data;
 };
 
-export const deleteRecipeById = async (id) => {
-    console.log("삭제 api 호출 id : "+id);
-    const response = await axios.delete(`/recipe/${id}`);
-    return response.data;
-};
-
-export const getTopPopularRecipes = async () => {
-    const response = await axios.get('/recipe/top-popular-recipe');
-    return response.data;
-};
-
-export const updateRecipe = async (id, requestDTO) => {
+export const updateBoard = async (id, requestDTO) => {
     try {
-        const response = await axios.put(`/recipe/${id}`, requestDTO, {
+        const response = await axios.put(`/communities/${id}`, requestDTO, {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -81,12 +46,8 @@ export const updateRecipe = async (id, requestDTO) => {
     }
 };
 
-export const getIngredientById = async (id) => {
-    try {
-        const response = await axios.get(`/ingredient/${id}`);
-        return response.data;
-    } catch (error) {
-        console.error("Error fetching ingredient:", error);
-        throw error;
-    }
+export const deleteCommunityById = async (id) => {
+    console.log("삭제 api 호출 id : "+id);
+    const response = await axios.delete(`/communities/${id}`);
+    return response.data;
 };

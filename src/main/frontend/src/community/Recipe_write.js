@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './css/Community_Board.css';
 import Header from '../Header';
 import { useNavigate } from 'react-router-dom';
-import { createRecipe } from '../apis/Community_api';
+import { createRecipe } from '../apis/Recipe_api';
 
 const Recipe_write = () => {
     return (
@@ -55,6 +55,7 @@ const Body = () => {
     return (
         <div className='community_board_body_container'>
             <div className='community_board_body_center'>
+                <h3> 레시피 작성 창</h3>
                 <form onSubmit={handleSubmit}>
                     <input
                         type="text"
@@ -104,7 +105,7 @@ const Body = () => {
                     </div>
 
                     <button type="submit">Create Recipe</button>
-                    {error && <p style={{ color: 'red' }}>{error}</p>}
+                    {error && <p style={{color: 'red'}}>{error}</p>}
                 </form>
             </div>
         </div>

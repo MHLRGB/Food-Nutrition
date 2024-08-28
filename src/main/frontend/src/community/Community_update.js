@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import {getRecipeById, updateRecipe} from "../apis/Recipe_api";
+import {updateRecipe} from "../apis/Recipe_api";
 import Header from "../Header";
+import {getBoardById, updateBoard} from "../apis/Community_api";
 
 const Recipe_update = () => {
     return (
@@ -16,7 +17,7 @@ const Body = () => {
     const { id } = useParams();
     const navigate = useNavigate();
 
-    const [recipe , setRecipe ] = useState({
+    const [board , setBoard] = useState({
         title: '',
         content: '',
         author: '',
@@ -29,8 +30,8 @@ const Body = () => {
     useEffect(() => {
         const fetchRecipe = async () => {
             try {
-                const data = await getRecipeById(id);
-                setRecipe(data);
+                const data = await getBoardById(id);
+                setBoard(data);
             } catch (error) {
                 setError(error);
             } finally {
@@ -42,8 +43,8 @@ const Body = () => {
     }, [id]);
 
     const handleChange = (e) => {
-        setRecipe({
-            ...recipe,
+        setBoard({
+            ...board,
             [e.target.name]: e.target.value
         });
     };
@@ -53,8 +54,8 @@ const Body = () => {
         const currentId = id;
 
         try {
-            const updatedRecipe = await updateRecipe(currentId, recipe);
-            console.log('Updated recipe:', updatedRecipe);
+            const updatedBoard = await updateBoard(currentId, board);
+            console.log('Updated board:', updatedBoard);
             navigate(-1);  // 성공 시 이전 페이지로 이동
         } catch (error) {
             console.error('Failed to update recipe:', error);
@@ -75,7 +76,7 @@ const Body = () => {
                     <input
                         type="text"
                         name="title"
-                        value={recipe.title}
+                        value={board.title}
                         onChange={handleChange}
                     />
                 </div>
@@ -83,7 +84,7 @@ const Body = () => {
                     <label>내용:</label>
                     <textarea
                         name="content"
-                        value={recipe.content}
+                        value={board.content}
                         onChange={handleChange}
                     />
                 </div>
@@ -92,7 +93,7 @@ const Body = () => {
                     <input
                         type="text"
                         name="author"
-                        value={recipe.author}
+                        value={board.author}
                         onChange={handleChange}
                         disabled
                     />
@@ -102,7 +103,7 @@ const Body = () => {
                     <input
                         type="text"
                         name="category"
-                        value={recipe.category}
+                        value={board.category}
                         onChange={handleChange}
                     />
                 </div>
