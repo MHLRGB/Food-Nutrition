@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface RecipeRepository extends JpaRepository<Recipe, Long> {
-    @Query("SELECT c FROM Recipe c ORDER BY c.views DESC")
-    List<Recipe> findTop3ByViews(Pageable pageable);
+//    @Query("SELECT c FROM Recipe c ORDER BY c.views DESC")
+//    List<Recipe> findTop3ByViews(Pageable pageable);
 }
 

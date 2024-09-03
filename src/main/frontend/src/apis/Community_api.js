@@ -1,15 +1,25 @@
 import axios from "axios";
 
 
-export const createCommunity = async (title,content, category) => {
+export const createCommunity = async (title,content, category, recipeTitle, recipeCategory, recipeIngredients) => {
+    const recipeRequestDTO = {
+        title: recipeTitle || null,
+        category: recipeCategory || null,
+        ingredients: recipeIngredients && recipeIngredients.length > 0 ? recipeIngredients.map(ingredient => ({
+            ingredientId: ingredient.ingredientId || null,
+            quantity: ingredient.quantity || 0
+        })) : null
+    };
+
     const requestDTO = {
         title: title,
         content: content,
-        category: category
+        category: category,
+        recipeRequestDTO
     };
 
     try {
-        const response = await axios.post('/communities', requestDTO, {
+        const response = await axios.post('/api/community', requestDTO, {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -22,19 +32,19 @@ export const createCommunity = async (title,content, category) => {
 };
 
 export const getAllCommunities = async () => {
-    const response = await axios.get('/communities');
+    const response = await axios.get('/api/community');
     return response.data;
 };
 
 export const getBoardById = async (id) => {
     console.log("id:"+id);
-    const response = await axios.get(`/communities/${id}`);
+    const response = await axios.get(`/api/community/${id}`);
     return response.data;
 };
 
 export const updateBoard = async (id, requestDTO) => {
     try {
-        const response = await axios.put(`/communities/${id}`, requestDTO, {
+        const response = await axios.put(`/api/community/${id}`, requestDTO, {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -48,6 +58,6 @@ export const updateBoard = async (id, requestDTO) => {
 
 export const deleteCommunityById = async (id) => {
     console.log("삭제 api 호출 id : "+id);
-    const response = await axios.delete(`/communities/${id}`);
+    const response = await axios.delete(`/api/community/${id}`);
     return response.data;
 };

@@ -23,10 +23,9 @@ import axios from "axios";
 // };
 
 
-export const createRecipe = async (title,content, category, ingredients) => {
+export const createRecipe = async (title, category, ingredients) => {
     const requestDTO = {
         title: title,
-        content: content,
         category: category,
         ingredients: ingredients.map(ingredient => ({
             ingredientId: ingredient.ingredientId,
@@ -35,7 +34,7 @@ export const createRecipe = async (title,content, category, ingredients) => {
     };
 
     try {
-        const response = await axios.post('/recipes', requestDTO, {
+        const response = await axios.post('/api/recipe', requestDTO, {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -48,30 +47,30 @@ export const createRecipe = async (title,content, category, ingredients) => {
 };
 
 export const getAllRecipes = async () => {
-    const response = await axios.get('/recipes');
+    const response = await axios.get('/api/recipe');
     return response.data;
 };
 
 export const getRecipeById = async (id) => {
     console.log("getRecipeById 호출됨")
-    const response = await axios.get(`/recipes/${id}`);
+    const response = await axios.get(`/api/recipe/${id}`);
     return response.data;
 };
 
 export const deleteRecipeById = async (id) => {
     console.log("삭제 api 호출 id : "+id);
-    const response = await axios.delete(`/recipes/${id}`);
+    const response = await axios.delete(`/api/recipe/${id}`);
     return response.data;
 };
 
 export const getTopPopularRecipes = async () => {
-    const response = await axios.get('/recipes/top-popular-recipe');
+    const response = await axios.get('/api/recipe/top-popular-recipe');
     return response.data;
 };
 
 export const updateRecipe = async (id, requestDTO) => {
     try {
-        const response = await axios.put(`/recipes/${id}`, requestDTO, {
+        const response = await axios.put(`/api/recipe/${id}`, requestDTO, {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -85,7 +84,7 @@ export const updateRecipe = async (id, requestDTO) => {
 
 export const getIngredientById = async (id) => {
     try {
-        const response = await axios.get(`/ingredient/${id}`);
+        const response = await axios.get(`/api/ingredient/${id}`);
         return response.data;
     } catch (error) {
         console.error("Error fetching ingredient:", error);

@@ -86,7 +86,7 @@ const Body = () => {
                     </div>
                 </div>
                 <div className='body_center_bottom'>
-                    <RecipeIngredientsBox recipeId={10}/>
+                    <RecipeIngredientsBox recipeId={2}/>
                 </div>
             </div>
             <div className='body_right'>

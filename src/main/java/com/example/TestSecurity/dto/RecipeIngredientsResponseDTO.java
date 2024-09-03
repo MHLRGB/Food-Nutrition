@@ -14,10 +14,8 @@ public class RecipeIngredientsResponseDTO {
 
     private Long id;
     private String title;
-    private String content;
     private String author;
     private String category;
-    private int views;
     private int likes;
     private LocalDateTime createdDate;
 

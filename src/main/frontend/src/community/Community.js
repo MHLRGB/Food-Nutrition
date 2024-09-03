@@ -20,19 +20,19 @@ const Community = () => {
 
 const Body = () => {
     const [topRecipes, setTopRecipes] = useState([]);
-
-    useEffect(() => {
-        const fetchTopRecipes = async () => {
-            try {
-                const data = await getTopPopularRecipes();
-                setTopRecipes(data);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-
-        fetchTopRecipes();
-    }, []);
+    //
+    // useEffect(() => {
+    //     const fetchTopRecipes = async () => {
+    //         try {
+    //             const data = await getTopPopularRecipes();
+    //             setTopRecipes(data);
+    //         } catch (error) {
+    //             console.log(error);
+    //         }
+    //     };
+    //
+    //     fetchTopRecipes();
+    // }, []);
 
     return (
             <div className='community_body_container'>

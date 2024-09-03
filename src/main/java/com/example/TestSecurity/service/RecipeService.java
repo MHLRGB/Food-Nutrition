@@ -39,12 +39,11 @@ public class RecipeService {
     }
 
     @Transactional
-    public Long createRecipeWithIngredients(String title, String author, String content, String category, List<IngredientRequestDTO> ingredients) {
+    public Recipe createRecipeWithIngredients(String title, String author, String category, List<IngredientRequestDTO> ingredients) {
         // 레시피 저장
         Recipe recipe = new Recipe();
         recipe.setTitle(title);
         recipe.setAuthor(author);
-        recipe.setContent(content);
         recipe.setCategory(category);
 
         Recipe savedRecipe = recipeRepository.save(recipe);
@@ -68,7 +67,7 @@ public class RecipeService {
             recipeIngredientsRepository.save(recipeIngredients);
         }
 
-        return savedRecipe.getId();
+        return savedRecipe;
     }
 
     public List<Recipe> getAllRecipes() {
@@ -90,8 +89,6 @@ public class RecipeService {
         recipeIngredientsResponseDTO.setTitle(recipe.getTitle());
         recipeIngredientsResponseDTO.setAuthor(recipe.getAuthor());
         recipeIngredientsResponseDTO.setCategory(recipe.getCategory());
-        recipeIngredientsResponseDTO.setContent(recipe.getContent());
-        recipeIngredientsResponseDTO.setViews(recipe.getViews());
         recipeIngredientsResponseDTO.setLikes(recipe.getLikes());
         recipeIngredientsResponseDTO.setCreatedDate(recipe.getCreatedDate());
 
@@ -140,19 +137,9 @@ public class RecipeService {
         return ingredientsRepository.findById(id);
     }
 
-    public Recipe incrementViews(long id) {
-        Optional<Recipe> optionalRecipe = recipeRepository.findById(id);
-        if (optionalRecipe.isPresent()) {
-            Recipe recipe = optionalRecipe.get();
-            recipe.setViews(recipe.getViews() + 1);
-            return recipeRepository.save(recipe);
-        }
-        return null;
-    }
-
-    public List<Recipe> getTop3PopularRecipes() {
-        Pageable pageable = PageRequest.of(0, 3);
-        return recipeRepository.findTop3ByViews(pageable);
-    }
+//    public List<Recipe> getTop3PopularRecipes() {
+//        Pageable pageable = PageRequest.of(0, 3);
+//        return recipeRepository.findTop3ByViews(pageable);
+//    }
 
 }

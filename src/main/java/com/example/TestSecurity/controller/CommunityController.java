@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/communities")
+@RequestMapping("/api/community")
 public class CommunityController {
 
     private final RecipeService recipeService;
@@ -30,14 +30,21 @@ public class CommunityController {
     }
 
     @PostMapping
-    public Long createCommunity(@RequestBody CommunityRequestDTO request) {
-        // 접속중인 사용자의 이름 반환
+    public Long createCommunity(@RequestBody CommunityRequestDTO communityRequestDTO) {
+        // 접속 중인 사용자의 이름 반환
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        RecipeRequestDTO recipeRequestDTO = communityRequestDTO.getRecipeRequestDTO();
+        if (recipeRequestDTO != null && (recipeRequestDTO.getTitle() == null || recipeRequestDTO.getIngredients() == null)) {
+            recipeRequestDTO = null;
+        }
+
         return communityService.createCommunity(
-                request.getTitle(),
+                communityRequestDTO.getTitle(),
                 username,
-                request.getContent(),
-                request.getCategory()
+                communityRequestDTO.getContent(),
+                communityRequestDTO.getCategory(),
+                recipeRequestDTO
         );
     }
 

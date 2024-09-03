@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { deleteRecipeById, getRecipeById } from '../apis/Recipe_api';
-import Header from '../Header';
-import IngredientGroup from "../main/RecipeIngredientsBox";
-import { MainProvider } from "../main/MainContext";
-import RecipeIngredientsBox from "../main/RecipeIngredientsBox";
+import { deleteRecipeById, getRecipeById } from '../../apis/Recipe_api';
+import Header from '../../Header';
+import IngredientGroup from "../../main/RecipeIngredientsBox";
+import { MainProvider } from "../../main/MainContext";
+import RecipeIngredientsBox from "../../main/RecipeIngredientsBox";
 
 const Recipe_detail = () => {
     return (
@@ -49,7 +49,7 @@ const Body = () => {
     };
 
     const handleNavRecipe = (id) => {
-        window.location.href = `/community/update/${id}`;
+        window.location.href = `/recipe/update/${id}`;
     };
 
     if (loading) {

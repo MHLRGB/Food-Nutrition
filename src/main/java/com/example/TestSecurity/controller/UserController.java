@@ -33,7 +33,7 @@ public class UserController {
     }
 
     @ResponseBody
-    @PostMapping("/checkdupid")
+    @PostMapping("/api/checkid")
     public boolean CheckDupId(@RequestBody String usernameJson) {
 
         ObjectMapper objectMapper = new ObjectMapper();

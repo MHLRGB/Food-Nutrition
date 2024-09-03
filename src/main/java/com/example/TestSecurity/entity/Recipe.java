@@ -28,13 +28,7 @@ public class Recipe {
     private String author;
 
     @Column(nullable = false)
-    private String content;
-
-    @Column(nullable = false)
     private String category;
-
-    @Column(nullable = false)
-    private int views;
 
     @Column(nullable = false)
     private int likes;

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import Header from '../Header';
-import { MainProvider } from "../main/MainContext";
-import RecipeIngredientsBox from "../main/RecipeIngredientsBox";
-import {deleteCommunityById, getBoardById} from "../apis/Community_api";
-import {deleteRecipeById} from "../apis/Recipe_api";
+import Header from '../../Header';
+import { MainProvider } from "../../main/MainContext";
+import RecipeIngredientsBox from "../../main/RecipeIngredientsBox";
+import {deleteCommunityById, getBoardById} from "../../apis/Community_api";
+import {deleteRecipeById} from "../../apis/Recipe_api";
 
-const Community_detail = () => {
+const Community_board_detail = () => {
     return (
         <div className='document'>
             <Header />
@@ -84,4 +84,4 @@ const Body = () => {
     );
 };
 
-export default Community_detail;
+export default Community_board_detail;

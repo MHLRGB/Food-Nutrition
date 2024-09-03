@@ -8,16 +8,16 @@ import Main from './main/Main.js';
 import Common from './common.js';
 import Community from "./community/Community.js";
 import MyPage from "./MyPage";
-import Community_list from "./community/Community_list";
+import Community_board_list from "./community/board/Community_board_list";
 import Community_info_tips from "./community/Community_info_tips";
-import Community_recipe_detail from "./community/Recipe_detail";
-import Recipe_write from "./community/Recipe_write";
-import Recipe_update from "./community/Recipe_update";
-import Community_write from "./community/Community_write";
-import Recipe_detail from "./community/Recipe_detail";
-import Recipe_list from "./community/Recipe_list";
-import Community_detail from "./community/Community_detail";
-import Community_update from "./community/Community_update";
+import Community_recipe_detail from "./community/recipe/Recipe_detail";
+import Recipe_write from "./community/recipe/Recipe_write";
+import Recipe_update from "./community/recipe/Recipe_update";
+import Community_board_write from "./community/board/Community_board_write";
+import Recipe_detail from "./community/recipe/Recipe_detail";
+import Recipe_list from "./community/recipe/Recipe_list";
+import Community_board_detail from "./community/board/Community_board_detail";
+import Community_update from "./community/board/Community_board_update";
 
 
 const App = () => {
@@ -38,10 +38,9 @@ const App = () => {
                 <Route path="/recipe/:id" element={<Recipe_detail />} />
                 <Route path="/recipe/update/:id" element={<Recipe_update />}/>
 
-
-                <Route path="/community/board" element={<Community_list />}/>
-                <Route path="/community/board/:id" element={<Community_detail />} />
-                <Route path="/community/board/write" element={<Community_write />}/>
+                <Route path="/community/board" element={<Community_board_list />}/>
+                <Route path="/community/board/:id" element={<Community_board_detail />} />
+                <Route path="/community/board/write" element={<Community_board_write />}/>
                 <Route path="/community/board/update/:id" element={<Community_update />}/>
 
                 <Route path="/community/info_tips" element={<Community_info_tips />}/>

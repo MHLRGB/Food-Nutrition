@@ -17,7 +17,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/recipes")
+@RequestMapping("/api/recipe")
 public class RecipeController {
 
     private final RecipeService recipeService;
@@ -28,15 +28,14 @@ public class RecipeController {
     }
 
     @PostMapping
-    public Long createRecipe(@RequestBody RecipeRequestDTO request) {
+    public Recipe createRecipe(@RequestBody RecipeRequestDTO recipeRequestDTO) {
         // 접속중인 사용자의 이름 반환
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return recipeService.createRecipeWithIngredients(
-                request.getTitle(),
+                recipeRequestDTO.getTitle(),
                 username,
-                request.getContent(),
-                request.getCategory(),
-                request.getIngredients()
+                recipeRequestDTO.getCategory(),
+                recipeRequestDTO.getIngredients()
         );
     }
 
@@ -77,7 +76,6 @@ public class RecipeController {
             RecipeResponseDTO dto = new RecipeResponseDTO();
             dto.setId(Recipe.getId());
             dto.setTitle(Recipe.getTitle());
-            dto.setContent(Recipe.getContent());
             dto.setAuthor(Recipe.getAuthor());
             dto.setCategory(Recipe.getCategory());
             dto.setCreatedDate(Recipe.getCreatedDate());
@@ -115,7 +113,6 @@ public class RecipeController {
 
                 // 기존 커뮤니티 정보 업데이트
                 recipe.setTitle(requestDTO.getTitle());
-                recipe.setContent(requestDTO.getContent());
                 recipe.setAuthor(requestDTO.getAuthor());
                 recipe.setCategory(requestDTO.getCategory());
 
@@ -126,7 +123,6 @@ public class RecipeController {
                 RecipeResponseDTO responseDTO = new RecipeResponseDTO();
                 responseDTO.setId(updatedCommunity.getId());
                 responseDTO.setTitle(updatedCommunity.getTitle());
-                responseDTO.setContent(updatedCommunity.getContent());
                 responseDTO.setAuthor(updatedCommunity.getAuthor());
                 responseDTO.setCategory(updatedCommunity.getCategory());
                 responseDTO.setCreatedDate(updatedCommunity.getCreatedDate());
@@ -142,24 +138,23 @@ public class RecipeController {
         }
     }
 
-
-    @GetMapping("/top-popular-recipe")
-    public ResponseEntity<List<RecipeResponseDTO>> getTop3PopularRecipes() {
-        List<Recipe> recipes = recipeService.getTop3PopularRecipes();
-        List<RecipeResponseDTO> responseDTOs = recipes.stream()
-                .map(recipe -> {
-                    RecipeResponseDTO dto = new RecipeResponseDTO();
-                    dto.setId(recipe.getId());
-                    dto.setTitle(recipe.getTitle());
-                    dto.setContent(recipe.getContent());
-                    dto.setAuthor(recipe.getAuthor());
-                    dto.setCategory(recipe.getCategory());
-                    dto.setCreatedDate(recipe.getCreatedDate());
-                    return dto;
-                })
-                .collect(Collectors.toList());
-        return new ResponseEntity<>(responseDTOs, HttpStatus.OK);
-    }
+//
+//    @GetMapping("/top-popular-recipe")
+//    public ResponseEntity<List<RecipeResponseDTO>> getTop3PopularRecipes() {
+//        List<Recipe> recipes = recipeService.getTop3PopularRecipes();
+//        List<RecipeResponseDTO> responseDTOs = recipes.stream()
+//                .map(recipe -> {
+//                    RecipeResponseDTO dto = new RecipeResponseDTO();
+//                    dto.setId(recipe.getId());
+//                    dto.setTitle(recipe.getTitle());
+//                    dto.setAuthor(recipe.getAuthor());
+//                    dto.setCategory(recipe.getCategory());
+//                    dto.setCreatedDate(recipe.getCreatedDate());
+//                    return dto;
+//                })
+//                .collect(Collectors.toList());
+//        return new ResponseEntity<>(responseDTOs, HttpStatus.OK);
+//    }
 
 //    @GetMapping("/{id}")
 //    public ResponseEntity<RecipeResponseDTO> getRecipeById(@PathVariable int id) {

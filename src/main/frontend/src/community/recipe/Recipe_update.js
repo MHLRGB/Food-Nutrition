@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import {getRecipeById, updateRecipe} from "../apis/Recipe_api";
-import Header from "../Header";
+import {getRecipeById, updateRecipe} from "../../apis/Recipe_api";
+import Header from "../../Header";
 
 const Recipe_update = () => {
     return (

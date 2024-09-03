@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import './css/Join.css';
+import {checkUpDupId} from "./apis/User_api";
 
 const Join = () => {
-    const [username, setUsername1] = useState('');
-    const [password, setPassword1] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
@@ -21,21 +22,21 @@ const Join = () => {
         }
 
         try {
-            const response = await fetch('/checkdupid', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username: username }),
-            });
-
-            const responseData = await response.json();
-            setIsDuplicate(responseData); // assuming responseData contains isDuplicate
+            // checkUpDupId 함수 호출 (GET 요청)
+            const responseData = await checkUpDupId(username);
+            setIsDuplicate(responseData); // responseData에 중복 여부가 포함되어 있다고 가정
             setUsernameError(responseData ? '중복된 아이디입니다.' : '사용 가능한 아이디입니다.');
         } catch (error) {
             console.error('Error:', error);
             setUsernameError('아이디 중복 확인 중 오류가 발생했습니다.');
         }
+    };
+
+
+    const handleUsernameChange = (e) => {
+        setUsername(e.target.value);
+        setIsDuplicate(true);  // 아이디가 변경되면 중복 확인 상태를 초기화
+        setUsernameError('');    // 오류 메시지도 초기화
     };
 
     const handleSubmit = (e) => {
@@ -62,8 +63,7 @@ const Join = () => {
                             name="username"
                             placeholder="아이디"
                             value={username}
-                            onChange={(e) => setUsername1(e.target.value)}
-                            readOnly={isDuplicate === false}
+                            onChange={handleUsernameChange}
                         />
                         <button className="checkIdButton" type="button" onClick={checkDupId}>중복확인</button>
                         </div>
@@ -83,7 +83,7 @@ const Join = () => {
                             name="password"
                             placeholder="비밀번호"
                             value={password}
-                            onChange={(e) => setPassword1(e.target.value)}
+                            onChange={(e) => setPassword(e.target.value)}
                         />
                         <input
                             className="join-input"

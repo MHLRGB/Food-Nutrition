@@ -51,12 +51,12 @@ public class SecurityConfig {
                         .permitAll()
 
                         /// 페이지 접근 권한
-                        .requestMatchers("/index.html","/test","/login", "/logout","/join","/joinProc","/common","/welcome",
-                                "/community","/recipe", "/recipe/*", "/community/board", "community/board/*",
+                        .requestMatchers("/index.html","/test","/login","/join","/joinProc","/common","/welcome",
+                                "/community","/recipe", "/recipe/*", "community/*",
                                 "/")
                         .permitAll()
 
-                        .requestMatchers("/community/update/*", "/community/write", "/recipes/write")
+                        .requestMatchers("/community/board/update/*", "/community/board/write", "/recipe/write","recipe/update")
                         .permitAll()
                         //.authenticated()
 
@@ -66,19 +66,20 @@ public class SecurityConfig {
 
 
                         /// api 호출 접근 권한
-                        .requestMatchers( HttpMethod.GET, "/recipes", "/recipes/*", "/ingredient/*", "/communities", "/communities/*")
+                        .requestMatchers( HttpMethod.GET,"/api/login","/api/logout",
+                                "/api/recipe", "/api/recipe/*", "/api/ingredient/*", "/api/community", "/api/community/*")
                         .permitAll()
 
                         /// api 호출 접근 권한
-                        .requestMatchers( HttpMethod.POST, "/checkdupid", "/recipes", "/recipes/recipeig" , "/communities")
+                        .requestMatchers( HttpMethod.POST, "/api/checkid","/api/recipe", "/api/recipe/recipeig" , "/api/community")
                         .permitAll()
 
                         // 삭제 권한 설정 필요
-                        .requestMatchers( HttpMethod.DELETE, "/recipes/*", "/communities/*")
+                        .requestMatchers( HttpMethod.DELETE, "/api/recipe/*", "/api/community/*")
                         .authenticated()
 
                         // 업데이트 권한 설정 필요
-                        .requestMatchers( HttpMethod.PUT, "/recipes/*", "/communities/*")
+                        .requestMatchers( HttpMethod.PUT, "/api/recipes/*", "/api/community/*")
                         .authenticated()
 
 
@@ -110,7 +111,7 @@ public class SecurityConfig {
         http
                 .logout(logout -> logout
                 // 로그아웃 요청을 처리할 URL 설정
-                .logoutUrl("/logout")
+                .logoutUrl("/api/logout")
                 // 로그아웃 성공 시 리다이렉트할 URL 설정
                 .logoutSuccessUrl("/login")
                 // 로그아웃 핸들러 추가 (세션 무효화 처리)

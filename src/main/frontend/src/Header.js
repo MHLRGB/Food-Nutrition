@@ -7,7 +7,7 @@ function Header() {
     const [auth, setAuth] = useState('');
 
     useEffect(() => {
-        axios.post('/login')
+        axios.get('/api/login')
             .then((res) => {
                 setAuth(res.data);
             })
@@ -28,7 +28,7 @@ function Header() {
 
     const handleLogout = async () => {
         try {
-            const response = await fetch('/logout', {
+            const response = await fetch('/api/logout', {
                 method: 'GET',
                 credentials: 'include' // 쿠키가 필요하다면 포함
             });

@@ -11,7 +11,7 @@ public class CommunityRequestDTO {
 
     private String title;
     private String content;
-    // private String author;
     private String category;
 
+    private RecipeRequestDTO recipeRequestDTO;
 }
