@@ -1,5 +1,6 @@
 package com.example.TestSecurity.dto;
 
+import com.example.TestSecurity.entity.Recipe;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,5 +16,7 @@ public class CommunityResponseDTO {
     private String content;
     private String category;
     private LocalDateTime createdDate;
+
+    private Long recipeid;
 
 }

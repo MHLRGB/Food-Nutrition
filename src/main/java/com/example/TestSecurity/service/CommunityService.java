@@ -48,8 +48,8 @@ public class CommunityService {
         if (recipeRequestDTO != null) {
             savedRecipe = recipeService.createRecipeWithIngredients(
                     recipeRequestDTO.getTitle(),
+                    author,
                     recipeRequestDTO.getCategory(),
-                    recipeRequestDTO.getTitle(),
                     recipeRequestDTO.getIngredients()
             );
         }

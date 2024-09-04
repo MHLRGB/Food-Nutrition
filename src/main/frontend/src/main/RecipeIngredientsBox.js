@@ -4,13 +4,14 @@ import recipeImg from "../image/recipe.png";
 import {getRecipeById} from "../apis/Recipe_api";
 
 const RecipeIngredientsBox = ({recipeId}) => {
-
     const [ingredients, setIngredients] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [recipe, setRecipe] = useState(null);
 
+
     useEffect(() => {
+
         const fetchData = async () => {
             try {
                 // 레시피 데이터 가져오기
@@ -26,8 +27,15 @@ const RecipeIngredientsBox = ({recipeId}) => {
             }
         };
 
-        fetchData();
-    }, [recipeId]);
+        // recipeId가 존재하는 경우에만 fetchData 호출
+        if (recipeId !== null) {
+            fetchData();
+        }
+    }, [recipeId]);  // recipeId가 변경될 때마다 실행
+
+    if (recipeId == null) {
+        return <div>등록된 레시피가 없습니다.</div>;
+    }
 
     if (loading) {
         return <div>로딩 중...</div>;
@@ -37,7 +45,7 @@ const RecipeIngredientsBox = ({recipeId}) => {
         return <div>Error: {error.message}</div>;
     }
 
-    if (!recipeId || !recipe) {
+    if (!recipe) {
         return <div>레시피를 찾을 수 없습니다.</div>;
     }
 
@@ -55,6 +63,7 @@ const RecipeIngredientsBox = ({recipeId}) => {
                     {ingredients.length > 0 ? (
                         <>
                             <h3>{recipe.title}</h3>
+                            <div>{recipe.category}</div>
                             {ingredients.map((item, index) => (
                                 <IngredientGroup
                                     key={index}

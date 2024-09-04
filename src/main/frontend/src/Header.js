@@ -2,29 +2,26 @@ import {Link} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import './css/Header.css';
 import axios from "axios";
+import {nowUserInfo} from "./apis/User_api";
+import {getBoardById} from "./apis/Community_api";
 
 function Header() {
-    const [auth, setAuth] = useState('');
+
+    const [userdata, setUserdata] = useState('');
 
     useEffect(() => {
-        axios.get('/api/login')
-            .then((res) => {
-                setAuth(res.data);
-            })
-    }, []);
+        const fetchData = async () => {
+            try {
+                // 레시피 데이터 가져오기
+                const response = await nowUserInfo();
+                setUserdata(response)
+            } catch (error) {
+                console.log("Error : "+error);
+            }
+        };
 
-    // const handleLogout = async () => {
-    //     try {
-    //         const response = await fetch('/logout', {
-    //             method: 'GET',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             },
-    //         });
-    //     } catch (error) {
-    //         console.error('Error:', error);
-    //     }
-    // }
+        fetchData();
+    }, []);
 
     const handleLogout = async () => {
         try {
@@ -47,9 +44,9 @@ function Header() {
     return (
         <header className="header_main">
             <div className="header_user_container">
-                {auth !== "anonymousUser" ? (
+                {userdata.username !== "anonymousUser" ? (
                     <>
-                        <div className="greeting_message">{auth}님 안녕하세요.</div>
+                        <div className="greeting_message">{userdata.username}님 안녕하세요.</div>
                         <Link type="button" to="/mypage" className="header_user_menu">마이페이지</Link>
                         <div className="header_user_menu" onClick={handleLogout}>로그아웃</div>
                     </>

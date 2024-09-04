@@ -71,13 +71,14 @@ const Body = () => {
                     <p>{board.content}</p>
                     <button
                         type='button'
-                        onClick={() => deleteRecipe(board.id)}
+                        onClick={() => deleteCommunityById(board.id, board.author)}
                     >
-                        레시피 삭제하기
+                        글 삭제하기
                     </button>
 
                     <div onClick={() => handleNavUpdate(board.id)}>수정</div>
 
+                    <RecipeIngredientsBox recipeId={board.recipeid}/>
                 </div>
             </div>
         </MainProvider>

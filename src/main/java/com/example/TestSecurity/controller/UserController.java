@@ -1,6 +1,7 @@
 package com.example.TestSecurity.controller;
 
 import com.example.TestSecurity.dto.JoinDTO;
+import com.example.TestSecurity.dto.NowUserResponseDTO;
 import com.example.TestSecurity.service.JoinService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,12 +10,16 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Iterator;
 
 @Controller
 public class UserController {
@@ -48,6 +53,28 @@ public class UserController {
         System.out.println("Received username: " + username);
 
         return joinService.checkDupId(username);
+    }
+
+    @ResponseBody
+    @GetMapping("/api/user/now")
+    public NowUserResponseDTO NowUserInfo() {
+
+        NowUserResponseDTO nowUserResponseDTO = new NowUserResponseDTO();
+
+        // 접속중인 사용자의 username 반환
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        // 접속중인 사용자의 auth 반환
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        Iterator<? extends GrantedAuthority> iter = authorities.iterator();
+        GrantedAuthority auth = iter.next();
+        String role = auth.getAuthority();
+
+        nowUserResponseDTO.setUsername(username);
+        nowUserResponseDTO.setRole(role);
+
+        return nowUserResponseDTO;
     }
 }
 

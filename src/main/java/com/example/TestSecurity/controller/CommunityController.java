@@ -68,6 +68,7 @@ public class CommunityController {
     @GetMapping("/{id}")
     public ResponseEntity<CommunityResponseDTO> getCommunityById(@PathVariable long id) {
         Optional<Community> community = communityService.getCommunityById(id);
+
         if (community.isPresent()) {
             CommunityResponseDTO responseDTO = new CommunityResponseDTO();
             responseDTO.setId(community.get().getId());
@@ -76,6 +77,17 @@ public class CommunityController {
             responseDTO.setAuthor(community.get().getAuthor());
             responseDTO.setCategory(community.get().getCategory());
             responseDTO.setCreatedDate(community.get().getCreatedDate());
+
+         // responseDTO.setRecipeid(community.get().getRecipe().getId());
+
+
+            // Recipe가 null이 아닌지 확인
+            Recipe recipe = community.get().getRecipe();
+            if (recipe != null) {
+                responseDTO.setRecipeid(recipe.getId());
+            } else {
+                responseDTO.setRecipeid(null);
+            }
 
             return new ResponseEntity<>(responseDTO, HttpStatus.OK);
         } else {
