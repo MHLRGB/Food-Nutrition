@@ -33,18 +33,36 @@ export const createCommunity = async (title,content, category, recipeTitle, reci
     }
 };
 
-export const getAllCommunities = async () => {
-    const response = await axios.get('/api/community');
-    return response.data;
-};
+export const updateCommunity = async (id, title, content, category, recipeTitle, recipeCategory, recipeIngredients) => {
 
-export const getBoardById = async (id) => {
-    console.log("id:"+id);
-    const response = await axios.get(`/api/community/${id}`);
-    return response.data;
-};
+    // const userdata = await nowUserInfo();
+    //
+    // console.log("userdata.auth : " + userdata.role);
+    // if (userdata.role !== "ROLE_ADMIN" && userdata.username !== username) {
+    //     alert("수정 권한이 없습니다.");
+    //     return;  // 함수 종료
+    // }
 
-export const updateBoard = async (id, requestDTO) => {
+    console.log("레시피 타이틀 : " , recipeTitle);
+    console.log("레시피 카테고리 : " , recipeCategory);
+    console.log("레시피 재료 : " , recipeIngredients);
+
+    const recipeRequestDTO = {
+        title: recipeTitle || null,
+        category: recipeCategory || null,
+        ingredients: recipeIngredients && recipeIngredients.length > 0 ? recipeIngredients.map(ingredient => ({
+            ingredientId: ingredient.ingredientId || null,
+            quantity: ingredient.quantity || 0
+        })) : null
+    };
+
+    const requestDTO = {
+        title: title,
+        content: content,
+        category: category,
+        recipeRequestDTO
+    };
+
     try {
         const response = await axios.put(`/api/community/${id}`, requestDTO, {
             headers: {
@@ -57,6 +75,21 @@ export const updateBoard = async (id, requestDTO) => {
         throw error; // 에러를 상위 호출자에게 전달
     }
 };
+
+
+export const getAllCommunities = async () => {
+    const response = await axios.get('/api/community');
+    return response.data;
+};
+
+export const getBoardById = async (id) => {
+
+    const response = await axios.get(`/api/community/${id}`);
+    console.log("보드 아이디 데이터 : "+response.data);
+    return response.data;
+};
+
+
 
 export const deleteCommunityById = async (id, username) => {
     const userdata = await nowUserInfo();

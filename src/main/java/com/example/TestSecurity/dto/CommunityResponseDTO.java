@@ -10,13 +10,13 @@ import java.time.LocalDateTime;
 @Setter
 public class CommunityResponseDTO {
 
-    private long id;
+    private Long id;
     private String title;
     private String author;
     private String content;
     private String category;
     private LocalDateTime createdDate;
 
-    private Long recipeid;
+    private Long recipeId;
 
 }

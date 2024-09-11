@@ -79,7 +79,7 @@ public class SecurityConfig {
                         .authenticated()
 
                         // 업데이트 권한 설정 필요
-                        .requestMatchers( HttpMethod.PUT, "/api/recipes/*", "/api/community/*")
+                        .requestMatchers( HttpMethod.PUT, "/api/recipe/*", "/api/community/*")
                         .authenticated()
 
 

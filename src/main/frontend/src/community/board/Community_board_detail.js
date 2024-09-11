@@ -78,7 +78,7 @@ const Body = () => {
 
                     <div onClick={() => handleNavUpdate(board.id)}>수정</div>
 
-                    <RecipeIngredientsBox recipeId={board.recipeid}/>
+                    <RecipeIngredientsBox recipeId={board.recipeId}/>
                 </div>
             </div>
         </MainProvider>

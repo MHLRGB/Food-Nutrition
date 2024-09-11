@@ -32,10 +32,8 @@ public class RecipeController {
         // 접속중인 사용자의 이름 반환
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return recipeService.createRecipeWithIngredients(
-                recipeRequestDTO.getTitle(),
                 username,
-                recipeRequestDTO.getCategory(),
-                recipeRequestDTO.getIngredients()
+                recipeRequestDTO
         );
     }
 
@@ -101,35 +99,21 @@ public class RecipeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RecipeResponseDTO> updateRecipe(
-            @PathVariable int id,
+    public ResponseEntity<RecipeIngredientsResponseDTO> updateRecipe(
+            @PathVariable Long id,
             @RequestBody RecipeRequestDTO requestDTO) {
         try {
             // 커뮤니티 정보 가져오기
-            Optional<Recipe> optionalCommunity = recipeService.getRecipeById(id);
+            Optional<Recipe> optionalRecipe = recipeService.getRecipeById(id);
 
-            if (optionalCommunity.isPresent()) {
-                Recipe recipe = optionalCommunity.get();
+            if (optionalRecipe.isPresent()) {
 
-                // 기존 커뮤니티 정보 업데이트
-                recipe.setTitle(requestDTO.getTitle());
-                recipe.setAuthor(requestDTO.getAuthor());
-                recipe.setCategory(requestDTO.getCategory());
+                // 업데이트된 레시피 저장
+                RecipeIngredientsResponseDTO updatedRecipe = recipeService.updateRecipe(id, requestDTO);
 
-                // 업데이트된 커뮤니티 저장
-                Recipe updatedCommunity = recipeService.saveRecipe(recipe);
-
-                // 응답 DTO 생성 및 설정
-                RecipeResponseDTO responseDTO = new RecipeResponseDTO();
-                responseDTO.setId(updatedCommunity.getId());
-                responseDTO.setTitle(updatedCommunity.getTitle());
-                responseDTO.setAuthor(updatedCommunity.getAuthor());
-                responseDTO.setCategory(updatedCommunity.getCategory());
-                responseDTO.setCreatedDate(updatedCommunity.getCreatedDate());
-
-                return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+                return new ResponseEntity<>(updatedRecipe, HttpStatus.OK);
             } else {
-                // 커뮤니티를 찾지 못한 경우 404 반환
+                // 레시피를 찾지 못한 경우 404 반환
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {

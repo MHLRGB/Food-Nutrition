@@ -13,9 +13,11 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -41,33 +43,131 @@ public class CommunityService {
         this.communityRepository = communityRepository;
     }
 
-    public Long createCommunity(String title, String author, String content, String category, RecipeRequestDTO recipeRequestDTO) {
+//    public Long createCommunity(String title, String author, String content, String category, RecipeRequestDTO recipeRequestDTO) {
+//
+//        Recipe savedRecipe = null;
+//
+//        if (recipeRequestDTO != null) {
+//            savedRecipe = recipeService.createRecipeWithIngredients(
+//                    recipeRequestDTO.getTitle(),
+//                    author,
+//                    recipeRequestDTO.getCategory(),
+//                    recipeRequestDTO.getIngredients()
+//            );
+//        }
+//
+////        Recipe savedRecipe = recipeService.createRecipeWithIngredients(recipeRequestDTO.getTitle(), recipeRequestDTO.getCategory(),recipeRequestDTO.getTitle(), recipeRequestDTO.getIngredients());
+//
+//        Community community = new Community();
+//        community.setTitle(title);
+//        community.setAuthor(author);
+//        community.setContent(content);
+//        community.setCategory(category);
+//        community.setRecipe(savedRecipe);
+//
+//        Community savedcommunity = communityRepository.save(community);
+//
+//
+//        return savedcommunity.getId();
+//    }
+
+    public CommunityResponseDTO createCommunity(CommunityRequestDTO communityRequestDTO) {
+
+        // 접속중인 사용자 이름 반환
+        String author = SecurityContextHolder.getContext().getAuthentication().getName();
 
         Recipe savedRecipe = null;
 
-        if (recipeRequestDTO != null) {
+        if (communityRequestDTO.getRecipeRequestDTO() != null) {
+            RecipeRequestDTO recipeRequestDTO = communityRequestDTO.getRecipeRequestDTO();
             savedRecipe = recipeService.createRecipeWithIngredients(
-                    recipeRequestDTO.getTitle(),
                     author,
-                    recipeRequestDTO.getCategory(),
-                    recipeRequestDTO.getIngredients()
+                    recipeRequestDTO
             );
         }
 
 //        Recipe savedRecipe = recipeService.createRecipeWithIngredients(recipeRequestDTO.getTitle(), recipeRequestDTO.getCategory(),recipeRequestDTO.getTitle(), recipeRequestDTO.getIngredients());
 
         Community community = new Community();
-        community.setTitle(title);
+        community.setTitle(communityRequestDTO.getTitle());
         community.setAuthor(author);
-        community.setContent(content);
-        community.setCategory(category);
+        community.setContent(communityRequestDTO.getContent());
+        community.setCategory(communityRequestDTO.getCategory());
         community.setRecipe(savedRecipe);
 
         Community savedcommunity = communityRepository.save(community);
 
+        // 사용자 응답 DTO 설정
+        CommunityResponseDTO responseDTO = new CommunityResponseDTO();
+        responseDTO.setTitle(savedcommunity.getTitle());
+        responseDTO.setContent(savedcommunity.getContent());
+        responseDTO.setCategory(savedcommunity.getCategory());
+        responseDTO.setRecipeId(savedcommunity.getRecipe().getId());
 
-        return savedcommunity.getId();
+        return responseDTO;
     }
+
+
+    @Transactional
+    public CommunityResponseDTO updateCommunity(Long id, CommunityRequestDTO communityRequestDTO) {
+        System.out.println("업데이트 커뮤니티 서비스 메소드 호출");
+        // 커뮤니티 정보 가져오기
+        Community community = communityRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Community not found"));
+
+        // 기존 커뮤니티 정보 업데이트
+        community.setTitle(communityRequestDTO.getTitle());
+        community.setContent(communityRequestDTO.getContent());
+        community.setCategory(communityRequestDTO.getCategory());
+
+        // Recipe 정보가 있는 경우 처리
+        RecipeRequestDTO recipeRequestDTO = communityRequestDTO.getRecipeRequestDTO();
+        if (recipeRequestDTO != null && recipeRequestDTO.getIngredients() != null) {
+            Recipe updatedRecipe = recipeService.updateOrCreateRecipe(community, recipeRequestDTO);
+            community.setRecipe(updatedRecipe);
+        }
+
+        // 업데이트된 커뮤니티 저장
+        Community savedcommunity = communityRepository.save(community);
+
+        // 사용자 응답 DTO 설정
+        CommunityResponseDTO responseDTO = new CommunityResponseDTO();
+        responseDTO.setTitle(savedcommunity.getTitle());
+        responseDTO.setContent(savedcommunity.getContent());
+        responseDTO.setCategory(savedcommunity.getCategory());
+        responseDTO.setRecipeId(savedcommunity.getRecipe().getId());
+
+        return responseDTO;
+    }
+
+//    public Long updateCommunity(Long id, String title, String author, String content, String category, RecipeRequestDTO recipeRequestDTO) {
+//
+//        Recipe savedRecipe = null;
+//
+//        if (recipeRequestDTO != null) {
+//            savedRecipe = recipeService.updateRecipeWithIngredients(
+//                    id,
+//                    recipeRequestDTO.getTitle(),
+//                    author,
+//                    recipeRequestDTO.getCategory(),
+//                    recipeRequestDTO.getIngredients()
+//            );
+//        }
+//
+////        Recipe savedRecipe = recipeService.createRecipeWithIngredients(recipeRequestDTO.getTitle(), recipeRequestDTO.getCategory(),recipeRequestDTO.getTitle(), recipeRequestDTO.getIngredients());
+//
+//        Community community = new Community();
+//        community.setTitle(title);
+//        community.setAuthor(author);
+//        community.setContent(content);
+//        community.setCategory(category);
+//        community.setRecipe(savedRecipe);
+//
+//        Community savedcommunity = communityRepository.save(community);
+//
+//
+//        return savedcommunity.getId();
+//    }
 
     public void saveCommunity(Community community) {
         communityRepository.save(community);
@@ -85,14 +185,6 @@ public class CommunityService {
         return communityRepository.findById(id);
     }
 
-
-
-
-
-    public void deleteRecipeById(long id) {
-        System.out.println("삭제 서비스 아이디 : " + id);
-        recipeRepository.deleteById(id);
-    }
 
     public Optional<Ingredients> getIngredientById(Long id) {
         return ingredientsRepository.findById(id);

@@ -68,7 +68,17 @@ export const getTopPopularRecipes = async () => {
     return response.data;
 };
 
-export const updateRecipe = async (id, requestDTO) => {
+export const updateRecipe = async (id, recipeTitle, recipeCategory, recipeIngredients) => {
+    // requestDTO 정의
+    const requestDTO = {
+        title: recipeTitle || null,
+        category: recipeCategory || null,
+        ingredients: recipeIngredients && recipeIngredients.length > 0 ? recipeIngredients.map(ingredient => ({
+            ingredientId: ingredient.ingredientId || null,
+            quantity: ingredient.quantity || 0
+        })) : []
+    };
+
     try {
         const response = await axios.put(`/api/recipe/${id}`, requestDTO, {
             headers: {
@@ -77,7 +87,7 @@ export const updateRecipe = async (id, requestDTO) => {
         });
         return response.data;
     } catch (error) {
-        console.error(`Error updating community recipe with id ${id}:`, error);
+        console.error(`Error updating recipe with id ${id}:`, error);
         throw error; // 에러를 상위 호출자에게 전달
     }
 };

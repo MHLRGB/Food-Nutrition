@@ -1,37 +1,45 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import {updateRecipe} from "../../apis/Recipe_api";
-import Header from "../../Header";
-import {getBoardById, updateBoard} from "../../apis/Community_api";
+import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import Header from '../../Header';
+import { MainProvider } from "../../main/MainContext";
+import { getBoardById, updateCommunity, deleteCommunityById } from "../../apis/Community_api";
+import { RecipeContext, RecipeProvider } from "../RecipeContext";
+import Recipe_update from "../recipe/Recipe_update";
+import Recipe_update_form from "../recipe/Recipe_update_form"; // 수정 API 호출 함수 추가
 
-const Recipe_update = () => {
+const Community_board_detail = () => {
     return (
         <div className='document'>
-            <Header/>
-            <Body/>
+            <RecipeProvider>
+                <Header />
+                <Body />
+            </RecipeProvider>
         </div>
     );
 };
 
 const Body = () => {
     const { id } = useParams();
-    const navigate = useNavigate();
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+    const [category, setCategory] = useState('');
+    const [recipeId, setRecipeId] = useState(null);
 
-    const [board , setBoard] = useState({
-        title: '',
-        content: '',
-        author: '',
-        category: ''
-    });
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
+
+    const { recipeTitle, recipeCategory, recipeIngredients } = useContext(RecipeContext);
 
     useEffect(() => {
-        const fetchRecipe = async () => {
+        const fetchData = async () => {
             try {
-                const data = await getBoardById(id);
-                setBoard(data);
+                const boardData = await getBoardById(id);
+                setTitle(boardData.title);
+                setContent(boardData.content);
+                setCategory(boardData.category);
+                setRecipeId(boardData.recipeId);
             } catch (error) {
                 setError(error);
             } finally {
@@ -39,78 +47,70 @@ const Body = () => {
             }
         };
 
-        fetchRecipe();
+        fetchData();
     }, [id]);
 
-    const handleChange = (e) => {
-        setBoard({
-            ...board,
-            [e.target.name]: e.target.value
-        });
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const currentId = id;
+    const handleSubmit = async (event) => {
+        event.preventDefault();
 
         try {
-            const updatedBoard = await updateBoard(currentId, board);
-            console.log('Updated board:', updatedBoard);
-            navigate(-1);  // 성공 시 이전 페이지로 이동
+            const response = await updateCommunity(id, title, content, category, recipeTitle, recipeCategory, recipeIngredients);
+            navigate('/community');
+            console.log('Success:', response);
         } catch (error) {
-            console.error('Failed to update recipe:', error);
-            alert('업데이트 중 오류가 발생했습니다. 다시 시도해 주세요.');
-            navigate(-1);  // 오류 발생 시 이전 페이지로 이동
+            setError('Failed to update community. Please try again.');
+            console.error('Error:', error);
         }
     };
 
-    if (loading) return <div>로딩 중...</div>;
-    if (error) return <div>오류 발생: {error.message}</div>;
+    const deleteRecipe = async (id) => {
+        try {
+            await deleteCommunityById(id);
+            navigate(-1); // 삭제 후 이전 페이지로 이동
+        } catch (error) {
+            console.log("Error:", error);
+        }
+    };
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error.message}</div>;
+    }
 
     return (
-        <div>
-            <h2>글 수정</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>제목:</label>
-                    <input
-                        type="text"
-                        name="title"
-                        value={board.title}
-                        onChange={handleChange}
-                    />
+        <MainProvider>
+            <div className='community_board_body_container'>
+                <div className='community_board_body_center'>
+                    <form onSubmit={handleSubmit}>
+                        <input
+                            type="text"
+                            name="title"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                        />
+                        <input
+                            type="text"
+                            name="category"
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}
+                        />
+                        <textarea
+                            name="content"
+                            value={content}
+                            onChange={(e) => setContent(e.target.value)}
+                        />
+                        <button type="submit">수정 완료</button>
+                    </form>
+                    <button onClick={() => deleteRecipe(id)}>글 삭제하기</button>
+
+                    <Recipe_update_form recipeId={recipeId} />
                 </div>
-                <div>
-                    <label>내용:</label>
-                    <textarea
-                        name="content"
-                        value={board.content}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div>
-                    <label>작성자:</label>
-                    <input
-                        type="text"
-                        name="author"
-                        value={board.author}
-                        onChange={handleChange}
-                        disabled
-                    />
-                </div>
-                <div>
-                    <label>카테고리:</label>
-                    <input
-                        type="text"
-                        name="category"
-                        value={board.category}
-                        onChange={handleChange}
-                    />
-                </div>
-                <button type="submit">수정하기</button>
-            </form>
-        </div>
+            </div>
+        </MainProvider>
     );
 };
 
-export default Recipe_update;
+export default Community_board_detail;
