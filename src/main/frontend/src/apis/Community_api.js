@@ -3,21 +3,24 @@ import { useNavigate } from 'react-router-dom';
 import {nowUserInfo} from "./User_api";
 
 
-export const createCommunity = async (title,content, category, recipeTitle, recipeCategory, recipeIngredients) => {
-    const recipeRequestDTO = {
-        title: recipeTitle || null,
-        category: recipeCategory || null,
-        ingredients: recipeIngredients && recipeIngredients.length > 0 ? recipeIngredients.map(ingredient => ({
+export const createCommunity = async (title, content, category, recipeTitle, recipeCategory, recipeIngredients) => {
+    // recipeTitle, recipeCategory, recipeIngredients 중 하나라도 없으면 recipeRequestDTO를 null로 설정
+    const hasRecipeDetails = recipeTitle && recipeCategory && recipeIngredients && recipeIngredients.length > 0;
+
+    const recipeRequestDTO = hasRecipeDetails ? {
+        title: recipeTitle,
+        category: recipeCategory,
+        ingredients: recipeIngredients.map(ingredient => ({
             ingredientId: ingredient.ingredientId || null,
             quantity: ingredient.quantity || 0
-        })) : null
-    };
+        }))
+    } : null;
 
     const requestDTO = {
         title: title,
         content: content,
         category: category,
-        recipeRequestDTO
+        recipeRequestDTO // 조건에 따라 recipeRequestDTO가 null일 수 있음
     };
 
     try {
@@ -32,6 +35,7 @@ export const createCommunity = async (title,content, category, recipeTitle, reci
         throw error; // 에러를 상위 호출자에게 전달
     }
 };
+
 
 export const updateCommunity = async (id, title, content, category, recipeTitle, recipeCategory, recipeIngredients) => {
 

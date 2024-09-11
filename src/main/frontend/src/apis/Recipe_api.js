@@ -69,12 +69,13 @@ export const getTopPopularRecipes = async () => {
 };
 
 export const updateRecipe = async (id, recipeTitle, recipeCategory, recipeIngredients) => {
+
     // requestDTO 정의
     const requestDTO = {
         title: recipeTitle || null,
         category: recipeCategory || null,
         ingredients: recipeIngredients && recipeIngredients.length > 0 ? recipeIngredients.map(ingredient => ({
-            ingredientId: ingredient.ingredientId || null,
+            ingredientId: ingredient.ingredientInfo.ingredientsID || null,
             quantity: ingredient.quantity || 0
         })) : []
     };
@@ -85,6 +86,7 @@ export const updateRecipe = async (id, recipeTitle, recipeCategory, recipeIngred
                 'Content-Type': 'application/json',
             },
         });
+        console.log(response.data);
         return response.data;
     } catch (error) {
         console.error(`Error updating recipe with id ${id}:`, error);

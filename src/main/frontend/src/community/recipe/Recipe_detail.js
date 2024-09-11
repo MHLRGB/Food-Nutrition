@@ -73,7 +73,8 @@ const Body = () => {
                     <p><strong>Author:</strong> {recipe.author}</p>
                     <p><strong>Category:</strong> {recipe.category}</p>
                     <p><strong>Created Date:</strong> {recipe.createdDate}</p>
-                    <p>{recipe.content}</p>
+                    <RecipeIngredientsBox recipeId={recipe.id}/>
+
                     <button
                         type='button'
                         onClick={() => deleteRecipe(recipe.id)}
@@ -83,7 +84,6 @@ const Body = () => {
 
                     <div onClick={() => handleNavRecipe(recipe.id)}>수정</div>
 
-                    <RecipeIngredientsBox recipeId={id}/>
                 </div>
             </div>
         </MainProvider>

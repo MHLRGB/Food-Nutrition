@@ -3,8 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Header from '../../Header';
 import { MainProvider } from "../../main/MainContext";
 import RecipeIngredientsBox from "../../main/RecipeIngredientsBox";
-import {deleteCommunityById, getBoardById} from "../../apis/Community_api";
-import {deleteRecipeById} from "../../apis/Recipe_api";
+import { deleteCommunityById, getBoardById } from "../../apis/Community_api";
 
 const Community_board_detail = () => {
     return (
@@ -60,7 +59,6 @@ const Body = () => {
     }
 
     return (
-        // IngredientGroup 테스트를 위해 임시로 MainProvider 사용
         <MainProvider>
             <div className='community_board_body_container'>
                 <div className='community_board_body_center'>
@@ -78,7 +76,7 @@ const Body = () => {
 
                     <div onClick={() => handleNavUpdate(board.id)}>수정</div>
 
-                    <RecipeIngredientsBox recipeId={board.recipeId}/>
+                    {board.recipeId && <RecipeIngredientsBox recipeId={board.recipeId} />}
                 </div>
             </div>
         </MainProvider>

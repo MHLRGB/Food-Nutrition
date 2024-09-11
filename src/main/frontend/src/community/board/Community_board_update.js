@@ -4,8 +4,8 @@ import Header from '../../Header';
 import { MainProvider } from "../../main/MainContext";
 import { getBoardById, updateCommunity, deleteCommunityById } from "../../apis/Community_api";
 import { RecipeContext, RecipeProvider } from "../RecipeContext";
-import Recipe_update from "../recipe/Recipe_update";
 import Recipe_update_form from "../recipe/Recipe_update_form"; // 수정 API 호출 함수 추가
+import Recipe_write_form from "../recipe/Recipe_write_form"; // 레시피 추가 폼
 
 const Community_board_detail = () => {
     return (
@@ -24,7 +24,7 @@ const Body = () => {
     const [content, setContent] = useState('');
     const [category, setCategory] = useState('');
     const [recipeId, setRecipeId] = useState(null);
-
+    const [showRecipeForm, setShowRecipeForm] = useState(false); // 레시피 추가 폼을 제어할 상태
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -72,6 +72,10 @@ const Body = () => {
         }
     };
 
+    const toggleRecipeForm = () => {
+        setShowRecipeForm((prevShow) => !prevShow);
+    };
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -106,7 +110,19 @@ const Body = () => {
                     </form>
                     <button onClick={() => deleteRecipe(id)}>글 삭제하기</button>
 
-                    <Recipe_update_form recipeId={recipeId} />
+                    {/* recipeId가 null이면 레시피 추가 버튼과 폼을 표시 */}
+                    {recipeId === null ? (
+                        <>
+                            <button type="button" onClick={toggleRecipeForm}>
+                                {showRecipeForm ? "Hide Recipe Form" : "레시피 추가"}
+                            </button>
+
+                            {showRecipeForm && <Recipe_write_form />}
+                        </>
+                    ) : (
+                        // recipeId가 있으면 Recipe_update_form 표시
+                        <Recipe_update_form recipeId={recipeId} showUpdateButton={false}/>
+                    )}
                 </div>
             </div>
         </MainProvider>

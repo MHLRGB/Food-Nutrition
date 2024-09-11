@@ -13,5 +13,4 @@ public class IngredientResponseDTO {
     private Float protein;
     private Float fat;
     private Float sodium;
-
 }

@@ -28,44 +28,19 @@ public class RecipeController {
     }
 
     @PostMapping
-    public Recipe createRecipe(@RequestBody RecipeRequestDTO recipeRequestDTO) {
-        // 접속중인 사용자의 이름 반환
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return recipeService.createRecipeWithIngredients(
-                username,
-                recipeRequestDTO
-        );
-    }
+    public ResponseEntity<RecipeIngredientsResponseDTO> createRecipe(@RequestBody RecipeRequestDTO recipeRequestDTO) {
 
-//
-//    @PostMapping
-//    public ResponseEntity<RecipeResponseDTO> createRecipe(@RequestBody RecipeRequestDTO requestDTO) {
-//        try {
-//            Recipe recipe = new Recipe();
-//
-//            // 접속중인 사용자의 username 반환
-//            String username = SecurityContextHolder.getContext().getAuthentication().getName();
-//
-//            recipe.setTitle(requestDTO.getTitle());
-//            recipe.setContent(requestDTO.getContent());
-//            recipe.setAuthor(username);
-//            recipe.setCategory(requestDTO.getCategory());
-//            recipe.setViews(0);
-//            Recipe savedRecipe = recipeService.saveRecipe(recipe);
-//
-//            RecipeResponseDTO responseDTO = new RecipeResponseDTO();
-//            responseDTO.setId(savedRecipe.getId());
-//            responseDTO.setTitle(savedRecipe.getTitle());
-//            responseDTO.setContent(savedRecipe.getContent());
-//            responseDTO.setAuthor(savedRecipe.getAuthor());
-//            responseDTO.setCategory(savedRecipe.getCategory());
-//            responseDTO.setCreatedDate(savedRecipe.getCreatedDate());
-//
-//            return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
-//    }
+        try {
+
+            RecipeIngredientsResponseDTO createdRecipe = recipeService.createRecipe(recipeRequestDTO);
+
+            return new ResponseEntity<>(createdRecipe, HttpStatus.OK);
+
+        } catch (Exception e) {
+            // 예외 발생 시 400 반환
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 
     @GetMapping
     public ResponseEntity<List<RecipeResponseDTO>> getAllRecipes() {
@@ -122,7 +97,21 @@ public class RecipeController {
         }
     }
 
-//
+    @GetMapping("/{id}")
+    public ResponseEntity<RecipeIngredientsResponseDTO> getRecipeByIdIG(@PathVariable long id) {
+
+        Optional<Recipe> recipe = recipeService.getRecipeById(id);
+        if (recipe.isPresent()) {
+
+            RecipeIngredientsResponseDTO RecipeIngredientsResponseDTO = recipeService.getRecipeByIdIG(id);
+
+            return new ResponseEntity<>(RecipeIngredientsResponseDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    //
 //    @GetMapping("/top-popular-recipe")
 //    public ResponseEntity<List<RecipeResponseDTO>> getTop3PopularRecipes() {
 //        List<Recipe> recipes = recipeService.getTop3PopularRecipes();
@@ -160,19 +149,4 @@ public class RecipeController {
 //            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 //        }
 //    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<RecipeIngredientsResponseDTO> getRecipeByIdIG(@PathVariable long id) {
-
-        Optional<Recipe> recipe = recipeService.getRecipeById(id);
-        if (recipe.isPresent()) {
-
-            RecipeIngredientsResponseDTO RecipeIngredientsResponseDTO = recipeService.getRecipeByIdIG(id);
-
-            return new ResponseEntity<>(RecipeIngredientsResponseDTO, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
 }

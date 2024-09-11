@@ -21,7 +21,7 @@ const Recipe_update = () => {
 const Body = ({ recipeId }) => {  // recipeId를 prop으로 받음
     return (
         <div>
-            <Recipe_update_form recipeId={recipeId} />  {/* recipeId를 Recipe_update_form으로 전달 */}
+            <Recipe_update_form recipeId={recipeId} showUpdateButton={true} />
         </div>
     );
 };

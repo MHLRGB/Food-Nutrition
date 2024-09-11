@@ -73,36 +73,43 @@ public class CommunityService {
 
     public CommunityResponseDTO createCommunity(CommunityRequestDTO communityRequestDTO) {
 
-        // 접속중인 사용자 이름 반환
+        // 접속 중인 사용자 이름 반환
         String author = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        Recipe savedRecipe = null;
-
-        if (communityRequestDTO.getRecipeRequestDTO() != null) {
-            RecipeRequestDTO recipeRequestDTO = communityRequestDTO.getRecipeRequestDTO();
-            savedRecipe = recipeService.createRecipeWithIngredients(
-                    author,
-                    recipeRequestDTO
-            );
-        }
-
-//        Recipe savedRecipe = recipeService.createRecipeWithIngredients(recipeRequestDTO.getTitle(), recipeRequestDTO.getCategory(),recipeRequestDTO.getTitle(), recipeRequestDTO.getIngredients());
-
+        // Community 객체 생성
         Community community = new Community();
         community.setTitle(communityRequestDTO.getTitle());
         community.setAuthor(author);
         community.setContent(communityRequestDTO.getContent());
         community.setCategory(communityRequestDTO.getCategory());
-        community.setRecipe(savedRecipe);
 
-        Community savedcommunity = communityRepository.save(community);
+        Recipe savedRecipe = null; // 저장된 레시피 초기화
 
-        // 사용자 응답 DTO 설정
+        // RecipeRequestDTO가 존재하는 경우에만 레시피 처리
+        if (communityRequestDTO.getRecipeRequestDTO() != null) {
+            RecipeRequestDTO recipeRequestDTO = communityRequestDTO.getRecipeRequestDTO();
+
+            // 레시피를 업데이트하거나 새로 생성하는 로직
+            savedRecipe = recipeService.updateOrCreateRecipe(community, recipeRequestDTO);
+            // community에 recipe를 설정
+            community.setRecipe(savedRecipe);
+        }
+
+        // Community 저장
+        Community savedCommunity = communityRepository.save(community);
+
+        // 사용자에게 반환할 DTO 설정
         CommunityResponseDTO responseDTO = new CommunityResponseDTO();
-        responseDTO.setTitle(savedcommunity.getTitle());
-        responseDTO.setContent(savedcommunity.getContent());
-        responseDTO.setCategory(savedcommunity.getCategory());
-        responseDTO.setRecipeId(savedcommunity.getRecipe().getId());
+        responseDTO.setTitle(savedCommunity.getTitle());
+        responseDTO.setContent(savedCommunity.getContent());
+        responseDTO.setCategory(savedCommunity.getCategory());
+
+        // 레시피가 존재하는 경우에만 recipeId 설정
+        if (savedCommunity.getRecipe() != null) {
+            responseDTO.setRecipeId(savedCommunity.getRecipe().getId());
+        } else {
+            responseDTO.setRecipeId(null);
+        }
 
         return responseDTO;
     }

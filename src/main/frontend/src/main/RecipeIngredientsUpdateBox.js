@@ -1,41 +1,79 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {MainContext} from "./MainContext";
 import recipeImg from "../image/recipe.png";
-import {getRecipeById} from "../apis/Recipe_api";
+import {getRecipeById, updateRecipe} from "../apis/Recipe_api";
+import {RecipeContext} from "../community/RecipeContext";
+import {useNavigate} from "react-router-dom";
 
-const RecipeIngredientsBox = ({recipeId}) => {
-    const [ingredients, setIngredients] = useState([]);
-    const [loading, setLoading] = useState(true);
+const RecipeIngredientsUpdateBox = ({recipeId}) => {
+    const navigate = useNavigate();
+    const {
+        recipeTitle,
+        setRecipeTitle,
+        recipeCategory,
+        setRecipeCategory,
+        recipeIngredients,
+        setRecipeIngredients
+    } = useContext(RecipeContext);
+
     const [error, setError] = useState(null);
-    const [recipe, setRecipe] = useState(null);
-
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-
-        const fetchData = async () => {
+        const fetchRecipe = async () => {
             try {
-                // 레시피 데이터 가져오기
                 const recipeData = await getRecipeById(recipeId);
-                setRecipe(recipeData);
-
-                // 재료 데이터 가져오기
-                setIngredients(recipeData.ingredients || []); // `ingredients` 배열을 설정
+                setRecipeTitle(recipeData.title);
+                setRecipeCategory(recipeData.category);
+                setRecipeIngredients(recipeData.ingredients || []);  // 재료 목록 설정
+                setLoading(false);
             } catch (error) {
-                setError(error);
-            } finally {
+                setError('Failed to load recipe. Please try again.');
+                console.error('Error:', error);
                 setLoading(false);
             }
         };
 
-        // recipeId가 존재하는 경우에만 fetchData 호출
-        if (recipeId !== null) {
-            fetchData();
-        }
-    }, [recipeId]);  // recipeId가 변경될 때마다 실행
+        fetchRecipe();
+    }, [recipeId, setRecipeTitle, setRecipeCategory, setRecipeIngredients]);
 
-    if (recipeId == null) {
-        return <div>등록된 레시피가 없습니다.</div>;
-    }
+    const handleIngredientChange = (index, event) => {
+        const { name, value } = event.target;
+        const newIngredients = [...recipeIngredients];
+
+        if (name === 'ingredientId') {
+            newIngredients[index].ingredientInfo.ingredientsID = value;  // ingredientId 업데이트
+        } else {
+            newIngredients[index][name] = value;  // quantity 등 다른 필드 업데이트
+        }
+
+        setRecipeIngredients(newIngredients);
+    };
+
+    const addIngredient = () => {
+        setRecipeIngredients([
+            ...recipeIngredients,
+            { ingredientInfo: { ingredientsID: '' }, quantity: '' }  // ingredientInfo 추가
+        ]);
+    };
+
+    const removeIngredient = (index) => {
+        const newIngredients = recipeIngredients.filter((_, i) => i !== index);
+        setRecipeIngredients(newIngredients);
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        try {
+            const response = await updateRecipe(recipeId, recipeTitle, recipeCategory, recipeIngredients);  // prop으로 받은 recipeId 사용
+            navigate('/recipe');  // 성공 후 리다이렉트
+            console.log('Success:', response);
+        } catch (error) {
+            setError('Failed to update recipe. Please try again.');
+            console.error('Error:', error);
+        }
+    };
 
     if (loading) {
         return <div>로딩 중...</div>;
@@ -43,10 +81,6 @@ const RecipeIngredientsBox = ({recipeId}) => {
 
     if (error) {
         return <div>Error: {error.message}</div>;
-    }
-
-    if (!recipe) {
-        return <div>레시피를 찾을 수 없습니다.</div>;
     }
 
     return (
@@ -60,13 +94,29 @@ const RecipeIngredientsBox = ({recipeId}) => {
                 {/*        e.target.src = recipeImg;*/}
                 {/*    }}*/}
                 {/*/>*/}
-                    {ingredients.length > 0 ? (
-                        <>
-                            {ingredients.map((item, index) => (
+                <input
+                    type="text"
+                    placeholder="Title"
+                    value={recipeTitle}
+                    onChange={(e) => setRecipeTitle(e.target.value)}
+                    required
+                />
+                <input
+                    type="text"
+                    placeholder="Category"
+                    value={recipeCategory}
+                    onChange={(e) => setRecipeCategory(e.target.value)}
+                    required
+                />
+
+                {recipeIngredients.length > 0 ? (
+                    <>
+                        {recipeIngredients.map((ingredient, index) => (
+                            <>
                                 <IngredientGroup
                                     key={index}
                                     name={item.ingredientInfo.name}
-                                    standard={item.quantity}
+                                    quantity={item.quantity}
                                     calorie={item.ingredientInfo.cal}
                                     sugar={item.ingredientInfo.sugars}
                                     sodium={item.ingredientInfo.sodium}
@@ -74,11 +124,14 @@ const RecipeIngredientsBox = ({recipeId}) => {
                                     carbohydrate={item.ingredientInfo.carbohydrates}
                                     fat={item.ingredientInfo.fat}
                                 />
-                            ))}
-                        </>
-                    ) : (
-                        <p>레시피에 재료가 없습니다.</p>
-                    )}
+                                <button type="button" onClick={() => removeIngredient(index)}>Remove</button>
+                            </>
+                        ))}
+
+                    </>
+                ) : (
+                    <p>레시피에 재료가 없습니다.</p>
+                )}
             </div>
         </div>
     );
@@ -179,4 +232,4 @@ const IngredientGroup = ({name, standard, calorie, sugar, sodium, protein, carbo
     );
 };
 
-export default RecipeIngredientsBox;
+export default RecipeIngredientsUpdateBox;
