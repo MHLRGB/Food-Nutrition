@@ -4,15 +4,20 @@ import '../css/Main.css';
 import axios from 'axios';
 import '../css/imageSlider.css';
 
-import image1 from '../image/slide-1.png';
-import image2 from '../image/slide-2.png';
-import image3 from '../image/slide-3.png';
-import recipeImg from '../image/recipe.png';
+import image1 from '../image/main/slide-1.png';
+import image2 from '../image/main/slide-2.png';
+import image3 from '../image/main/slide-3.png';
+import arrow_back_icon from '../image/main/arrow_back_icon.png';
+import arrow_forward_icon from '../image/main/arrow_forward_icon.png';
+import recipe_title_icon from '../image/main/recipe_title_icon.png';
 
 import Header from '../Header';
 import {MainContext, MainProvider} from "./MainContext";
 import StickyBanner from "./StickyBanner";
 import RecipeIngredientsBox from "./RecipeIngredientsBox";
+import search_icon from "../image/header/search_icon.png";
+import {getAllCommunities} from "../apis/Community_api";
+import {getAllRecipes} from "../apis/Recipe_api";
 
 
 const Main = () => {
@@ -25,16 +30,33 @@ const Main = () => {
         </div>
     );
 };
+
 const Body = () => {
     const recommendedRecipe = [
-        { src: image1, recipeId: [1, 2, 3, 4, 5] },   // 1~5
-        { src: image2, recipeId: [6, 7, 8, 9, 10] },  // 6~10
-        { src: image3, recipeId: [11, 12, 13, 14, 15] } // 11~15
+        { src: image1, recipeId: [1, 2, 3, 4] },   // 1~5
+        { src: image2, recipeId: [5, 6, 7, 8, 9, 10] },  // 6~10
+        { src: image3, recipeId: [11, 12, 13] } // 11~15
     ];
 
     const [sliderIndex, setSliderIndex] = useState(0);
     const [recipeIndex, setRecipeIndex] = useState(recommendedRecipe[0].recipeId[0]);
+    const [recipeTitle, setRecipeTitle] = useState([]);
+
     const { totalIngredients, setTotalIngredients } = useContext(MainContext);
+
+    useEffect(() => {
+        const fetchRecipes = async () => {
+            try {
+                const recipe = await getAllRecipes();
+                setRecipeTitle(recipe);
+
+                console.log("recipeTitle:"+recipeTitle);
+            } catch (error) {
+                console.log("Error:"+error.message);
+            }
+        };
+        fetchRecipes();
+    }, [sliderIndex]);
 
     // 이전 슬라이드로 이동
     const prevSlide = () => {
@@ -58,19 +80,27 @@ const Body = () => {
         setTotalIngredients([]); // 재료 초기화
     };
 
+    const getTitleById = (id) => {
+        const recipe = recipeTitle.find(recipe => recipe.id === id);
+        return recipe ? recipe.title : 'Unknown Recipe';
+    };
+
     return (
         <div className='main_body_container'>
             <div className='body_left'>
                 <div className='body_left_top'>
                     {/* 현재 슬라이더에 표시된 레시피 버튼 생성 */}
                     {recommendedRecipe[sliderIndex].recipeId.map((recipe, index) => (
-                        <button
-                            className='body_left_top_button'
-                            key={index}
-                            onClick={() => handleRecipeClick(recipe)}
-                        >
-                            {recipe}
-                        </button>
+                        <div className="recipe_title_group">
+                            <img className="recipe_title_icon" src={recipe_title_icon} alt="recipe_title_icon" />
+                            <div
+                                className='body_left_top_button'
+                                key={index}
+                                onClick={() => handleRecipeClick(recipe)}
+                            >
+                                {getTitleById(recipe)}
+                            </div>
+                        </div>
                     ))}
                 </div>
             </div>
@@ -78,13 +108,11 @@ const Body = () => {
                 <div className='body_center_top'>
                     <div className='slider'>
                         <button onClick={prevSlide} className='left-arrow'>
-                            ←
+                            <img src={arrow_back_icon} alt="arrow_back" className="arrow_icon"/>
                         </button>
-                        <div className='slider-image'>
-                            <img src={recommendedRecipe[sliderIndex].src} alt={`Slide ${sliderIndex}`} />
-                        </div>
+                            <img className='slider-image' src={recommendedRecipe[sliderIndex].src} alt={`Slide ${sliderIndex}`} />
                         <button onClick={nextSlide} className='right-arrow'>
-                            →
+                            <img src={arrow_forward_icon} alt="arrow_forward" className="arrow_icon"/>
                         </button>
                     </div>
                 </div>

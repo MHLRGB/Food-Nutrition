@@ -53,9 +53,14 @@ export const getAllRecipes = async () => {
 };
 
 export const getRecipeById = async (id) => {
-    console.log("getRecipeById 호출됨")
-    const response = await axios.get(`/api/recipe/${id}`);
-    return response.data;
+    console.log("getRecipeById 호출됨");
+    try {
+        const response = await axios.get(`/api/recipe/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error("API 호출 중 에러 발생:", error);
+        return null; // 에러 발생 시 null 반환
+    }
 };
 
 export const deleteRecipeById = async (id) => {

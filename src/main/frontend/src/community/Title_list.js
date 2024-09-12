@@ -10,7 +10,7 @@ const TitleList = ({ category }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-console.log("category : "+category);
+        console.log("category : "+category);
         const fetchRecipes = async () => {
             try {
             let data;

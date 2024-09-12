@@ -8,16 +8,23 @@ import scrapImg from './image/mypage-scrap.png';
 import documentImg from './image/mypage-document.png';
 import commentImg from './image/mypage-comment.png';
 import profileImg from "./image/profile.png";
+import {MainProvider} from "./main/MainContext";
 
 
 
 const MyPage = () => {
     return (
-        <div>
-            <Header/>
-            <div className="mypage_body">
-                <div className='body_blank_left' />
+        <div className='document'>
+                <Header/>
+                <Body/>
+        </div>
+    );
+};
 
+const Body = () => {
+    return (
+        <div>
+            <div className="mypage_body">
                 <div className="mypage_body_container">
                     <div className="my_page_title">마이페이지</div>
 
@@ -72,7 +79,6 @@ const MyPage = () => {
                     </div>
 
                 </div>
-                <div className='body_blank_right'/>
             </div>
         </div>
     );

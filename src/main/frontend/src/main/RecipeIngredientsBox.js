@@ -6,7 +6,6 @@ import {getIngredientById, getRecipeById} from "../apis/Recipe_api";
 const RecipeIngredientsBox = ({recipeId}) => {
     const [ingredients, setIngredients] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const [recipe, setRecipe] = useState(null);
 
 
@@ -21,7 +20,7 @@ const RecipeIngredientsBox = ({recipeId}) => {
                 // 재료 데이터 가져오기
                 setIngredients(recipeData.ingredientsInfo || []);
             } catch (error) {
-                setError(error);
+                console.log("Error : "+error.message);
             } finally {
                 setLoading(false);
             }
@@ -41,46 +40,42 @@ const RecipeIngredientsBox = ({recipeId}) => {
         return <div>로딩 중...</div>;
     }
 
-    if (error) {
-        return <div>Error: {error.message}</div>;
-    }
-
     if (!recipe) {
         return <div>레시피를 찾을 수 없습니다.</div>;
     }
 
     return (
         <div className='recipe_container'>
-            <div className='recipe_title'>
-                {/*<img*/}
-                {/*    src={}*/}
-                {/*    alt='레시피 이미지'*/}
-                {/*    className='mypage_interaction_image'*/}
-                {/*    onError={(e) => {*/}
-                {/*        e.target.src = recipeImg;*/}
-                {/*    }}*/}
-                {/*/>*/}
-                <h2>{recipe.title}</h2>
-                <h2>{recipe.category}</h2>
-                <h2>{recipe.author}</h2>
-                {ingredients.length > 0 ? (
-                    <>
-                        {ingredients.map((ingredient, index) => (
-                            <IngredientGroup
-                                key={index}
-                                ingredientId={ingredient.ingredientId}
-                                standard={ingredient.quantity}
-                            />
-                        ))}
-                    </>
-                ) : (
-                    <p>레시피에 재료가 없습니다.</p>
-                )}
+            {/*<img*/}
+            {/*    src={}*/}
+            {/*    alt='레시피 이미지'*/}
+            {/*    className='mypage_interaction_image'*/}
+            {/*    onError={(e) => {*/}
+            {/*        e.target.src = recipeImg;*/}
+            {/*    }}*/}
+            {/*/>*/}
+            <div className="recipe_info">
+                <div className="recipe_title">{recipe.title}</div>
+                <div className="recipe_category">카테고리 : {recipe.category}</div>
+                <div className="recipe_author">작성자 : {recipe.author}</div>
             </div>
+            {ingredients.length > 0 ? (
+                <>
+                    {ingredients.map((ingredient, index) => (
+                        <IngredientGroup
+                            key={index}
+                            ingredientId={ingredient.ingredientId}
+                            standard={ingredient.quantity}
+                        />
+                    ))}
+                </>
+            ) : (
+                <p>레시피에 재료가 없습니다.</p>
+            )}
         </div>
     );
 }
-const IngredientGroup = ({ ingredientId, standard }) => {
+const IngredientGroup = ({ingredientId, standard}) => {
     const [currentStandard, setCurrentStandard] = useState(standard || 0); // 기본값 0 설정
     const [ingredient, setIngredient] = useState(null);
 
@@ -172,41 +167,46 @@ const IngredientGroup = ({ ingredientId, standard }) => {
                 <>
                     <div className="ingredient_title">
                         <div className="ingredient_title_text">{ingredient.name}</div>
-                        <input
-                            type="number"
-                            className="ingredient_standard_input"
-                            value={currentStandard}
-                            onChange={handleStandardChange}
-                        />
-                    </div>
 
-                    <div className="ingredient_info">
-                        <div className="ingredient_info_detail">
-                            <div className="ingredient_info_detail_title">칼로리</div>
-                            <div className="ingredient_info_detail_content">{calorieAmount} kcal</div>
-                        </div>
-                        <div className="ingredient_info_detail">
-                            <div className="ingredient_info_detail_title">당류</div>
-                            <div className="ingredient_info_detail_content">{sugarAmount} g</div>
-                        </div>
-                        <div className="ingredient_info_detail">
-                            <div className="ingredient_info_detail_title">나트륨</div>
-                            <div className="ingredient_info_detail_content">{sodiumAmount} mg</div>
+                        <div className="ingredient_standard_input_group">
+                            <input
+                                type="number"
+                                className="ingredient_standard_input"
+                                value={currentStandard}
+                                onChange={handleStandardChange}
+                            />
+                            <div className="ingredient_unit">g</div>
                         </div>
                     </div>
+                    <div className="ingredient_info_group">
+                        <div className="ingredient_info">
+                            <div className="ingredient_info_detail">
+                                <div className="ingredient_info_detail_title">칼로리</div>
+                                <div className="ingredient_info_detail_content">{calorieAmount} kcal</div>
+                            </div>
+                            <div className="ingredient_info_detail">
+                                <div className="ingredient_info_detail_title">당류</div>
+                                <div className="ingredient_info_detail_content">{sugarAmount} g</div>
+                            </div>
+                            <div className="ingredient_info_detail">
+                                <div className="ingredient_info_detail_title">나트륨</div>
+                                <div className="ingredient_info_detail_content">{sodiumAmount} mg</div>
+                            </div>
+                        </div>
 
-                    <div className="ingredient_info">
-                        <div className="ingredient_info_detail">
-                            <div className="ingredient_info_detail_title">단백질</div>
-                            <div className="ingredient_info_detail_content">{proteinAmount} g</div>
-                        </div>
-                        <div className="ingredient_info_detail">
-                            <div className="ingredient_info_detail_title">탄수화물</div>
-                            <div className="ingredient_info_detail_content">{carbohydrateAmount} g</div>
-                        </div>
-                        <div className="ingredient_info_detail">
-                            <div className="ingredient_info_detail_title">지방</div>
-                            <div className="ingredient_info_detail_content">{fatAmount} g</div>
+                        <div className="ingredient_info">
+                            <div className="ingredient_info_detail">
+                                <div className="ingredient_info_detail_title">단백질</div>
+                                <div className="ingredient_info_detail_content">{proteinAmount} g</div>
+                            </div>
+                            <div className="ingredient_info_detail">
+                                <div className="ingredient_info_detail_title">탄수화물</div>
+                                <div className="ingredient_info_detail_content">{carbohydrateAmount} g</div>
+                            </div>
+                            <div className="ingredient_info_detail">
+                                <div className="ingredient_info_detail_title">지방</div>
+                                <div className="ingredient_info_detail_content">{fatAmount} g</div>
+                            </div>
                         </div>
                     </div>
                 </>

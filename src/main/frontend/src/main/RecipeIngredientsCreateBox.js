@@ -57,7 +57,6 @@ const RecipeIngredientsCreateBox = ({showEditButton}) => {
 
     return (
         <div className="recipe_container">
-            <div className="recipe_title">
                 <form onSubmit={handleSubmit}>
                     <input
                         type="text"
@@ -88,7 +87,8 @@ const RecipeIngredientsCreateBox = ({showEditButton}) => {
                         onChange={(e) => setNewIngredientId(e.target.value)}
                     />
                     <button type="button" onClick={handleAddIngredient}>Add Ingredient</button>
-
+                    {showEditButton && <button type="submit">Create Recipe</button>}
+                </form>
                     {recipeIngredients.length > 0 ? (
                         <>
                             {recipeIngredients.map((ingredient, index) => (
@@ -102,9 +102,6 @@ const RecipeIngredientsCreateBox = ({showEditButton}) => {
                     ) : (
                         <p>레시피에 재료가 없습니다.</p>
                     )}
-                    {showEditButton && <button type="submit">Create Recipe</button>}
-                </form>
-            </div>
         </div>
     );
 };
@@ -216,33 +213,35 @@ const IngredientCreateGroup = ({ingredientId, standard, onRemove}) => {
                         />
                         <button type="button" onClick={onRemove}>Remove</button>
                     </div>
-                    <div className="ingredient_info">
-                        <div className="ingredient_info_detail">
-                            <div className="ingredient_info_detail_title">칼로리</div>
-                            <div className="ingredient_info_detail_content">{calorieAmount} kcal</div>
+                    <div className="ingredient_info_group">
+                        <div className="ingredient_info">
+                            <div className="ingredient_info_detail">
+                                <div className="ingredient_info_detail_title">칼로리</div>
+                                <div className="ingredient_info_detail_content">{calorieAmount} kcal</div>
+                            </div>
+                            <div className="ingredient_info_detail">
+                                <div className="ingredient_info_detail_title">당류</div>
+                                <div className="ingredient_info_detail_content">{sugarAmount} g</div>
+                            </div>
+                            <div className="ingredient_info_detail">
+                                <div className="ingredient_info_detail_title">나트륨</div>
+                                <div className="ingredient_info_detail_content">{sodiumAmount} mg</div>
+                            </div>
                         </div>
-                        <div className="ingredient_info_detail">
-                            <div className="ingredient_info_detail_title">당류</div>
-                            <div className="ingredient_info_detail_content">{sugarAmount} g</div>
-                        </div>
-                        <div className="ingredient_info_detail">
-                            <div className="ingredient_info_detail_title">나트륨</div>
-                            <div className="ingredient_info_detail_content">{sodiumAmount} mg</div>
-                        </div>
-                    </div>
 
-                    <div className="ingredient_info">
-                        <div className="ingredient_info_detail">
-                            <div className="ingredient_info_detail_title">단백질</div>
-                            <div className="ingredient_info_detail_content">{proteinAmount} g</div>
-                        </div>
-                        <div className="ingredient_info_detail">
-                            <div className="ingredient_info_detail_title">탄수화물</div>
-                            <div className="ingredient_info_detail_content">{carbohydrateAmount} g</div>
-                        </div>
-                        <div className="ingredient_info_detail">
-                            <div className="ingredient_info_detail_title">지방</div>
-                            <div className="ingredient_info_detail_content">{fatAmount} g</div>
+                        <div className="ingredient_info">
+                            <div className="ingredient_info_detail">
+                                <div className="ingredient_info_detail_title">단백질</div>
+                                <div className="ingredient_info_detail_content">{proteinAmount} g</div>
+                            </div>
+                            <div className="ingredient_info_detail">
+                                <div className="ingredient_info_detail_title">탄수화물</div>
+                                <div className="ingredient_info_detail_content">{carbohydrateAmount} g</div>
+                            </div>
+                            <div className="ingredient_info_detail">
+                                <div className="ingredient_info_detail_title">지방</div>
+                                <div className="ingredient_info_detail_content">{fatAmount} g</div>
+                            </div>
                         </div>
                     </div>
                 </>

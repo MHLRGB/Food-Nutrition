@@ -1,21 +1,33 @@
 .header_main {
+    display: flex;
     width: 100%;
     background-color: white;
-    height: 210px;
+    height: 100px;
+    border-bottom: 2px solid #C4E9CE; /* 얇은 테두리 */
+    box-shadow: 0 0 10px #A0EBB5; /* 흐린 그림자 */
+    position: sticky;
+    top:0;
+    z-index: 1000;
 }
 
+.header_left {
+    display: flex;
+    justify-content: left;
+    width:400px;
+    padding:20px;
+}
 .header_nav {
     display: flex;
     justify-content: space-around;
-    max-width: 800px; /* 예시로 최대 너비를 800px로 설정 */
-    margin: auto; /* 가운데 정렬을 위한 설정 */
+    width: 600px;
+    margin: auto;
 }
 
 .header_nav_circle {
-    display: inline-block;
-    width: 100px;
-    height: 100px;
-    background-color: #C4E9CE ;
+    display: flex;
+    width: 65px;
+    height: 65px;
+    background : linear-gradient(315deg, #A0EBB5 , #C4E9CE, #C4E9CE);
     border-radius: 50%;
     text-align: center;
     line-height: 100px;
@@ -23,25 +35,33 @@
     text-decoration: none;
     color: black;
     font-weight: bold;
+    align-items: center;
+    justify-content: center;
 }
 
 .header_user_container {
-    text-align: right;
-    padding:20px;
+    display: flex;
+    justify-content: right;
+    width:400px;
+    padding : 20px;
+    /*padding-right:30px;*/
+    /*padding-top:20px;*/
 }
 
 .header_user_menu {
-    width: auto;
-    padding:7px;
-    display: inline-block;
+    display: flex;
+    justify-content: center;
     align-items: center;
+    font-size:18px;
+    width: auto;
+    height: auto;
+    padding:7px;
     text-align: center;
-    color: black;
-    margin-bottom: 12px;
+    color: gray;
     text-decoration: none;
     border:none;
-    font-size:16px;
     background-color: transparent;
+
 }
 
 .header_user_menu:hover {
@@ -49,8 +69,39 @@
     cursor: pointer;
 }
 
-.greeting_message {
-    font-size:15px;
-    margin-right: 10px;
-    display: inline-block;
+
+.header_icon {
+    width: 30px;
+    height: 30px;
+    padding:7px;
 }
+
+
+.header_user_info {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin-left:15px;
+    .header_user_name {
+        font-size:20px;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: gray;
+        text-decoration: none;
+        border:none;
+        background-color: transparent;
+        margin-left:10px;
+
+    }
+    .header_user_icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+    }
+}
+

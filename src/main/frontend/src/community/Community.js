@@ -36,7 +36,6 @@ const Body = () => {
 
     return (
             <div className='community_body_container'>
-                <div className='community_Main_body_center'>
                     <div className='community-box'>
                         <div className='community-group'>
                             <Link to='/recipe' className='community-type'>인기 레시피</Link>
@@ -63,7 +62,6 @@ const Body = () => {
                         {/*<div onClick={() => window.location.href = "recipe/write"}>레시피 글쓰기</div>*/}
 
                     </div>
-                </div>
             </div>
     );
 };
