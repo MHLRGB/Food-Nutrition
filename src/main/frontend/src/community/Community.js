@@ -59,8 +59,8 @@ const Body = () => {
                             <Link to='/community/info_tips' className='community-type'>정보/팁</Link>
                         </div>
 
-                        <div onClick={() => window.location.href = "community/write"}>커뮤니티 글쓰기</div>
-                        <div onClick={() => window.location.href = "recipe/write"}>레시피 글쓰기</div>
+                        {/*<div onClick={() => window.location.href = "community/write"}>커뮤니티 글쓰기</div>*/}
+                        {/*<div onClick={() => window.location.href = "recipe/write"}>레시피 글쓰기</div>*/}
 
                     </div>
                 </div>

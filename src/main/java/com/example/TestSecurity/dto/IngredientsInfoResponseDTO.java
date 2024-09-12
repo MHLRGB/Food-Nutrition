@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 public class IngredientsInfoResponseDTO {
 
-    private IngredientResponseDTO ingredientInfo; // IngredientDTO를 포함
+    private Long ingredientId;
     private Double quantity;
 }

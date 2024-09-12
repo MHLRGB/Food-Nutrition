@@ -5,6 +5,7 @@ import Header from '../../Header';
 import IngredientGroup from "../../main/RecipeIngredientsBox";
 import { MainProvider } from "../../main/MainContext";
 import RecipeIngredientsBox from "../../main/RecipeIngredientsBox";
+import StickyBanner from "../../main/StickyBanner";
 
 const Recipe_detail = () => {
     return (
@@ -68,11 +69,11 @@ const Body = () => {
         // IngredientGroup 테스트를 위해 임시로 MainProvider 사용
         <MainProvider>
             <div className='community_board_body_container'>
+                <div className='community_board_body_left'>
+
+                </div>
+
                 <div className='community_board_body_center'>
-                    <h1>{recipe.title}</h1>
-                    <p><strong>Author:</strong> {recipe.author}</p>
-                    <p><strong>Category:</strong> {recipe.category}</p>
-                    <p><strong>Created Date:</strong> {recipe.createdDate}</p>
                     <RecipeIngredientsBox recipeId={recipe.id}/>
 
                     <button
@@ -83,7 +84,10 @@ const Body = () => {
                     </button>
 
                     <div onClick={() => handleNavRecipe(recipe.id)}>수정</div>
+                </div>
 
+                <div className='community_board_body_right'>
+                    <StickyBanner />
                 </div>
             </div>
         </MainProvider>

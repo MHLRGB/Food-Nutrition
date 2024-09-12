@@ -98,7 +98,7 @@ public class RecipeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RecipeIngredientsResponseDTO> getRecipeByIdIG(@PathVariable long id) {
+    public ResponseEntity<RecipeIngredientsResponseDTO> getRecipeById(@PathVariable long id) {
 
         Optional<Recipe> recipe = recipeService.getRecipeById(id);
         if (recipe.isPresent()) {

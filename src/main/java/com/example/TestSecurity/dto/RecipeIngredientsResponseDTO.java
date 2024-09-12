@@ -19,5 +19,5 @@ public class RecipeIngredientsResponseDTO {
     private int likes;
     private LocalDateTime createdDate;
 
-    private List<IngredientsInfoResponseDTO> ingredients;
+    private List<IngredientsInfoResponseDTO> ingredientsInfo;
 }

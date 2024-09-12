@@ -56,7 +56,7 @@ public class SecurityConfig {
                                 "/")
                         .permitAll()
 
-                        .requestMatchers("/community/board/update/*", "/community/board/write", "/recipe/write","recipe/update")
+                        .requestMatchers("/community/board/update/*", "/community/board/write", "/recipe/write","recipe/update/*")
                         .permitAll()
                         //.authenticated()
 
@@ -80,7 +80,7 @@ public class SecurityConfig {
 
                         // 업데이트 권한 설정 필요
                         .requestMatchers( HttpMethod.PUT, "/api/recipe/*", "/api/community/*")
-                        .authenticated()
+                        .permitAll()
 
 
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()

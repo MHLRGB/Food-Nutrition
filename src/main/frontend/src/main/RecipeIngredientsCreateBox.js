@@ -1,96 +1,125 @@
-import React, {useEffect, useState} from "react";
-import {MainContext} from "./MainContext";
-import recipeImg from "../image/recipe.png";
-import {getIngredientById, getRecipeById} from "../apis/Recipe_api";
+import React, {useContext, useEffect, useState} from "react";
+import {createRecipe, getIngredientById, getRecipeById, updateRecipe} from "../apis/Recipe_api";
+import {RecipeContext, RecipeProvider} from "../community/RecipeContext";
+import {MainContext, MainProvider} from "./MainContext";
+import {useNavigate} from "react-router-dom";
 
-const RecipeIngredientsBox = ({recipeId}) => {
-    const [ingredients, setIngredients] = useState([]);
-    const [loading, setLoading] = useState(true);
+const RecipeIngredientsCreateBox = ({showEditButton}) => {
+    const navigate = useNavigate();
+    const {
+        recipeTitle,
+        setRecipeTitle,
+        recipeContent,
+        setRecipeContent,
+        recipeCategory,
+        setRecipeCategory,
+        recipeIngredients,
+        setRecipeIngredients
+    } = useContext(RecipeContext);  // recipeIngredients와 setRecipeIngredients 사용
+
     const [error, setError] = useState(null);
-    const [recipe, setRecipe] = useState(null);
-
+    const [newIngredientId, setNewIngredientId] = useState(""); // State for new ingredient ID
 
     useEffect(() => {
+        setRecipeIngredients([]);
+    }, [setRecipeIngredients]);
 
-        const fetchData = async () => {
-            try {
-                // 레시피 데이터 가져오기
-                const recipeData = await getRecipeById(recipeId);
-                setRecipe(recipeData);
 
-                // 재료 데이터 가져오기
-                setIngredients(recipeData.ingredientsInfo || []);
-            } catch (error) {
-                setError(error);
-            } finally {
-                setLoading(false);
-            }
-        };
+    const handleSubmit = async (event) => {
+        event.preventDefault();
 
-        // recipeId가 존재하는 경우에만 fetchData 호출
-        if (recipeId !== null) {
-            fetchData();
+        try {
+            const response = await createRecipe(recipeTitle, recipeContent, recipeCategory, recipeIngredients);  // prop으로 받은 recipeId 사용
+            navigate('/recipe');  // 성공 후 리다이렉트
+            console.log('Success:', response);
+        } catch (error) {
+            setError('Failed to update recipe. Please try again.');
+            console.error('Error:', error);
         }
-    }, [recipeId]);  // recipeId가 변경될 때마다 실행
+    };
 
-    if (recipeId == null) {
-        return <div>등록된 레시피가 없습니다.</div>;
-    }
+    const handleAddIngredient = () => {
+        if (newIngredientId) {
 
-    if (loading) {
-        return <div>로딩 중...</div>;
-    }
+            setRecipeIngredients([...recipeIngredients, { ingredientId: newIngredientId, quantity: 100 }]);
+            setNewIngredientId(""); // Reset the input
+        }
+    };
+
+    const handleRemoveIngredient = (ingredientIdToRemove) => {
+        setRecipeIngredients(recipeIngredients.filter(ingredient => ingredient.ingredientId !== ingredientIdToRemove));
+    };
 
     if (error) {
         return <div>Error: {error.message}</div>;
     }
 
-    if (!recipe) {
-        return <div>레시피를 찾을 수 없습니다.</div>;
-    }
 
     return (
-        <div className='recipe_container'>
-            <div className='recipe_title'>
-                {/*<img*/}
-                {/*    src={}*/}
-                {/*    alt='레시피 이미지'*/}
-                {/*    className='mypage_interaction_image'*/}
-                {/*    onError={(e) => {*/}
-                {/*        e.target.src = recipeImg;*/}
-                {/*    }}*/}
-                {/*/>*/}
-                <h2>{recipe.title}</h2>
-                <h2>{recipe.category}</h2>
-                <h2>{recipe.author}</h2>
-                {ingredients.length > 0 ? (
-                    <>
-                        {ingredients.map((ingredient, index) => (
-                            <IngredientGroup
-                                key={index}
-                                ingredientId={ingredient.ingredientId}
-                                standard={ingredient.quantity}
-                            />
-                        ))}
-                    </>
-                ) : (
-                    <p>레시피에 재료가 없습니다.</p>
-                )}
+        <div className="recipe_container">
+            <div className="recipe_title">
+                <form onSubmit={handleSubmit}>
+                    <input
+                        type="text"
+                        placeholder="Title"
+                        value={recipeTitle}
+                        onChange={(e) => setRecipeTitle(e.target.value)}
+                        required
+                    />
+                    <input
+                        type="text"
+                        placeholder="Category"
+                        value={recipeCategory}
+                        onChange={(e) => setRecipeCategory(e.target.value)}
+                        required
+                    />
+                    <input
+                        type="text"
+                        placeholder="Content"
+                        value={recipeContent}
+                        onChange={(e) => setRecipeContent(e.target.value)}
+                        required
+                    />
+
+                    <input
+                        type="text"
+                        placeholder="Ingredient ID"
+                        value={newIngredientId}
+                        onChange={(e) => setNewIngredientId(e.target.value)}
+                    />
+                    <button type="button" onClick={handleAddIngredient}>Add Ingredient</button>
+
+                    {recipeIngredients.length > 0 ? (
+                        <>
+                            {recipeIngredients.map((ingredient, index) => (
+                                <IngredientCreateGroup
+                                    ingredientId={ingredient.ingredientId}
+                                    standard={ingredient.quantity}
+                                    onRemove={() => handleRemoveIngredient(ingredient.ingredientId)}
+                                />
+                            ))}
+                        </>
+                    ) : (
+                        <p>레시피에 재료가 없습니다.</p>
+                    )}
+                    {showEditButton && <button type="submit">Create Recipe</button>}
+                </form>
             </div>
         </div>
     );
-}
-const IngredientGroup = ({ ingredientId, standard }) => {
-    const [currentStandard, setCurrentStandard] = useState(standard || 0); // 기본값 0 설정
+};
+
+const IngredientCreateGroup = ({ingredientId, standard, onRemove}) => {
+
+    const [currentStandard, setCurrentStandard] = useState(standard || 0);  // 값이 없으면 0으로 설정
     const [ingredient, setIngredient] = useState(null);
+
+    const {recipeIngredients, setRecipeIngredients} = useContext(RecipeContext);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // 재료 데이터 가져오기
                 const ingredientData = await getIngredientById(ingredientId);
-
-                // ingredientData로부터 필요한 데이터 설정
                 setIngredient({
                     name: ingredientData.name,
                     calorie: ingredientData.cal,
@@ -100,6 +129,7 @@ const IngredientGroup = ({ ingredientId, standard }) => {
                     carbohydrates: ingredientData.carbohydrates,
                     fat: ingredientData.fat,
                 });
+
             } catch (error) {
                 console.error("Error fetching ingredient:", error);
             }
@@ -126,12 +156,18 @@ const IngredientGroup = ({ ingredientId, standard }) => {
     }, [currentStandard, ingredient]);
 
     const handleStandardChange = (e) => {
-        setCurrentStandard(parseInt(e.target.value) || 0);  // 값이 없으면 0으로 설정
+        const newQuantity = parseInt(e.target.value) || 0;  // 값이 없으면 0으로 설정
+        setCurrentStandard(newQuantity);
+
+        // Update the quantity in recipeIngredients
+        const updatedIngredients = recipeIngredients.map((ing) =>
+            ing.ingredientId === ingredientId ? { ...ing, quantity: newQuantity } : ing
+        );
+        setRecipeIngredients(updatedIngredients);
     };
 
     const calculateTotalIngredient = () => {
-        // currentStandard가 유효하지 않으면 0을 기본값으로 사용
-        const validStandard = currentStandard || 0;
+        const validStandard = currentStandard || 0;  // 값이 없으면 0으로 설정
 
         const newCalorieAmount = Math.round(ingredient.calorie * (validStandard / 100));
         const newSugarAmount = Math.round(ingredient.sugar * (validStandard / 100));
@@ -178,8 +214,8 @@ const IngredientGroup = ({ ingredientId, standard }) => {
                             value={currentStandard}
                             onChange={handleStandardChange}
                         />
+                        <button type="button" onClick={onRemove}>Remove</button>
                     </div>
-
                     <div className="ingredient_info">
                         <div className="ingredient_info_detail">
                             <div className="ingredient_info_detail_title">칼로리</div>
@@ -215,4 +251,4 @@ const IngredientGroup = ({ ingredientId, standard }) => {
     );
 };
 
-export default RecipeIngredientsBox;
+export default RecipeIngredientsCreateBox;

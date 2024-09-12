@@ -86,7 +86,9 @@ public class RecipeService {
         Recipe recipe = new Recipe();
         recipe.setTitle(recipeRequestDTO.getTitle());
         recipe.setAuthor(author);
+        recipe.setContent(recipeRequestDTO.getContent());
         recipe.setCategory(recipeRequestDTO.getCategory());
+        recipe.setViews(0);
 
         Recipe savedRecipe = recipeRepository.save(recipe);
 
@@ -173,6 +175,7 @@ public class RecipeService {
 
         // 레시피 정보 생성 or 업데이트
         recipe.setTitle(recipeRequestDTO.getTitle());
+        recipe.setContent(recipeRequestDTO.getContent());
         recipe.setCategory(recipeRequestDTO.getCategory());
 
         // 레시피 저장
@@ -293,29 +296,16 @@ public class RecipeService {
                     // IngredientsInfoResponseDTO 객체 생성
                     IngredientsInfoResponseDTO ingredientsInfoResponseDTO = new IngredientsInfoResponseDTO();
 
-                    // IngredientResponseDTO 객체 생성
-                    IngredientResponseDTO ingredientResponseDTO = new IngredientResponseDTO();
-                    Ingredients ingredient = recipeIngredient.getIngredient();
-
-                    // IngredientResponseDTO 필드 설정
-                    ingredientResponseDTO.setIngredientsID(ingredient.getId());
-                    ingredientResponseDTO.setName(ingredient.getFoodName());
-                    ingredientResponseDTO.setCal(ingredient.getEnergyKcal());
-                    ingredientResponseDTO.setCarbohydrates(ingredient.getCarbohydrateG());
-                    ingredientResponseDTO.setSugars(ingredient.getSugarG());
-                    ingredientResponseDTO.setProtein(ingredient.getProteinG());
-                    ingredientResponseDTO.setFat(ingredient.getFatG());
-                    ingredientResponseDTO.setSodium(ingredient.getSodiumMg());
-
                     // IngredientsInfoResponseDTO 필드 설정
-                    ingredientsInfoResponseDTO.setIngredientInfo(ingredientResponseDTO);
+                    ingredientsInfoResponseDTO.setIngredientId(recipeIngredient.getId().getIngredientId());
+//                    ingredientsInfoResponseDTO.setIngredientInfo(ingredientResponseDTO);
                     ingredientsInfoResponseDTO.setQuantity(recipeIngredient.getQuantity());
 
                     return ingredientsInfoResponseDTO;
                 })
                 .collect(Collectors.toList());
 
-        recipeIngredientsResponseDTO.setIngredients(IngredientsInfoResponseDTOs);
+        recipeIngredientsResponseDTO.setIngredientsInfo(IngredientsInfoResponseDTOs);
 
         return recipeIngredientsResponseDTO;
     }

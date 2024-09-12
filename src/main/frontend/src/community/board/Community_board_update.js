@@ -4,8 +4,9 @@ import Header from '../../Header';
 import { MainProvider } from "../../main/MainContext";
 import { getBoardById, updateCommunity, deleteCommunityById } from "../../apis/Community_api";
 import { RecipeContext, RecipeProvider } from "../RecipeContext";
-import Recipe_update_form from "../recipe/Recipe_update_form"; // 수정 API 호출 함수 추가
-import Recipe_write_form from "../recipe/Recipe_write_form"; // 레시피 추가 폼
+import RecipeIngredientsUpdateBox from "../../main/RecipeIngredientsUpdateBox";
+import RecipeIngredientsCreateBox from "../../main/RecipeIngredientsCreateBox";
+import StickyBanner from "../../main/StickyBanner"; // 레시피 추가 폼
 
 const Community_board_detail = () => {
     return (
@@ -30,7 +31,7 @@ const Body = () => {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    const { recipeTitle, recipeCategory, recipeIngredients } = useContext(RecipeContext);
+    const { recipeTitle, recipeContent, recipeCategory, recipeIngredients } = useContext(RecipeContext);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -54,7 +55,7 @@ const Body = () => {
         event.preventDefault();
 
         try {
-            const response = await updateCommunity(id, title, content, category, recipeTitle, recipeCategory, recipeIngredients);
+            const response = await updateCommunity(id, title, content, category, recipeTitle, recipeContent, recipeCategory, recipeIngredients);
             navigate('/community');
             console.log('Success:', response);
         } catch (error) {
@@ -87,6 +88,9 @@ const Body = () => {
     return (
         <MainProvider>
             <div className='community_board_body_container'>
+                <div className='community_board_body_left'>
+
+                </div>
                 <div className='community_board_body_center'>
                     <form onSubmit={handleSubmit}>
                         <input
@@ -117,12 +121,15 @@ const Body = () => {
                                 {showRecipeForm ? "Hide Recipe Form" : "레시피 추가"}
                             </button>
 
-                            {showRecipeForm && <Recipe_write_form />}
+                            {showRecipeForm && <RecipeIngredientsCreateBox showEditButton={false}/>}
                         </>
                     ) : (
                         // recipeId가 있으면 Recipe_update_form 표시
-                        <Recipe_update_form recipeId={recipeId} showUpdateButton={false}/>
+                        <RecipeIngredientsUpdateBox recipeId={recipeId} showEditButton={false}/>
                     )}
+                </div>
+                <div className='community_board_body_right'>
+                    {recipeId && <StickyBanner/>}
                 </div>
             </div>
         </MainProvider>

@@ -4,6 +4,7 @@ import Header from '../../Header';
 import { MainProvider } from "../../main/MainContext";
 import RecipeIngredientsBox from "../../main/RecipeIngredientsBox";
 import { deleteCommunityById, getBoardById } from "../../apis/Community_api";
+import StickyBanner from "../../main/StickyBanner";
 
 const Community_board_detail = () => {
     return (
@@ -61,6 +62,9 @@ const Body = () => {
     return (
         <MainProvider>
             <div className='community_board_body_container'>
+                <div className='community_board_body_left'>
+
+                </div>
                 <div className='community_board_body_center'>
                     <h1>{board.title}</h1>
                     <p><strong>Author:</strong> {board.author}</p>
@@ -76,7 +80,10 @@ const Body = () => {
 
                     <div onClick={() => handleNavUpdate(board.id)}>수정</div>
 
-                    {board.recipeId && <RecipeIngredientsBox recipeId={board.recipeId} />}
+                    {board.recipeId && <RecipeIngredientsBox recipeId={board.recipeId}/>}
+                </div>
+                <div className='community_board_body_right'>
+                    {board.recipeId && <StickyBanner/>}
                 </div>
             </div>
         </MainProvider>

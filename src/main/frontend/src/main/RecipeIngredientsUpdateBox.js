@@ -1,11 +1,10 @@
 import React, {useContext, useEffect, useState} from "react";
-import {MainContext} from "./MainContext";
-import recipeImg from "../image/recipe.png";
-import {getRecipeById, updateRecipe} from "../apis/Recipe_api";
-import {RecipeContext} from "../community/RecipeContext";
+import {getIngredientById, getRecipeById, updateRecipe} from "../apis/Recipe_api";
+import {RecipeContext, RecipeProvider} from "../community/RecipeContext";
+import {MainContext, MainProvider} from "./MainContext";
 import {useNavigate} from "react-router-dom";
 
-const RecipeIngredientsUpdateBox = ({recipeId}) => {
+const RecipeIngredientsUpdateBox = ({ recipeId, showEditButton }) => {
     const navigate = useNavigate();
     const {
         recipeTitle,
@@ -14,53 +13,34 @@ const RecipeIngredientsUpdateBox = ({recipeId}) => {
         setRecipeCategory,
         recipeIngredients,
         setRecipeIngredients
-    } = useContext(RecipeContext);
+    } = useContext(RecipeContext);  // recipeIngredients와 setRecipeIngredients 사용
 
     const [error, setError] = useState(null);
+    const [recipe, setRecipe] = useState(null);
+    const [newIngredientId, setNewIngredientId] = useState(""); // State for new ingredient ID
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchRecipe = async () => {
+        const fetchData = async () => {
             try {
+                // Fetch recipe data
                 const recipeData = await getRecipeById(recipeId);
+                setRecipe(recipeData);
                 setRecipeTitle(recipeData.title);
                 setRecipeCategory(recipeData.category);
-                setRecipeIngredients(recipeData.ingredients || []);  // 재료 목록 설정
-                setLoading(false);
+                // Fetch ingredients data
+                setRecipeIngredients(recipeData.ingredientsInfo || []);  // recipeIngredients에 설정
             } catch (error) {
-                setError('Failed to load recipe. Please try again.');
-                console.error('Error:', error);
+                setError(error);
+            } finally {
                 setLoading(false);
             }
         };
 
-        fetchRecipe();
-    }, [recipeId, setRecipeTitle, setRecipeCategory, setRecipeIngredients]);
-
-    const handleIngredientChange = (index, event) => {
-        const { name, value } = event.target;
-        const newIngredients = [...recipeIngredients];
-
-        if (name === 'ingredientId') {
-            newIngredients[index].ingredientInfo.ingredientsID = value;  // ingredientId 업데이트
-        } else {
-            newIngredients[index][name] = value;  // quantity 등 다른 필드 업데이트
+        if (recipeId !== null) {
+            fetchData();
         }
-
-        setRecipeIngredients(newIngredients);
-    };
-
-    const addIngredient = () => {
-        setRecipeIngredients([
-            ...recipeIngredients,
-            { ingredientInfo: { ingredientsID: '' }, quantity: '' }  // ingredientInfo 추가
-        ]);
-    };
-
-    const removeIngredient = (index) => {
-        const newIngredients = recipeIngredients.filter((_, i) => i !== index);
-        setRecipeIngredients(newIngredients);
-    };
+    }, [recipeId, setRecipeIngredients]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -75,6 +55,18 @@ const RecipeIngredientsUpdateBox = ({recipeId}) => {
         }
     };
 
+    const handleAddIngredient = () => {
+        if (newIngredientId) {
+
+            setRecipeIngredients([...recipeIngredients, { ingredientId: newIngredientId, quantity: 100 }]);
+            setNewIngredientId(""); // Reset the input
+        }
+    };
+
+    const handleRemoveIngredient = (ingredientIdToRemove) => {
+        setRecipeIngredients(recipeIngredients.filter(ingredient => ingredient.ingredientId !== ingredientIdToRemove));
+    };
+
     if (loading) {
         return <div>로딩 중...</div>;
     }
@@ -83,91 +75,126 @@ const RecipeIngredientsUpdateBox = ({recipeId}) => {
         return <div>Error: {error.message}</div>;
     }
 
+    if (!recipe) {
+        return <div>레시피를 찾을 수 없습니다.</div>;
+    }
+
     return (
-        <div className='recipe_container'>
-            <div className='recipe_title'>
-                {/*<img*/}
-                {/*    src={}*/}
-                {/*    alt='레시피 이미지'*/}
-                {/*    className='mypage_interaction_image'*/}
-                {/*    onError={(e) => {*/}
-                {/*        e.target.src = recipeImg;*/}
-                {/*    }}*/}
-                {/*/>*/}
-                <input
-                    type="text"
-                    placeholder="Title"
-                    value={recipeTitle}
-                    onChange={(e) => setRecipeTitle(e.target.value)}
-                    required
-                />
-                <input
-                    type="text"
-                    placeholder="Category"
-                    value={recipeCategory}
-                    onChange={(e) => setRecipeCategory(e.target.value)}
-                    required
-                />
+        <div className="recipe_container">
+            <div className="recipe_title">
+                <form onSubmit={handleSubmit}>
+                    <input
+                        type="text"
+                        placeholder="Title"
+                        value={recipeTitle}
+                        onChange={(e) => setRecipeTitle(e.target.value)}
+                        required
+                    />
+                    <input
+                        type="text"
+                        placeholder="Category"
+                        value={recipeCategory}
+                        onChange={(e) => setRecipeCategory(e.target.value)}
+                        required
+                    />
+                    <input
+                        type="text"
+                        placeholder="Ingredient ID"
+                        value={newIngredientId}
+                        onChange={(e) => setNewIngredientId(e.target.value)}
+                    />
+                    <button type="button" onClick={handleAddIngredient}>Add Ingredient</button>
 
-                {recipeIngredients.length > 0 ? (
-                    <>
-                        {recipeIngredients.map((ingredient, index) => (
-                            <>
-                                <IngredientGroup
-                                    key={index}
-                                    name={item.ingredientInfo.name}
-                                    quantity={item.quantity}
-                                    calorie={item.ingredientInfo.cal}
-                                    sugar={item.ingredientInfo.sugars}
-                                    sodium={item.ingredientInfo.sodium}
-                                    protein={item.ingredientInfo.protein}
-                                    carbohydrate={item.ingredientInfo.carbohydrates}
-                                    fat={item.ingredientInfo.fat}
+                    {recipeIngredients.length > 0 ? (
+                        <>
+                            {recipeIngredients.map((ingredient, index) => (
+                                <IngredientUpdateGroup
+                                    ingredientId={ingredient.ingredientId}
+                                    standard={ingredient.quantity}
+                                    onRemove={() => handleRemoveIngredient(ingredient.ingredientId)}
                                 />
-                                <button type="button" onClick={() => removeIngredient(index)}>Remove</button>
-                            </>
-                        ))}
-
-                    </>
-                ) : (
-                    <p>레시피에 재료가 없습니다.</p>
-                )}
+                            ))}
+                        </>
+                    ) : (
+                        <p>레시피에 재료가 없습니다.</p>
+                    )}
+                    {showEditButton && <button type="submit">Update Recipe</button>}
+                </form>
             </div>
         </div>
     );
-}
-const IngredientGroup = ({name, standard, calorie, sugar, sodium, protein, carbohydrate, fat}) => {
+};
 
-    const {totalIngredients, setTotalIngredients} = React.useContext(MainContext);
-    const [currentStandard, setCurrentStandard] = useState(parseInt(standard));
-    const [calorieAmount, setCalorieAmount] = useState(Math.round(calorie * parseInt(standard)));
-    const [sugarAmount, setSugarAmount] = useState(Math.round(sugar * parseInt(standard)));
-    const [sodiumAmount, setSodiumAmount] = useState(Math.round(sodium * parseInt(standard)));
-    const [proteinAmount, setProteinAmount] = useState(Math.round(protein * parseInt(standard)));
-    const [carbohydrateAmount, setCarbohydrateAmount] = useState(Math.round(carbohydrate * parseInt(standard)));
-    const [fatAmount, setFatAmount] = useState(Math.round(fat * parseInt(standard)));
+const IngredientUpdateGroup = ({
+    ingredientId, standard, onRemove
+}) => {
 
-    const handleStandardChange = (e) => {
-        setCurrentStandard(parseInt(e.target.value));
-    };
+    const [currentStandard, setCurrentStandard] = useState(standard || 0);  // 값이 없으면 0으로 설정
+    const [ingredient, setIngredient] = useState(null);
+
+    const {recipeIngredients, setRecipeIngredients} = useContext(RecipeContext);
 
     useEffect(() => {
-        calculateTotalIngredient();
-    }, [currentStandard]);
+        const fetchData = async () => {
+            try {
+                const ingredientData = await getIngredientById(ingredientId);
+                setIngredient({
+                    name: ingredientData.name,
+                    calorie: ingredientData.cal,
+                    sugar: ingredientData.sugars,
+                    sodium: ingredientData.sodium,
+                    protein: ingredientData.protein,
+                    carbohydrates: ingredientData.carbohydrates,
+                    fat: ingredientData.fat,
+                });
+
+            } catch (error) {
+                console.error("Error fetching ingredient:", error);
+            }
+        };
+        fetchData();
+    }, [ingredientId]);
+
+    // 총 재료 값들을 컨텍스트에서 가져오기
+    const { totalIngredients, setTotalIngredients } = React.useContext(MainContext);
+
+    // 영양소별 상태값
+    const [calorieAmount, setCalorieAmount] = useState(0);
+    const [sugarAmount, setSugarAmount] = useState(0);
+    const [sodiumAmount, setSodiumAmount] = useState(0);
+    const [proteinAmount, setProteinAmount] = useState(0);
+    const [carbohydrateAmount, setCarbohydrateAmount] = useState(0);
+    const [fatAmount, setFatAmount] = useState(0);
+
+    // 기준이 변경되면 영양소 재계산
+    useEffect(() => {
+        if (ingredient) {
+            calculateTotalIngredient();
+        }
+    }, [currentStandard, ingredient]);
+
+    const handleStandardChange = (e) => {
+        const newQuantity = parseInt(e.target.value) || 0;  // 값이 없으면 0으로 설정
+        setCurrentStandard(newQuantity);
+
+        // Update the quantity in recipeIngredients
+        const updatedIngredients = recipeIngredients.map((ing) =>
+            ing.ingredientId === ingredientId ? { ...ing, quantity: newQuantity } : ing
+        );
+        setRecipeIngredients(updatedIngredients);
+    };
 
     const calculateTotalIngredient = () => {
-        // Remove the previous ingredient entry for this ingredient
-        setTotalIngredients(prevIngredients =>
-            prevIngredients.filter(ingredient => ingredient.name !== name)
-        );
+        const validStandard = currentStandard || 0;  // 값이 없으면 0으로 설정
 
-        const newCalorieAmount = Math.round(calorie * (currentStandard/100));
-        const newSugarAmount = Math.round(sugar * (currentStandard/100));
-        const newSodiumAmount = Math.round(sodium * (currentStandard/100));
-        const newProteinAmount = Math.round(protein * (currentStandard/100));
-        const newCarbohydrateAmount = Math.round(carbohydrate * (currentStandard/100));
-        const newFatAmount = Math.round(fat * (currentStandard/100));
+        const newCalorieAmount = Math.round(ingredient.calorie * (validStandard / 100));
+        const newSugarAmount = Math.round(ingredient.sugar * (validStandard / 100));
+        const newSodiumAmount = Math.round(ingredient.sodium * (validStandard / 100));
+        const newProteinAmount = Math.round(ingredient.protein * (validStandard / 100));
+        const newCarbohydrateAmount = Math.round(ingredient.carbohydrates * (validStandard / 100));
+        const newFatAmount = Math.round(ingredient.fat * (validStandard / 100));
 
+        // 상태값 업데이트
         setCalorieAmount(newCalorieAmount);
         setSugarAmount(newSugarAmount);
         setSodiumAmount(newSodiumAmount);
@@ -175,59 +202,69 @@ const IngredientGroup = ({name, standard, calorie, sugar, sodium, protein, carbo
         setCarbohydrateAmount(newCarbohydrateAmount);
         setFatAmount(newFatAmount);
 
-        const ingredient = {
-            name,
+        // 기존 재료 정보를 삭제하고 새로운 재료 정보를 추가
+        setTotalIngredients((prevIngredients) =>
+            prevIngredients.filter((ing) => ing.name !== ingredient.name)
+        );
+
+        const newIngredient = {
+            name: ingredient.name,
             calorie: newCalorieAmount,
             sugar: newSugarAmount,
             sodium: newSodiumAmount,
             protein: newProteinAmount,
             carbohydrate: newCarbohydrateAmount,
-            fat: newFatAmount
+            fat: newFatAmount,
         };
 
-        // Add the new ingredient entry
-        setTotalIngredients(prevIngredients => [...prevIngredients, ingredient]);
+        setTotalIngredients((prevIngredients) => [...prevIngredients, newIngredient]);
     };
 
     return (
-        <div className='ingredient_group'>
-            <div className='ingredient_title'>
-                <div className='ingredient_title_text'>{name}</div>
-                <input
-                    type='number'
-                    className='ingredient_standard_input'
-                    value={currentStandard}
-                    onChange={handleStandardChange}
-                />
-            </div>
-            <div className='ingredient_info'>
-                <div className='ingredient_info_detail'>
-                    <div className='ingredient_info_detail_title'>칼로리</div>
-                    <div className='ingredient_info_detail_content'>{calorieAmount}</div>
-                </div>
-                <div className='ingredient_info_detail'>
-                    <div className='ingredient_info_detail_title'>당류</div>
-                    <div className='ingredient_info_detail_content'>{sugarAmount}</div>
-                </div>
-                <div className='ingredient_info_detail'>
-                    <div className='ingredient_info_detail_title'>나트륨</div>
-                    <div className='ingredient_info_detail_content'>{sodiumAmount}</div>
-                </div>
-            </div>
-            <div className='ingredient_info'>
-                <div className='ingredient_info_detail'>
-                    <div className='ingredient_info_detail_title'>단백질</div>
-                    <div className='ingredient_info_detail_content'>{proteinAmount}</div>
-                </div>
-                <div className='ingredient_info_detail'>
-                    <div className='ingredient_info_detail_title'>탄수화물</div>
-                    <div className='ingredient_info_detail_content'>{carbohydrateAmount}</div>
-                </div>
-                <div className='ingredient_info_detail'>
-                    <div className='ingredient_info_detail_title'>지방</div>
-                    <div className='ingredient_info_detail_content'>{fatAmount}</div>
-                </div>
-            </div>
+        <div className="ingredient_group">
+            {ingredient && (
+                <>
+                    <div className="ingredient_title">
+                        <div className="ingredient_title_text">{ingredient.name}</div>
+                        <input
+                            type="number"
+                            className="ingredient_standard_input"
+                            value={currentStandard}
+                            onChange={handleStandardChange}
+                        />
+                        <button type="button" onClick={onRemove}>Remove</button>
+                    </div>
+                    <div className="ingredient_info">
+                        <div className="ingredient_info_detail">
+                            <div className="ingredient_info_detail_title">칼로리</div>
+                            <div className="ingredient_info_detail_content">{calorieAmount} kcal</div>
+                        </div>
+                        <div className="ingredient_info_detail">
+                            <div className="ingredient_info_detail_title">당류</div>
+                            <div className="ingredient_info_detail_content">{sugarAmount} g</div>
+                        </div>
+                        <div className="ingredient_info_detail">
+                            <div className="ingredient_info_detail_title">나트륨</div>
+                            <div className="ingredient_info_detail_content">{sodiumAmount} mg</div>
+                        </div>
+                    </div>
+
+                    <div className="ingredient_info">
+                        <div className="ingredient_info_detail">
+                            <div className="ingredient_info_detail_title">단백질</div>
+                            <div className="ingredient_info_detail_content">{proteinAmount} g</div>
+                        </div>
+                        <div className="ingredient_info_detail">
+                            <div className="ingredient_info_detail_title">탄수화물</div>
+                            <div className="ingredient_info_detail_content">{carbohydrateAmount} g</div>
+                        </div>
+                        <div className="ingredient_info_detail">
+                            <div className="ingredient_info_detail_title">지방</div>
+                            <div className="ingredient_info_detail_content">{fatAmount} g</div>
+                        </div>
+                    </div>
+                </>
+            )}
         </div>
     );
 };

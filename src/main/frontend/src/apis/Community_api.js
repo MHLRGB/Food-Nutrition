@@ -3,12 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import {nowUserInfo} from "./User_api";
 
 
-export const createCommunity = async (title, content, category, recipeTitle, recipeCategory, recipeIngredients) => {
+export const createCommunity = async (title, content, category, recipeTitle, recipeContent, recipeCategory, recipeIngredients) => {
     // recipeTitle, recipeCategory, recipeIngredients 중 하나라도 없으면 recipeRequestDTO를 null로 설정
     const hasRecipeDetails = recipeTitle && recipeCategory && recipeIngredients && recipeIngredients.length > 0;
 
     const recipeRequestDTO = hasRecipeDetails ? {
         title: recipeTitle,
+        content: recipeContent,
         category: recipeCategory,
         ingredients: recipeIngredients.map(ingredient => ({
             ingredientId: ingredient.ingredientId || null,
@@ -37,7 +38,7 @@ export const createCommunity = async (title, content, category, recipeTitle, rec
 };
 
 
-export const updateCommunity = async (id, title, content, category, recipeTitle, recipeCategory, recipeIngredients) => {
+export const updateCommunity = async (id, title, content, category, recipeTitle, recipeContent, recipeCategory, recipeIngredients) => {
 
     // const userdata = await nowUserInfo();
     //
@@ -51,14 +52,17 @@ export const updateCommunity = async (id, title, content, category, recipeTitle,
     console.log("레시피 카테고리 : " , recipeCategory);
     console.log("레시피 재료 : " , recipeIngredients);
 
-    const recipeRequestDTO = {
-        title: recipeTitle || null,
-        category: recipeCategory || null,
-        ingredients: recipeIngredients && recipeIngredients.length > 0 ? recipeIngredients.map(ingredient => ({
+    const hasRecipeDetails = recipeTitle && recipeCategory && recipeIngredients && recipeIngredients.length > 0;
+
+    const recipeRequestDTO = hasRecipeDetails ? {
+        title: recipeTitle,
+        content: recipeContent,
+        category: recipeCategory,
+        ingredients: recipeIngredients.map(ingredient => ({
             ingredientId: ingredient.ingredientId || null,
             quantity: ingredient.quantity || 0
-        })) : null
-    };
+        }))
+    } : null;
 
     const requestDTO = {
         title: title,

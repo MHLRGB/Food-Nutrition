@@ -5,6 +5,8 @@ import { RecipeProvider } from '../RecipeContext';
 import Recipe_write_form from './Recipe_write_form';
 import { useContext } from 'react';
 import { RecipeContext } from '../RecipeContext';
+import RecipeIngredientsCreateBox from "../../main/RecipeIngredientsCreateBox";
+import {MainProvider} from "../../main/MainContext";
 
 const Recipe_write = () => {
     return (
@@ -21,24 +23,16 @@ const Body = () => {
     const { recipeTitle, recipeCategory, recipeIngredients } = useContext(RecipeContext);
 
     return (
-        <div className='community_board_body_container'>
-            <div className='community_board_body_center'>
-                <div>
-                    <h2>Current Recipe Information</h2>
-                    <p>Title: {recipeTitle}</p>
-                    <p>Category: {recipeCategory}</p>
-                    <h3>Ingredients:</h3>
-                    <ul>
-                        {recipeIngredients.map((ingredient, index) => (
-                            <li key={index}>
-                                ID: {ingredient.ingredientId}, Quantity: {ingredient.quantity}
-                            </li>
-                        ))}
-                    </ul>
+        <MainProvider>
+            <div className='community_board_body_container'>
+                <div className='community_board_body_center'>
+                    <div>
+                        <RecipeIngredientsCreateBox showEditButton={true}/>
+                    </div>
+
                 </div>
-                <Recipe_write_form />
             </div>
-        </div>
+        </MainProvider>
     );
 };
 

@@ -23,10 +23,11 @@ import axios from "axios";
 // };
 
 
-export const createRecipe = async (title, category, ingredients) => {
+export const createRecipe = async (title, content, category, ingredients) => {
     const requestDTO = {
         title: title,
         category: category,
+        content: content,
         ingredients: ingredients.map(ingredient => ({
             ingredientId: ingredient.ingredientId,
             quantity: ingredient.quantity
@@ -75,7 +76,7 @@ export const updateRecipe = async (id, recipeTitle, recipeCategory, recipeIngred
         title: recipeTitle || null,
         category: recipeCategory || null,
         ingredients: recipeIngredients && recipeIngredients.length > 0 ? recipeIngredients.map(ingredient => ({
-            ingredientId: ingredient.ingredientInfo.ingredientsID || null,
+            ingredientId: ingredient.ingredientId || null,
             quantity: ingredient.quantity || 0
         })) : []
     };

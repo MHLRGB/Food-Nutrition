@@ -25,47 +25,50 @@ const Main = () => {
         </div>
     );
 };
-
 const Body = () => {
-    const images = [
-        { src: image1, recipes: ['불고기','팬케이크', '김치찌개', '잡채', '된장찌개'] },
-        { src: image2, recipes: ['마르게리타 피자', '미소 된장국', '타코', '불고기', '초밥', '티라미수'] },
-        { src: image3, recipes: ['비빔밥', '시저 샐러드', '케이크', '갈릭 브레드', '스테이크'] }
+    const recommendedRecipe = [
+        { src: image1, recipeId: [1, 2, 3, 4, 5] },   // 1~5
+        { src: image2, recipeId: [6, 7, 8, 9, 10] },  // 6~10
+        { src: image3, recipeId: [11, 12, 13, 14, 15] } // 11~15
     ];
 
     const [sliderIndex, setSliderIndex] = useState(0);
-    const [recipeIndex, setRecipeIndex] = useState(images[0].recipes[0]);
-    const {totalIngredients, setTotalIngredients} = useContext(MainContext);
+    const [recipeIndex, setRecipeIndex] = useState(recommendedRecipe[0].recipeId[0]);
+    const { totalIngredients, setTotalIngredients } = useContext(MainContext);
 
-    // setTotalIngredients(prevIngredients =>
-    //     prevIngredients.filter(ingredient => ingredient.name !== name)
-    // );
-
+    // 이전 슬라이드로 이동
     const prevSlide = () => {
-        const newIndex = sliderIndex === 0 ? images.length - 1 : sliderIndex - 1;
+        const newIndex = sliderIndex === 0 ? recommendedRecipe.length - 1 : sliderIndex - 1;
         setSliderIndex(newIndex);
-        setRecipeIndex(images[newIndex].recipes[0]);
-        setTotalIngredients([]);
+        setRecipeIndex(recommendedRecipe[newIndex].recipeId[0]);
+        setTotalIngredients([]); // 재료 초기화
     };
 
+    // 다음 슬라이드로 이동
     const nextSlide = () => {
-        const newIndex = sliderIndex === images.length - 1 ? 0 : sliderIndex + 1;
+        const newIndex = sliderIndex === recommendedRecipe.length - 1 ? 0 : sliderIndex + 1;
         setSliderIndex(newIndex);
-        setRecipeIndex(images[newIndex].recipes[0]);
-        setTotalIngredients([]);
+        setRecipeIndex(recommendedRecipe[newIndex].recipeId[0]);
+        setTotalIngredients([]); // 재료 초기화
     };
 
-    const handleRecipeClick = (recipe) => {
-        setRecipeIndex(recipe);
-        setTotalIngredients([]);
+    // 레시피 클릭 시 해당 레시피로 이동
+    const handleRecipeClick = (recipeId) => {
+        setRecipeIndex(recipeId);
+        setTotalIngredients([]); // 재료 초기화
     };
 
     return (
         <div className='main_body_container'>
             <div className='body_left'>
                 <div className='body_left_top'>
-                    {images[sliderIndex].recipes.map((recipe, index) => (
-                        <button className='body_left_top_button' key={index} onClick={() => handleRecipeClick(recipe)}>
+                    {/* 현재 슬라이더에 표시된 레시피 버튼 생성 */}
+                    {recommendedRecipe[sliderIndex].recipeId.map((recipe, index) => (
+                        <button
+                            className='body_left_top_button'
+                            key={index}
+                            onClick={() => handleRecipeClick(recipe)}
+                        >
                             {recipe}
                         </button>
                     ))}
@@ -78,7 +81,7 @@ const Body = () => {
                             ←
                         </button>
                         <div className='slider-image'>
-                            <img src={images[sliderIndex].src} alt={`Slide ${sliderIndex}`}/>
+                            <img src={recommendedRecipe[sliderIndex].src} alt={`Slide ${sliderIndex}`} />
                         </div>
                         <button onClick={nextSlide} className='right-arrow'>
                             →
@@ -86,15 +89,17 @@ const Body = () => {
                     </div>
                 </div>
                 <div className='body_center_bottom'>
-                    <RecipeIngredientsBox recipeId={2}/>
+                    {/* RecipeIngredientsBox에 선택된 recipeIndex 전달 */}
+                    <RecipeIngredientsBox key={recipeIndex} recipeId={recipeIndex} />
                 </div>
             </div>
             <div className='body_right'>
-                <StickyBanner/>
+                <StickyBanner />
             </div>
         </div>
     );
 };
+
 
 
 

@@ -5,6 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { createCommunity } from "../../apis/Community_api";
 import Recipe_write_form from "../recipe/Recipe_write_form";
 import {RecipeContext, RecipeProvider} from "../RecipeContext";
+import RecipeIngredientsCreateBox from "../../main/RecipeIngredientsCreateBox";
+import {MainProvider} from "../../main/MainContext";
+import StickyBanner from "../../main/StickyBanner";
 
 const Community_board_write = () => {
     return (
@@ -25,13 +28,13 @@ const Body = () => {
     const [error, setError] = useState(null);
     const [showRecipeForm, setShowRecipeForm] = useState(false);  // 레시피 작성 폼 상태
 
-    const { recipeTitle, recipeCategory, recipeIngredients } = useContext(RecipeContext);
+    const { recipeTitle, recipeContent, recipeCategory, recipeIngredients } = useContext(RecipeContext);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         try {
-            const response = await createCommunity(title, content, category, recipeTitle, recipeCategory, recipeIngredients);
+            const response = await createCommunity(title, content, category, recipeTitle, recipeContent, recipeCategory, recipeIngredients);
             navigate('/community');
             console.log('Success:', response);
         } catch (error) {
@@ -45,58 +48,54 @@ const Body = () => {
     };
 
     return (
-        <div className='community_board_body_container'>
-            <div className='community_board_body_center'>
-                <h3> 커뮤니티 작성 창</h3>
-                <form onSubmit={handleSubmit}>
-                    <input
-                        type="text"
-                        placeholder="Title"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        required
-                    />
-                    <textarea
-                        placeholder="Content"
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                        required
-                    />
-                    <input
-                        type="text"
-                        placeholder="Category"
-                        value={category}
-                        onChange={(e) => setCategory(e.target.value)}
-                        required
-                    />
+        <MainProvider>
+            <div className='community_board_body_container'>
+                <div className='community_board_body_left'>
 
-                    <button type="submit">Create Community</button>
-                    {error && <p style={{color: 'red'}}>{error}</p>}
-                </form>
+                </div>
+                <div className='community_board_body_center'>
+                    <h3> 커뮤니티 작성 창</h3>
+                    <form onSubmit={handleSubmit}>
+                        <input
+                            type="text"
+                            placeholder="Title"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            required
+                        />
+                        <textarea
+                            placeholder="Content"
+                            value={content}
+                            onChange={(e) => setContent(e.target.value)}
+                            required
+                        />
+                        <input
+                            type="text"
+                            placeholder="Category"
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}
+                            required
+                        />
 
-                {/* "레시피 추가" 버튼 */}
-                <button type="button" onClick={toggleRecipeForm}>
-                    {showRecipeForm ? "Hide Recipe Form" : "레시피 추가"}
-                </button>
+                        <button type="submit">Create Community</button>
+                        {error && <p style={{color: 'red'}}>{error}</p>}
+                    </form>
 
+                    {/* "레시피 추가" 버튼 */}
+                    <button type="button" onClick={toggleRecipeForm}>
+                        {showRecipeForm ? "Hide Recipe Form" : "레시피 추가"}
+                    </button>
 
-                <p>Title: {recipeTitle}</p>
-                <p>Category: {recipeCategory}</p>
-                <h3>Ingredients:</h3>
-                <ul>
-                    {recipeIngredients.map((ingredient, index) => (
-                        <li key={index}>
-                            ID: {ingredient.ingredientId}, Quantity: {ingredient.quantity}
-                        </li>
-                    ))}
-                </ul>
-
-                {/* 레시피 작성 폼 표시 */}
-                {showRecipeForm &&
-                    <Recipe_write_form/>
-                }
+                    {/* 레시피 작성 폼 표시 */}
+                    {showRecipeForm &&
+                        <RecipeIngredientsCreateBox showEditButton={false}/>
+                    }
+                </div>
+                <div className='community_board_body_right'>
+                    {showRecipeForm && <StickyBanner/>}
+                </div>
             </div>
-        </div>
+        </MainProvider>
     );
 };
 
