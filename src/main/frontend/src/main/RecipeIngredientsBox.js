@@ -56,8 +56,8 @@ const RecipeIngredientsBox = ({recipeId}) => {
             {/*/>*/}
             <div className="recipe_info">
                 <div className="recipe_title">{recipe.title}</div>
-                <div className="recipe_category">카테고리 : {recipe.category}</div>
-                <div className="recipe_author">작성자 : {recipe.author}</div>
+                {/*<div className="recipe_category">카테고리 : {recipe.category}</div>*/}
+                {/*<div className="recipe_author">작성자 : {recipe.author}</div>*/}
             </div>
             {ingredients.length > 0 ? (
                 <>
@@ -72,6 +72,7 @@ const RecipeIngredientsBox = ({recipeId}) => {
             ) : (
                 <p>레시피에 재료가 없습니다.</p>
             )}
+            <div className="recipe_bottom" />
         </div>
     );
 }

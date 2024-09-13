@@ -13,7 +13,7 @@ const StickyBanner = () => {
 
     return (
         <div className="total_nutri_stickey">
-            <h3 className="total_text">총 영양성분</h3>
+            <div className="total_text">총 영양성분</div>
             <div className="total_nutri_text_box">
                 <div className="total_nutri_text_title">총 칼로리</div>
                 <div className="total_nutri_text_value">{totalCalorie.toLocaleString()}kcal</div>

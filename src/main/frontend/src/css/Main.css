@@ -1,8 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Jua&family=Noto+Sans+KR:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gothic+A1:wght@100;200;300;400;500;600;700;800;900&family=Hahmlet:wght@100..900&family=Jua&family=Noto+Sans+KR:wght@100..900&display=swap');
 
 .document {
   display: flex;
-  background: linear-gradient(to bottom, #A0EBB5, #C4E9CE);
+  /*background: linear-gradient(to bottom, #A0EBB5, #C4E9CE);*/
+  background: linear-gradient(to top, #A0EBB5, #C4E9CE);
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -64,17 +65,18 @@
         font-size : 18px;
       }
 
-      .body_left_top_button:hover {
-        cursor: pointer;
-        font-weight: bold;
-      }
       .recipe_title_icon {
         width: 30px;
         height: 30px;
         margin-right: 5px;
       }
     }
+    .recipe_title_group:hover {
+      cursor: pointer;
+      font-weight: bold;
+      border: solid 2px #4DBF6C;
 
+    }
   }
 
   .body_left_top > * {
@@ -114,26 +116,38 @@
   justify-content: center;
   align-items: center;
   color: #000000;
-  border: solid 3px #A0EBB5;
+  border: solid 3px #4DBF6C;
   border-radius: 20px;
+
+  /*background: linear-gradient(135deg, #C4E9CE, #A0EBB5);*/
   background-color: #c4e9ce3f;
+
+
+
 }
   .recipe_info {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 20px;
+    /*margin-top: 20px;*/
   }
 
   .recipe_title {
-    font-size: 25px;
+    font-size: 27px;
     text-align: center;
-    margin-bottom: 20px;
+    margin: 40px 0;
+    /*font-weight: bold;*/
     /*background-color: white;*/
     /*padding: 15px;*/
     /*border: solid 2px #C4E9CE;*/
     /*border-radius: 15px;*/
+
+    font-family: "Hahmlet", serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+
   }
 
   .recipe_category, .recipe_author {
@@ -144,46 +158,66 @@
     margin-bottom: 20px;
   }
 
+  .recipe_bottom {
+    height: 50px;
+  }
   .ingredient_group {
     width: 550px;
     height: 120px;
-    padding: 5px 15px;
-
+    /*padding: 5px 15px;*/
     border-radius: 25px;
-    background-color: #c4e9ce00;
-    margin: 10px 0;
+    background-color: #EEFDF2;
+    margin-bottom: 20px;
     display: flex;
     align-items: center;
-    font-size: 16px;
+    font-size: 18px;
     color: #000;
-    border: 2px solid #A0EBB5;
+    border: 2px solid #4DBF6C;
+
+
+    /* 폰트 지정 */
+    font-family: "Do Hyeon", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+
   }
 
   .ingredient_title {
     display: flex;
     width: 180px;
+    height: 70px;
+    font-size: 19px;
+    padding:10px;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-
+    border-right: solid 2px #4DBF6C;
   }
 
-
   .ingredient_title_text {
-
-    font-size: 17px;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    padding: 15px 0;
+    /*border-bottom: solid 3px #C4E9CE;*/
+    /*font-size: 19px;*/
   }
 
   .ingredient_info_group {
     display: flex;
     width: 100%;
+    margin-left: 20px;
+    font-size:19px;
 
     .ingredient_info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       width: 100%;
     }
 
     .ingredient_info > * {
-      margin-bottom: 10px; /* 각 요소 사이에 20px 간격을 줍니다. */
+      margin: 5px; /* 각 요소 사이에 20px 간격을 줍니다. */
     }
 
     .ingredient_info_detail {
@@ -193,19 +227,28 @@
 
     .ingredient_info_detail_title {
       margin-left: 10px;
-      width: 100px;
+      width: 90px;
     }
   }
 
 .ingredient_standard_input_group {
   display: flex;
-  margin-top: 10px;
-  font-size:15px;
+  justify-content: center;
+  padding-top:5px;
+  border-top: solid 3px #C4E9CE;
+width: 100%;
+
   .ingredient_standard_input {
     width: 50px;
     background-color: transparent;
     border: none;
     text-align: center;
+
+    /* 폰트 지정 */
+    font-family: "Do Hyeon", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+    font-size: 18px;
   }
   .ingredient_unit {
 
@@ -241,10 +284,15 @@
     margin-top : 30px;
     top: 100px;
     background-color: #c4e9ce3f;
-    border : solid 3px #A0EBB5;
+    border : solid 3px #4DBF6C;
     border-radius:15px;
     padding: 10px;
     z-index: 1000;
+
+    /* 폰트 지정 */
+    font-family: "Gothic A1", sans-serif;
+    font-weight: 610;
+    font-style: normal;
   }
   .total_nutri_stickey > * {
     margin-bottom: 10px;
@@ -252,8 +300,8 @@
 
   .total_nutri_text_box {
     display: flex;
-    margin-right : 10px;
-    margin-left : 20px;
+    font-size: 17px;
+    margin: 20px 10px 20px 20px;
   }
 
   .total_nutri_text_title {
@@ -265,11 +313,11 @@
   }
   .total_text {
     text-align: center;
-    margin-bottom: 20px;
+    margin: 15px 0;
+    font-size:22px;
   }
   .slider-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
-  

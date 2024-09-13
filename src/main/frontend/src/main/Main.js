@@ -91,13 +91,12 @@ const Body = () => {
                 <div className='body_left_top'>
                     {/* 현재 슬라이더에 표시된 레시피 버튼 생성 */}
                     {recommendedRecipe[sliderIndex].recipeId.map((recipe, index) => (
-                        <div className="recipe_title_group">
+                        <div className="recipe_title_group"
+                             key={index}
+                             onClick={() => handleRecipeClick(recipe)}
+                        >
                             <img className="recipe_title_icon" src={recipe_title_icon} alt="recipe_title_icon" />
-                            <div
-                                className='body_left_top_button'
-                                key={index}
-                                onClick={() => handleRecipeClick(recipe)}
-                            >
+                            <div className='body_left_top_button'>
                                 {getTitleById(recipe)}
                             </div>
                         </div>
