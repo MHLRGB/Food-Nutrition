@@ -82,6 +82,8 @@ public class SecurityConfig {
                         .requestMatchers( HttpMethod.PUT, "/api/recipes/*", "/api/community/*")
                         .authenticated()
 
+                        //잠시 엔드포인트 권한 허용
+                        .requestMatchers(HttpMethod.POST, "/api/recommend-recipes").permitAll()
 
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .anyRequest().authenticated()
@@ -107,22 +109,22 @@ public class SecurityConfig {
         http
                 .csrf((auth) -> auth.disable()); // csrf토큰을 보내지 않으면 로그인이 진행되지 않기 때문에 잠시 disable
 
+
         // 로그아웃 설정
         http
                 .logout(logout -> logout
-                // 로그아웃 요청을 처리할 URL 설정
-                .logoutUrl("/api/logout")
-                // 로그아웃 성공 시 리다이렉트할 URL 설정
-                .logoutSuccessUrl("/login")
-                // 로그아웃 핸들러 추가 (세션 무효화 처리)
-                .addLogoutHandler((request, response, authentication) -> {
-                    HttpSession session = request.getSession();
-                    session.invalidate();
-                })
-                // 로그아웃 시 쿠키 삭제 설정 (예: "remember-me" 쿠키 삭제)
-                // .deleteCookies("remember-me")
-        );
-
+                                // 로그아웃 요청을 처리할 URL 설정
+                                .logoutUrl("/api/logout")
+                                // 로그아웃 성공 시 리다이렉트할 URL 설정
+                                .logoutSuccessUrl("/login")
+                                // 로그아웃 핸들러 추가 (세션 무효화 처리)
+                                .addLogoutHandler((request, response, authentication) -> {
+                                    HttpSession session = request.getSession();
+                                    session.invalidate();
+                                })
+                        // 로그아웃 시 쿠키 삭제 설정 (예: "remember-me" 쿠키 삭제)
+                        // .deleteCookies("remember-me")
+                );
         // csrf 관련 로직
 //        http
 //                .csrf(csrf->csrf
