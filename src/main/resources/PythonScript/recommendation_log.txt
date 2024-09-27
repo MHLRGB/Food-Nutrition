@@ -1,0 +1,30 @@
+DEBUG:root:Recommendation script started
+INFO:gensim.utils:loading Word2Vec object from C:\Users\권도현\IdeaProjects\check\src\main\resources\PythonScript\word2vec_model.model
+DEBUG:smart_open.smart_open_lib:{'uri': 'C:\\Users\\권도현\\IdeaProjects\\check\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+INFO:gensim.utils:loading wv recursively from C:\Users\권도현\IdeaProjects\check\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+INFO:gensim.utils:setting ignored attribute cum_table to None
+INFO:gensim.utils:Word2Vec lifecycle event {'fname': 'C:\\Users\\권도현\\IdeaProjects\\check\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-09-27T14:01:59.799009', 'gensim': '4.3.0', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.19045-SP0', 'event': 'loaded'}
+DEBUG:root:Raw input data: '{"input":"닭요리를 추천해줘"}'
+ERROR:root:An error occurred: Extra data: line 1 column 4 (char 3)
+DEBUG:root:Recommendation script started
+INFO:gensim.utils:loading Word2Vec object from C:\Users\권도현\IdeaProjects\check\src\main\resources\PythonScript\word2vec_model.model
+DEBUG:smart_open.smart_open_lib:{'uri': 'C:\\Users\\권도현\\IdeaProjects\\check\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+INFO:gensim.utils:loading wv recursively from C:\Users\권도현\IdeaProjects\check\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+INFO:gensim.utils:setting ignored attribute cum_table to None
+INFO:gensim.utils:Word2Vec lifecycle event {'fname': 'C:\\Users\\권도현\\IdeaProjects\\check\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-09-27T14:04:39.197101', 'gensim': '4.3.0', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.19045-SP0', 'event': 'loaded'}
+DEBUG:root:Raw input data: '{"input":"닭요리를 추천해줘"}'
+DEBUG:root:Cleaned user input text: 닭요리를 추천해줘
+DEBUG:root:Processed user input: ['닭', '요리', '추천']
+DEBUG:root:Top similarities: [0.71480236 0.69299047 0.68482954 0.68360421 0.67646202]
+DEBUG:root:Script completed successfully
+DEBUG:root:Recommendation script started
+INFO:gensim.utils:loading Word2Vec object from C:\Users\권도현\IdeaProjects\check\src\main\resources\PythonScript\word2vec_model.model
+DEBUG:smart_open.smart_open_lib:{'uri': 'C:\\Users\\권도현\\IdeaProjects\\check\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+INFO:gensim.utils:loading wv recursively from C:\Users\권도현\IdeaProjects\check\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+INFO:gensim.utils:setting ignored attribute cum_table to None
+INFO:gensim.utils:Word2Vec lifecycle event {'fname': 'C:\\Users\\권도현\\IdeaProjects\\check\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-09-27T14:10:56.846792', 'gensim': '4.3.0', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.19045-SP0', 'event': 'loaded'}
+DEBUG:root:Raw input data: '{"input":"다이어트 음식 추천해줘"}'
+DEBUG:root:Cleaned user input text: 다이어트 음식 추천해줘
+DEBUG:root:Processed user input: ['다이어트', '음식', '추천']
+DEBUG:root:Top similarities: [0.73839292 0.73519818 0.73377713 0.73152617 0.72790724]
+DEBUG:root:Script completed successfully
