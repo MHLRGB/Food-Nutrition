@@ -47,6 +47,33 @@ export const createRecipe = async (title, content, category, ingredients) => {
     }
 };
 
+export const updateRecipe = async (id, recipeTitle, recipeContent, recipeCategory, recipeIngredients) => {
+
+    // requestDTO 정의
+    const requestDTO = {
+        title: recipeTitle || null,
+        category: recipeCategory || null,
+        content: recipeContent || null,
+        ingredients: recipeIngredients && recipeIngredients.length > 0 ? recipeIngredients.map(ingredient => ({
+            ingredientId: ingredient.ingredientId || null,
+            quantity: ingredient.quantity || 0
+        })) : []
+    };
+
+    try {
+        const response = await axios.put(`/api/recipe/${id}`, requestDTO, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.error(`Error updating recipe with id ${id}:`, error);
+        throw error; // 에러를 상위 호출자에게 전달
+    }
+};
+
 export const getAllRecipes = async () => {
     const response = await axios.get('/api/recipe');
     return response.data;
@@ -74,31 +101,7 @@ export const getTopPopularRecipes = async () => {
     return response.data;
 };
 
-export const updateRecipe = async (id, recipeTitle, recipeCategory, recipeIngredients) => {
 
-    // requestDTO 정의
-    const requestDTO = {
-        title: recipeTitle || null,
-        category: recipeCategory || null,
-        ingredients: recipeIngredients && recipeIngredients.length > 0 ? recipeIngredients.map(ingredient => ({
-            ingredientId: ingredient.ingredientId || null,
-            quantity: ingredient.quantity || 0
-        })) : []
-    };
-
-    try {
-        const response = await axios.put(`/api/recipe/${id}`, requestDTO, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        console.log(response.data);
-        return response.data;
-    } catch (error) {
-        console.error(`Error updating recipe with id ${id}:`, error);
-        throw error; // 에러를 상위 호출자에게 전달
-    }
-};
 
 export const getIngredientById = async (id) => {
     try {
@@ -106,6 +109,16 @@ export const getIngredientById = async (id) => {
         return response.data;
     } catch (error) {
         console.error("Error fetching ingredient:", error);
+        throw error;
+    }
+};
+
+export const searchIngredients = async (keyword) => {
+    try {
+        const response = await axios.get(`/api/ingredients/search?keyword=${keyword}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching search results:", error);
         throw error;
     }
 };

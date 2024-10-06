@@ -3,7 +3,6 @@ import '../css/Community_Board.css';
 import Header from '../../Header';
 import { useNavigate } from 'react-router-dom';
 import { createCommunity } from "../../apis/Community_api";
-import Recipe_write_form from "../recipe/Recipe_write_form";
 import {RecipeContext, RecipeProvider} from "../RecipeContext";
 import RecipeIngredientsCreateBox from "../../main/RecipeIngredientsCreateBox";
 import {MainProvider} from "../../main/MainContext";

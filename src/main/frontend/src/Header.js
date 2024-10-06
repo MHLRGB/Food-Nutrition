@@ -81,13 +81,13 @@ function Header() {
                 <div className="header_user_container">
                     {userdata.username !== "anonymousUser" ? (
                         <>
-                            <Link type="button" to="/mypage" className="header_user_menu">마이페이지</Link>
-                            <div className="header_user_menu" onClick={handleLogout}>로그아웃</div>
+                            <Link type="button" to="/mypage" className="header_user_menu">My Page</Link>
+                            <div className="header_user_menu" onClick={handleLogout}>Logout</div>
                         </>
                     ) : (
                         <>
-                            <Link type="button" to="/login" className="header_user_menu">로그인</Link>
-                            <Link type="button" to="/join" className="header_user_menu">회원가입</Link>
+                            <Link type="button" to="/login" className="header_user_menu">Login</Link>
+                            <Link type="button" to="/join" className="header_user_menu">Sign up</Link>
                         </>
                     )}
                 </div>

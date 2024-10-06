@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -45,6 +46,11 @@ public class IngredientController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/api/ingredients/search")
+    public List<Ingredients> searchIngredients(@RequestParam String keyword) {
+        return ingredientService.searchIngredients(keyword);
     }
 
 }

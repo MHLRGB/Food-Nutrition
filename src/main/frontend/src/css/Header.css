@@ -19,7 +19,7 @@
 .header_nav {
     display: flex;
     justify-content: space-around;
-    width: 600px;
+    width: 500px;
     margin: auto;
 }
 
@@ -27,7 +27,8 @@
     display: flex;
     width: 65px;
     height: 65px;
-    background : linear-gradient(315deg, #A0EBB5 , #C4E9CE, #C4E9CE);
+    /*background : linear-gradient(315deg, #A0EBB5 , #C4E9CE, #C4E9CE);*/
+    background-color: #dbdbdb;
     border-radius: 50%;
     text-align: center;
     line-height: 100px;
@@ -38,6 +39,11 @@
     align-items: center;
     justify-content: center;
 }
+
+.header_nav_circle:hover {
+    background-color: #C4E9CE;
+}
+
 
 .header_user_container {
     display: flex;

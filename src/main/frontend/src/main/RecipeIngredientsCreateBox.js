@@ -17,13 +17,46 @@ const RecipeIngredientsCreateBox = ({showEditButton}) => {
         setRecipeIngredients
     } = useContext(RecipeContext);  // recipeIngredients와 setRecipeIngredients 사용
 
+    const { totalIngredients, setTotalIngredients } = React.useContext(MainContext);
+
     const [error, setError] = useState(null);
     const [newIngredientId, setNewIngredientId] = useState(""); // State for new ingredient ID
+
+    const [renderedIngredients, setRenderedIngredients] = useState([]);
 
     useEffect(() => {
         setRecipeIngredients([]);
     }, [setRecipeIngredients]);
 
+    useEffect(() => {
+        console.log("recipeIngredients가 업데이트되었습니다:");
+        recipeIngredients.forEach((ingredient) => {
+            console.log(ingredient);
+        });
+
+        // recipeIngredients가 변경될 때 totalIngredients 업데이트
+        const updatedTotalIngredients = totalIngredients.filter(
+            (ingredient) => !recipeIngredients.some((item) => item.ingredientId === ingredient.id)
+        );
+
+        setTotalIngredients(updatedTotalIngredients);
+
+        if (recipeIngredients.length > 0) {
+            const ingredientsToRender = recipeIngredients.map((ingredient) => (
+                <IngredientGroup
+                    key={ingredient.ingredientId}
+                    ingredientId={ingredient.ingredientId}
+                    standard={ingredient.quantity}
+                    onRemove={() => handleRemoveIngredient(ingredient.ingredientId)}
+                    ParentRecipeIngredients={recipeIngredients} // 추가된 부분
+                />
+            ));
+            setRenderedIngredients(ingredientsToRender);
+        } else {
+            setRenderedIngredients(<p>레시피에 재료가 없습니다.</p>);
+        }
+
+    }, [recipeIngredients]); // recipeIngredients가 변경될 때마다 실행
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -47,7 +80,22 @@ const RecipeIngredientsCreateBox = ({showEditButton}) => {
     };
 
     const handleRemoveIngredient = (ingredientIdToRemove) => {
-        setRecipeIngredients(recipeIngredients.filter(ingredient => ingredient.ingredientId !== ingredientIdToRemove));
+        console.log("handleRemoveIngredient() 함수 호출");
+
+        // recipeIngredients에서 해당 ingredientId를 제외한 새 배열을 생성
+        const updatedIngredients = recipeIngredients.filter(ingredient => ingredient.ingredientId !== ingredientIdToRemove);
+
+        // 상태 업데이트 (recipeIngredients)
+        setRecipeIngredients(updatedIngredients);
+
+        // totalIngredients에서 해당 ingredientId를 가진 재료의 영양소 정보 제거
+        setTotalIngredients((prevIngredients) =>
+            prevIngredients.filter(ingredient => ingredient.id !== ingredientIdToRemove)
+        );
+
+        // totalIngredients.forEach((ingredient) => {
+        //     console.log(ingredient);
+        // });
     };
 
     if (error) {
@@ -58,55 +106,51 @@ const RecipeIngredientsCreateBox = ({showEditButton}) => {
     return (
         <div className="recipe_container">
                 <form onSubmit={handleSubmit}>
-                    <input
-                        type="text"
-                        placeholder="Title"
-                        value={recipeTitle}
-                        onChange={(e) => setRecipeTitle(e.target.value)}
-                        required
-                    />
-                    <input
-                        type="text"
-                        placeholder="Category"
-                        value={recipeCategory}
-                        onChange={(e) => setRecipeCategory(e.target.value)}
-                        required
-                    />
-                    <input
-                        type="text"
-                        placeholder="Content"
-                        value={recipeContent}
-                        onChange={(e) => setRecipeContent(e.target.value)}
-                        required
-                    />
+                    <div className="recipeIngredients_form">
+                        <input
+                            type="text"
+                            placeholder="Title"
+                            className="recipeIngredients_form_input"
+                            value={recipeTitle}
+                            onChange={(e) => setRecipeTitle(e.target.value)}
+                            required
+                        />
+                        <input
+                            type="text"
+                            placeholder="Category"
+                            value={recipeCategory}
+                            className="recipeIngredients_form_input"
+                            onChange={(e) => setRecipeCategory(e.target.value)}
+                            required
+                        />
+                        <input
+                            type="text"
+                            placeholder="Content"
+                            value={recipeContent}
+                            className="recipeIngredients_form_input"
+                            onChange={(e) => setRecipeContent(e.target.value)}
+                            required
+                        />
 
-                    <input
-                        type="text"
-                        placeholder="Ingredient ID"
-                        value={newIngredientId}
-                        onChange={(e) => setNewIngredientId(e.target.value)}
-                    />
+                        <input
+                            type="text"
+                            placeholder="Ingredient ID"
+                            value={newIngredientId}
+                            className="recipeIngredients_form_input"
+                            onChange={(e) => setNewIngredientId(e.target.value)}
+                        />
+                    </div>
                     <button type="button" onClick={handleAddIngredient}>Add Ingredient</button>
                     {showEditButton && <button type="submit">Create Recipe</button>}
                 </form>
-                    {recipeIngredients.length > 0 ? (
-                        <>
-                            {recipeIngredients.map((ingredient, index) => (
-                                <IngredientCreateGroup
-                                    ingredientId={ingredient.ingredientId}
-                                    standard={ingredient.quantity}
-                                    onRemove={() => handleRemoveIngredient(ingredient.ingredientId)}
-                                />
-                            ))}
-                        </>
-                    ) : (
-                        <p>레시피에 재료가 없습니다.</p>
-                    )}
+            {renderedIngredients}
         </div>
     );
 };
 
-const IngredientCreateGroup = ({ingredientId, standard, onRemove}) => {
+const IngredientGroup = ({
+                             ingredientId, standard, onRemove, ParentRecipeIngredients
+                         }) => {
 
     const [currentStandard, setCurrentStandard] = useState(standard || 0);  // 값이 없으면 0으로 설정
     const [ingredient, setIngredient] = useState(null);
@@ -145,12 +189,12 @@ const IngredientCreateGroup = ({ingredientId, standard, onRemove}) => {
     const [carbohydrateAmount, setCarbohydrateAmount] = useState(0);
     const [fatAmount, setFatAmount] = useState(0);
 
-    // 기준이 변경되면 영양소 재계산
     useEffect(() => {
         if (ingredient) {
-            calculateTotalIngredient();
+            updateTotalIngredient();
         }
-    }, [currentStandard, ingredient]);
+    }, [ingredient, ParentRecipeIngredients]);
+
 
     const handleStandardChange = (e) => {
         const newQuantity = parseInt(e.target.value) || 0;  // 값이 없으면 0으로 설정
@@ -163,7 +207,9 @@ const IngredientCreateGroup = ({ingredientId, standard, onRemove}) => {
         setRecipeIngredients(updatedIngredients);
     };
 
-    const calculateTotalIngredient = () => {
+    const updateTotalIngredient = () => {
+        console.log("updateNumberTotalIngredient() 호출됨");
+
         const validStandard = currentStandard || 0;  // 값이 없으면 0으로 설정
 
         const newCalorieAmount = Math.round(ingredient.calorie * (validStandard / 100));
@@ -181,13 +227,13 @@ const IngredientCreateGroup = ({ingredientId, standard, onRemove}) => {
         setCarbohydrateAmount(newCarbohydrateAmount);
         setFatAmount(newFatAmount);
 
-        // 기존 재료 정보를 삭제하고 새로운 재료 정보를 추가
         setTotalIngredients((prevIngredients) =>
-            prevIngredients.filter((ing) => ing.name !== ingredient.name)
+            prevIngredients.filter((ing) => ing.id !== ingredientId)
         );
 
         const newIngredient = {
             name: ingredient.name,
+            id: ingredientId,
             calorie: newCalorieAmount,
             sugar: newSugarAmount,
             sodium: newSodiumAmount,
@@ -199,20 +245,30 @@ const IngredientCreateGroup = ({ingredientId, standard, onRemove}) => {
         setTotalIngredients((prevIngredients) => [...prevIngredients, newIngredient]);
     };
 
+
     return (
         <div className="ingredient_group">
             {ingredient && (
                 <>
                     <div className="ingredient_title">
-                        <div className="ingredient_title_text">{ingredient.name}</div>
-                        <input
-                            type="number"
-                            className="ingredient_standard_input"
-                            value={currentStandard}
-                            onChange={handleStandardChange}
-                        />
-                        <button type="button" onClick={onRemove}>Remove</button>
+                        {/*<div className="ingredient_title_text">{ingredient.name}</div>*/}
+                        <div className="ingredient_title_text">{ingredientId}</div>
+                        <div className="ingredient_standard_input_group">
+                            <input
+                                type="number"
+                                className="ingredient_standard_input"
+                                value={currentStandard}
+                                onChange={handleStandardChange}
+                            />
+                            <div className="ingredient_unit">g</div>
+                            <button type="button" onClick={() => {
+                                onRemove();
+                            }}>Remove
+                            </button>
+                        </div>
+
                     </div>
+
                     <div className="ingredient_info_group">
                         <div className="ingredient_info">
                             <div className="ingredient_info_detail">

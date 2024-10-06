@@ -7,6 +7,7 @@ import com.example.TestSecurity.repository.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,5 +29,8 @@ public class IngredientService {
         return ingredientsRepository.findById(id);
     }
 
+    public List<Ingredients> searchIngredients(String keyword) {
+        return ingredientsRepository.findTop5ByFoodNameContainingIgnoreCase(keyword);
+    }
 
 }

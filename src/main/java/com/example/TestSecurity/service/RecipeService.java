@@ -126,6 +126,7 @@ public class RecipeService {
         // 레시피 정보 업데이트
         recipe.setTitle(requestDTO.getTitle());
         recipe.setCategory(requestDTO.getCategory());
+        recipe.setContent(requestDTO.getContent());
 
         // 레시피 저장
         Recipe updatedRecipe = recipeRepository.save(recipe);
@@ -287,6 +288,7 @@ public class RecipeService {
         RecipeIngredientsResponseDTO recipeIngredientsResponseDTO = new RecipeIngredientsResponseDTO();
         recipeIngredientsResponseDTO.setId(recipe.getId());
         recipeIngredientsResponseDTO.setTitle(recipe.getTitle());
+        recipeIngredientsResponseDTO.setContent(recipe.getContent());
         recipeIngredientsResponseDTO.setAuthor(recipe.getAuthor());
         recipeIngredientsResponseDTO.setCategory(recipe.getCategory());
         recipeIngredientsResponseDTO.setLikes(recipe.getLikes());recipeIngredientsResponseDTO.setCreatedDate(recipe.getCreatedDate());

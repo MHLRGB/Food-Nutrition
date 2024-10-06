@@ -63,6 +63,7 @@
         border : none;
         color:black;
         font-size : 18px;
+        font-weight: bold;
       }
 
       .recipe_title_icon {
@@ -116,12 +117,19 @@
   justify-content: center;
   align-items: center;
   color: #000000;
-  border: solid 3px #4DBF6C;
+  border: solid 2px #A0EBB5;
   border-radius: 20px;
 
   /*background: linear-gradient(135deg, #C4E9CE, #A0EBB5);*/
-  background-color: #c4e9ce3f;
+  background-color: #F7FFF9;
 
+  .recipeIngredients_form {
+    width: 670px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 
 
 }
@@ -166,13 +174,13 @@
     height: 120px;
     /*padding: 5px 15px;*/
     border-radius: 25px;
-    background-color: #EEFDF2;
+    background-color: #F7FFF9;
     margin-bottom: 20px;
     display: flex;
     align-items: center;
     font-size: 18px;
     color: #000;
-    border: 2px solid #4DBF6C;
+    border: 2px solid #A0EBB5;
 
 
     /* 폰트 지정 */
@@ -191,7 +199,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    border-right: solid 2px #4DBF6C;
+    border-right: solid 2px #C4E9CE;
   }
 
   .ingredient_title_text {
@@ -230,13 +238,17 @@
       width: 90px;
     }
   }
+.recipeIngredients_form_input {
+  margin-left:30px;
+  width:150px;
+}
 
 .ingredient_standard_input_group {
   display: flex;
   justify-content: center;
   padding-top:5px;
-  border-top: solid 3px #C4E9CE;
-width: 100%;
+  border-top: solid 2px #C4E9CE;
+  width: 100%;
 
   .ingredient_standard_input {
     width: 50px;
@@ -283,8 +295,8 @@ width: 100%;
     width:230px;
     margin-top : 30px;
     top: 100px;
-    background-color: #c4e9ce3f;
-    border : solid 3px #4DBF6C;
+    background-color: #F7FFF9;
+    border : solid 2px #A0EBB5;
     border-radius:15px;
     padding: 10px;
     z-index: 1000;
