@@ -67,7 +67,8 @@ public class SecurityConfig {
 
                         /// api 호출 접근 권한
                         .requestMatchers( HttpMethod.GET,"/api/user/now","/api/logout",
-                                "/api/recipe", "/api/recipe/*", "/api/ingredient/*", "/api/community", "/api/community/*")
+                                "/api/recipe", "/api/recipe/*", "/api/ingredient/*", "/api/community", "/api/community/*",
+                                "/api/ingredients/search")
                         .permitAll()
 
                         /// api 호출 접근 권한

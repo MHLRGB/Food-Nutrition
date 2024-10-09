@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
-import {getIngredientById, getRecipeById, updateRecipe} from "../apis/Recipe_api";
+import {getIngredientById, getRecipeById, searchIngredients, updateRecipe} from "../apis/Recipe_api";
 import {RecipeContext, RecipeProvider} from "../community/RecipeContext";
 import {MainContext, MainProvider} from "./MainContext";
 import {useNavigate} from "react-router-dom";
@@ -26,6 +26,12 @@ const RecipeIngredientsUpdateBox = ({ recipeId, showEditButton }) => {
     const [loading, setLoading] = useState(true);
 
     const [renderedIngredients, setRenderedIngredients] = useState([]);
+
+
+    const [searchKeyword, setSearchKeyword] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
+    const [isFocused, setIsFocused] = useState(false);
+
 
     useEffect(() => {
         if (recipeId !== null) {
@@ -67,6 +73,22 @@ const RecipeIngredientsUpdateBox = ({ recipeId, showEditButton }) => {
 
     }, [recipeIngredients]); // recipeIngredients가 변경될 때마다 실행
 
+    useEffect(() => {
+        const fetchResults = async () => {
+            if (searchKeyword.trim().length > 1) {
+                try {
+                    const data = await searchIngredients(searchKeyword);
+                    setSearchResults(data);
+                } catch (error) {
+                    console.error("Error fetching search results:", error);
+                }
+            } else {
+                setSearchResults([]);
+            }
+        };
+        fetchResults();
+    }, [searchKeyword]);
+
 
     const fetchData = async () => {
         try {
@@ -99,29 +121,13 @@ const RecipeIngredientsUpdateBox = ({ recipeId, showEditButton }) => {
         }
     };
 
-    const handleAddIngredient = () => {
-        if (newIngredientId) {
-            setRecipeIngredients([...recipeIngredients, { ingredientId: newIngredientId, quantity: 100 }]);
-            setNewIngredientId(""); // Reset the input
+    const handleAddIngredient = (ingredientId, foodName) => {
+        if (!recipeIngredients.some(ingredient => ingredient.ingredientId === ingredientId)) {
+            setRecipeIngredients([...recipeIngredients, { ingredientId, quantity: 100, foodName }]);
         }
+        setSearchKeyword("");
+        setSearchResults([]);
     };
-
-
-    // 10/01
-    // const handleRemoveIngredient = (ingredientIdToRemove) => {
-    //     console.log("handleRemoveIngredient() 함수 호출");
-    //
-    //     // recipeIngredients에서 해당 ingredientId를 제외한 새 배열을 생성
-    //     const updatedIngredients = recipeIngredients.filter(ingredient => ingredient.ingredientId !== ingredientIdToRemove);
-    //
-    //     // 각 ingredient의 ingredientId 값을 콘솔에 출력
-    //     updatedIngredients.forEach(ingredient => {
-    //         console.log(ingredient.ingredientId);
-    //     });
-    //
-    //     // 상태 업데이트
-    //     setRecipeIngredients([...updatedIngredients]);
-    // };
 
     // 10/01
     const handleRemoveIngredient = (ingredientIdToRemove) => {
@@ -138,9 +144,6 @@ const RecipeIngredientsUpdateBox = ({ recipeId, showEditButton }) => {
             prevIngredients.filter(ingredient => ingredient.id !== ingredientIdToRemove)
         );
 
-        // totalIngredients.forEach((ingredient) => {
-        //     console.log(ingredient);
-        // });
     };
 
     if (loading) {
@@ -179,13 +182,38 @@ const RecipeIngredientsUpdateBox = ({ recipeId, showEditButton }) => {
                     onChange={(e) => setRecipeContent(e.target.value)}
                     required
                 />
-                <input
-                    type="text"
-                    placeholder="Ingredient ID"
-                    value={newIngredientId}
-                    onChange={(e) => setNewIngredientId(e.target.value)}
-                />
-                <button type="button" onClick={handleAddIngredient}>Add Ingredient</button>
+                {/*<input*/}
+                {/*    type="text"*/}
+                {/*    placeholder="Ingredient ID"*/}
+                {/*    value={newIngredientId}*/}
+                {/*    onChange={(e) => setNewIngredientId(e.target.value)}*/}
+                {/*/>*/}
+                {/*<button type="button" onClick={handleAddIngredient}>Add Ingredient</button>*/}
+
+                <div className="search-container">
+                    <input
+                        type="text"
+                        placeholder="Search Ingredients..."
+                        value={searchKeyword}
+                        onChange={(e) => setSearchKeyword(e.target.value)}
+                        onFocus={() => setIsFocused(true)}
+                        onBlur={() => setIsFocused(false)}
+                        className="search-input"
+                    />
+                    {isFocused && searchKeyword.length > 1 && (
+                        <div className="results-box">
+                            <ul className="results-list">
+                                {searchResults.slice(0, 5).map((ingredient) => (
+                                    <li key={ingredient.id}
+                                        className="results-item"
+                                        onMouseDown={() => handleAddIngredient(ingredient.id, ingredient.foodName)}>
+                                        {ingredient.foodName}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+                </div>
 
                 {/* 렌더링된 재료 출력 */}
                 {renderedIngredients}
@@ -197,8 +225,8 @@ const RecipeIngredientsUpdateBox = ({ recipeId, showEditButton }) => {
 };
 
 const IngredientGroup = ({
-                                   ingredientId, standard, onRemove, ParentRecipeIngredients
-                               }) => {
+                             ingredientId, standard, onRemove, ParentRecipeIngredients
+                         }) => {
 
     const [currentStandard, setCurrentStandard] = useState(standard || 0);  // 값이 없으면 0으로 설정
     const [ingredient, setIngredient] = useState(null);
@@ -227,7 +255,7 @@ const IngredientGroup = ({
     }, [ingredientId]);
 
     // 총 재료 값들을 컨텍스트에서 가져오기
-    const { totalIngredients, setTotalIngredients } = React.useContext(MainContext);
+    const {totalIngredients, setTotalIngredients } = React.useContext(MainContext);
 
     // 영양소별 상태값
     const [calorieAmount, setCalorieAmount] = useState(0);
@@ -300,7 +328,7 @@ const IngredientGroup = ({
                 <>
                     <div className="ingredient_title">
                         {/*<div className="ingredient_title_text">{ingredient.name}</div>*/}
-                        <div className="ingredient_title_text">{ingredientId}</div>
+                        <div className="ingredient_title_text">{ingredient.name}</div>
                         <div className="ingredient_standard_input_group">
                             <input
                                 type="number"

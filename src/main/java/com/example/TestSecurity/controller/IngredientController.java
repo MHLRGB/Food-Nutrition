@@ -2,6 +2,7 @@ package com.example.TestSecurity.controller;
 
 import com.example.TestSecurity.dto.CommunityResponseDTO;
 import com.example.TestSecurity.dto.IngredientResponseDTO;
+import com.example.TestSecurity.dto.IngredientSearchDTO;
 import com.example.TestSecurity.entity.Community;
 import com.example.TestSecurity.entity.Ingredients;
 import com.example.TestSecurity.entity.Recipe;
@@ -48,8 +49,8 @@ public class IngredientController {
         }
     }
 
-    @GetMapping("/api/ingredients/search")
-    public List<Ingredients> searchIngredients(@RequestParam String keyword) {
+    @GetMapping("/search")
+    public List<IngredientSearchDTO> searchIngredients(@RequestParam String keyword) {
         return ingredientService.searchIngredients(keyword);
     }
 

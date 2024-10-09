@@ -115,10 +115,11 @@ export const getIngredientById = async (id) => {
 
 export const searchIngredients = async (keyword) => {
     try {
-        const response = await axios.get(`/api/ingredients/search?keyword=${keyword}`);
+        const response = await axios.get(`/api/ingredient/search?keyword=${keyword}`);
         return response.data;
     } catch (error) {
         console.error("Error fetching search results:", error);
         throw error;
     }
 };
+

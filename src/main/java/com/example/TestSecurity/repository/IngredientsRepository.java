@@ -8,7 +8,9 @@ import java.util.List;
 
 public interface IngredientsRepository extends JpaRepository<Ingredients, Long> {
 
-    @Query("SELECT i FROM Ingredients i WHERE LOWER(i.foodName) LIKE LOWER(CONCAT('%', :keyword, '%'))")
-    List<Ingredients> findTop5ByFoodNameContainingIgnoreCase(String keyword);
+//    @Query("SELECT i FROM Ingredients i WHERE LOWER(i.foodName) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+//    List<Ingredients> findTop5ByFoodNameContainingIgnoreCase(String keyword);
+
+      List<Ingredients> findTop5ByFoodNameContainingIgnoreCase(String keyword);
 
 }

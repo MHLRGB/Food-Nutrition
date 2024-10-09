@@ -333,3 +333,61 @@
     height: 100%;
     object-fit: cover;
   }
+
+
+  /* 재료 검색창 CSS === */
+
+.document {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.search-container {
+  position: relative;
+  max-width: 300px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.results-box {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-top: none;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.results-list {
+  margin: 0;
+  padding: 8px;
+  list-style-type: none;
+}
+
+.results-item {
+  padding: 4px 0;
+  cursor: pointer;
+}
+
+.results-item:hover {
+  background-color: #f0f0f0;
+}
+
+.no-results {
+  margin: 8px;
+  color: #999;
+}
+
+/* === 재료 검색창 CSS */
