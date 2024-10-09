@@ -1,4 +1,4 @@
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import './css/Header.css';
 import ai_icon from './image/header/ai_icon.png';
@@ -16,6 +16,7 @@ import heartImg from "./image/mypage-heart.png";
 function Header() {
 
     const [userdata, setUserdata] = useState('');
+    const location = useLocation();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -64,18 +65,18 @@ function Header() {
                     )}
             </div>
             <div className="header_nav">
-                <Link to="/pageA" className="header_nav_circle">
-                    <img src={ai_icon} alt="AI" className="header_icon"/>
+                <Link to="/pageA" className={`header_nav_circle ${location.pathname === '/pageA' ? 'active' : ''}`}>
+                    <img src={ai_icon} alt="AI" className="header_icon" />
                 </Link>
-                <Link to="/" className="header_nav_circle">
-                <img src={main_icon} alt="AI" className="header_icon"/>
-                    </Link>
-                    <Link to="/pageC" className="header_nav_circle">
-                        <img src={search_icon} alt="AI" className="header_icon"/>
-                    </Link>
-                    <Link to="/community" className="header_nav_circle">
-                        <img src={community_icon} alt="AI" className="header_icon"/>
-                    </Link>
+                <Link to="/" className={`header_nav_circle ${location.pathname === '/' ? 'active' : ''}`}>
+                    <img src={main_icon} alt="Main" className="header_icon" />
+                </Link>
+                <Link to="/pageC" className={`header_nav_circle ${location.pathname === '/pageC' ? 'active' : ''}`}>
+                    <img src={search_icon} alt="Search" className="header_icon" />
+                </Link>
+                <Link to="/community" className={`header_nav_circle ${location.pathname === '/community' ? 'active' : ''}`}>
+                    <img src={community_icon} alt="Community" className="header_icon" />
+                </Link>
                 </div>
 
                 <div className="header_user_container">

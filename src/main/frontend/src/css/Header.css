@@ -44,6 +44,9 @@
     background-color: #C4E9CE;
 }
 
+.header_nav_circle.active {
+    background-color: #C4E9CE; /* 원하는 배경색 */
+}
 
 .header_user_container {
     display: flex;
