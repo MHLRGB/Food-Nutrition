@@ -111,6 +111,14 @@ public class RecipeController {
         }
     }
 
+    @PostMapping("/parsingExRecipes")
+    public void parsingExRecipes() {
+
+        recipeService.processAndSaveIngredients();
+    }
+
+
+
     //
 //    @GetMapping("/top-popular-recipe")
 //    public ResponseEntity<List<RecipeResponseDTO>> getTop3PopularRecipes() {

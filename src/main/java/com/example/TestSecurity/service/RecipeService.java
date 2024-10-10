@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -214,6 +216,97 @@ public class RecipeService {
         }
 
         return savedRecipe;
+    }
+
+    private void processAndSaveIngredients(Long recipeId, String rawIngredients) {
+        String[] ingredients = rawIngredients.split("\\|");
+
+        // 재료 저장 카운터
+        int savedCount = 0;
+
+        for (String ingredient : ingredients) {
+            // 최대 50개의 재료까지만 저장
+            if (savedCount >= 50) {
+                break; // 저장된 재료가 50개에 도달하면 루프 종료
+            }
+
+            // 이름과 단위 분리
+            String ingredientName = extractName(ingredient);
+            Double quantity = extractQuantity(ingredient);
+            String unit = extractUnit(ingredient);
+            String section = extractSection(ingredient);
+
+            // Ingredients 테이블에서 재료 검색 및 매칭
+            Optional<Ingredients> matchedIngredient = ingredientsRepository.findByFoodNameLike(ingredientName);
+
+            if (matchedIngredient.isPresent()) {
+                RecipeIngredients recipeIngredients = new RecipeIngredients();
+
+                RecipeIngredients.RecipeIngredientsId id = new RecipeIngredients.RecipeIngredientsId();
+                id.setRecipeId(recipeId);
+                id.setIngredientId(matchedIngredient.get().getId());
+
+                recipeIngredients.setRecipe(recipeRepository.findById(recipeId)
+                        .orElseThrow(() -> new IllegalArgumentException("Invalid Recipe ID")));
+                recipeIngredients.setIngredient(matchedIngredient.get()); // 매칭된 Ingredient 설정
+                recipeIngredients.setId(id);
+                recipeIngredients.setQuantity(quantity); // Double 형식으로 설정
+                recipeIngredients.setUnit(unit); // 단위 설정
+                recipeIngredients.setIngredientSection(section); // 섹션 설정
+
+                recipeIngredientsRepository.save(recipeIngredients);
+                savedCount++; // 저장 카운트 증가
+            } else {
+                // 매칭 실패 시 로깅 또는 예외 처리
+                System.out.println("재료 매칭 실패: " + ingredientName);
+            }
+        }
+    }
+
+    // 각 추출 메서드 (extractName, extractQuantity, extractUnit, extractSection) 구현
+    private String extractName(String ingredient) {
+        String[] parts = ingredient.trim().split("\\s+");
+        return parts[0];
+    }
+
+    private Double extractQuantity(String ingredient) {
+        // 수량은 숫자 또는 분수 형태로 추출
+        String regex = "(\\d+(/\\d+)?\\.?\\d*)";
+        Matcher matcher = Pattern.compile(regex).matcher(ingredient);
+
+        if (matcher.find()) {
+            String quantityStr = matcher.group(0); // 수량 부분을 문자열로 가져옴
+
+            // 수량이 분수인 경우 처리
+            if (quantityStr.contains("/")) {
+                String[] parts = quantityStr.split("/");
+                double numerator = Double.parseDouble(parts[0]);
+                double denominator = Double.parseDouble(parts[1]);
+                return numerator / denominator; // 분수 계산
+            }
+            return Double.parseDouble(quantityStr); // 정수 또는 소수형으로 변환
+        }
+        return 0.0; // 수량이 없는 경우 기본값으로 0.0 반환
+    }
+
+    private String extractUnit(String ingredient) {
+        String regex = "(\\d+(/\\d+)?\\.?\\d*)\\s*(\\S+)";
+        Matcher matcher = Pattern.compile(regex).matcher(ingredient);
+
+        if (matcher.find()) {
+            return matcher.group(3); // 수량 다음의 문자열을 단위로 반환
+        }
+        return ""; // 단위가 없는 경우 빈 문자열 반환
+    }
+
+    private String extractSection(String ingredient) {
+        String regex = "\\[(.*?)\\]";
+        Matcher matcher = Pattern.compile(regex).matcher(ingredient);
+
+        if (matcher.find()) {
+            return matcher.group(1); // 중괄호 안의 내용 반환
+        }
+        return "일반"; // 섹션이 없으면 기본값으로 '일반' 반환
     }
 
 //
