@@ -28,6 +28,12 @@ public class RecipeIngredients {
     @JoinColumn(name = "IngredientID", referencedColumnName = "id")
     private Ingredients ingredient;
 
+    @Column(name = "Unit")
+    private String Unit;
+
+    @Column(name = "IngredientSection")
+    private String IngredientSection;
+
     @Getter
     @Setter
     @Embeddable
