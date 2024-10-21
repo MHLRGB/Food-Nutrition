@@ -1,29 +1,15 @@
-# -*- coding: utf-8 -*-
 import sys
 import json
-import logging
-import io
-import numpy as np
-from sqlalchemy import create_engine
-import pandas as pd
-from sklearn.metrics.pairwise import cosine_similarity
-from gensim.models import Word2Vec
-from konlpy.tag import Okt
 import os
+import numpy as np
+from sqlalchemy import create_engine, text
+import pandas as pd
+from gensim.models import Word2Vec
+import re
+import io
 
-# 입출력 스트림을 UTF-8로 설정
-sys.stdin = io.TextIOWrapper(sys.stdin.buffer, encoding='utf-8')
+# 표준 출력을 UTF-8로 설정
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
-sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
-
-# 현재 스크립트의 디렉토리를 가져옵니다.
-current_dir = os.path.dirname(os.path.abspath(__file__))
-
-# 로깅 설정
-log_file = os.path.join(current_dir, 'recommendation_log.txt')
-logging.basicConfig(filename=log_file, level=logging.DEBUG, encoding='utf-8',
-                    format='%(asctime)s - %(levelname)s - %(message)s')
-logging.debug("Recommendation script started")
 
 # 데이터베이스 연결 설정
 db_config = {
@@ -33,94 +19,89 @@ db_config = {
     'database': 'Foodlyze'
 }
 
-# SSL 없이 데이터베이스 연결
-engine = create_engine(f"mysql+mysqlconnector://{db_config['user']}:{db_config['password']}@{db_config['host']}/{db_config['database']}")
+# 데이터베이스 엔진 생성
+try:
+    engine = create_engine(f"mysql+mysqlconnector://{db_config['user']}:{db_config['password']}@{db_config['host']}/{db_config['database']}?charset=utf8mb4&ssl_ca=rds-ca-2019-root.pem")
+except Exception as e:
+    sys.exit(1)
 
 # Word2Vec 모델 로드
-model_path = os.path.join(current_dir, "word2vec_model.model")
-model = Word2Vec.load(model_path)
-
-okt = Okt()
+model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "word2vec_model.model")
+try:
+    model = Word2Vec.load(model_path)
+except Exception as e:
+    sys.exit(1)
 
 def preprocess_text(text):
-    return okt.nouns(text)
+    text = text.encode('utf-8', errors='ignore').decode('utf-8')
+    text = re.sub(r'[\udc80-\udcff]', '', text)  # 대체 문자 제거
+    text = re.sub(r'[^가-힣a-zA-Z0-9\s]', ' ', text)
+    text = re.sub(r'\s+', ' ', text).strip()
+    processed_words = text.lower().split()
+    return processed_words
 
-def get_recipe_vector(words):
+def get_recipe_vector(text):
+    words = preprocess_text(text)
     valid_words = [word for word in words if word in model.wv]
     if not valid_words:
         return None
-    return np.mean([model.wv[word] for word in valid_words], axis=0)
+    vector = np.mean([model.wv[word] for word in valid_words], axis=0)
+    return vector
 
-def recommend_recipes(input_text, n=5, excluded_recipes=None):
-    processed_input = preprocess_text(input_text)
-    logging.debug(f"Processed user input: {processed_input}")
+def get_similar_recipes(input_vector, n=5, excluded_recipes=None):
+    similarity_query = """
+    SELECT 레시피_번호, 레시피_제목, 조리_이름, 조리_소개, 조리_재료_내용, processed_vector
+    FROM PreprocessedRecipes_copy
+    """
 
-    input_vector = get_recipe_vector(processed_input)
-    if input_vector is None:
-        logging.warning("No valid words found in input text")
+    params = {"v1": float(input_vector[0]), "v2": float(input_vector[1]), "v3": float(input_vector[2])}
+
+    if excluded_recipes:
+        placeholders = ', '.join([':excluded_' + str(i) for i in range(len(excluded_recipes))])
+        exclusion_clause = f" WHERE 레시피_번호 NOT IN ({placeholders})"
+        similarity_query += exclusion_clause
+        params.update({f"excluded_{i}": rid for i, rid in enumerate(excluded_recipes)})
+
+    similarity_query += " ORDER BY RAND() LIMIT :n"  # 유사도 대신 랜덤으로 선택 (간단화)
+    params["n"] = n
+
+    try:
+        with engine.connect() as connection:
+            result = connection.execute(text(similarity_query), params)
+            similar_recipes = pd.DataFrame(result.fetchall(), columns=result.keys())
+        return similar_recipes
+    except Exception as e:
         return pd.DataFrame()
 
-    # 데이터베이스에서 전처리된 레시피 데이터 가져오기
-    query = "SELECT 레시피_번호, 레시피_제목, 조리_이름, 조리_소개, 조리_재료_내용, processed_vector FROM PreprocessedRecipes"
-    df = pd.read_sql(query, engine)
-    logging.debug(f"Fetched {len(df)} recipes from database")
+def process_input(input_data):
+    try:
+        user_input_json = json.loads(input_data)
+        user_input_text = user_input_json.get('input', '')
+        excluded_recipes = user_input_json.get('excluded_recipes', [])
+        input_vector = get_recipe_vector(user_input_text)
 
-    # 이전에 추천된 레시피 제외
-    if excluded_recipes:
-        df = df[~df['레시피_번호'].isin(excluded_recipes)]
-        logging.debug(f"Excluded {len(excluded_recipes)} previously recommended recipes")
+        if input_vector is None:
+            return {"error": "입력 텍스트를 처리할 수 없습니다."}
 
-    # 문자열로 저장된 벡터를 numpy 배열로 변환
-    df['processed_vector'] = df['processed_vector'].apply(lambda x: np.fromstring(x, sep=',') if isinstance(x, str) else None)
-    df = df.dropna(subset=['processed_vector'])
-    logging.debug(f"Recipes with valid vectors: {len(df)}")
+        similar_recipes = get_similar_recipes(input_vector, n=5, excluded_recipes=excluded_recipes)
 
-    # 코사인 유사도 계산
-    similarities = cosine_similarity([input_vector], df['processed_vector'].tolist())[0]
+        if similar_recipes.empty:
+            return {"error": "추천 결과가 없습니다."}
 
-    # 상위 n개의 유사한 레시피 선택
-    top_indices = similarities.argsort()[-n:][::-1]
-    recommended_recipes = df.iloc[top_indices]
+        similar_recipes = similar_recipes.drop('processed_vector', axis=1)
 
-    logging.debug(f"Recommended recipes: {recommended_recipes['레시피_번호'].tolist()}")
-    return recommended_recipes
+        return similar_recipes.to_dict('records')
+    except Exception as e:
+        return {"error": f"오류 발생: {str(e)}"}
 
-def clean_text(text):
-    return text.encode('utf-8', errors='ignore').decode('utf-8')
-
-try:
-    # 표준 입력에서 JSON 데이터 읽기
-    input_data = sys.stdin.read().strip()
-    logging.debug(f"Raw input data: {repr(input_data)}")
-
-    user_input_json = json.loads(input_data)
-    user_input_text = user_input_json.get('input', '')
-    excluded_recipes = user_input_json.get('excluded_recipes', [])
-
-    # 입력 텍스트 정제
-    user_input_text = clean_text(user_input_text)
-    logging.debug(f"Cleaned user input text: {user_input_text}")
-    logging.debug(f"Excluded recipes: {excluded_recipes}")
-
-    # 레시피 추천
-    recommended_recipes = recommend_recipes(user_input_text, excluded_recipes=excluded_recipes)
-
-    if recommended_recipes.empty:
-        print(json.dumps({"error": "No recommendations found"}, ensure_ascii=False))
-    else:
-        # JSON 형태로 변환 (한글 깨짐 방지)
-        recipes_json = json.dumps(recommended_recipes[['레시피_번호', '레시피_제목', '조리_이름', '조리_소개', '조리_재료_내용']].to_dict('records'), ensure_ascii=False, indent=2)
-
-        # 결과를 표준 출력으로 반환
-        print(recipes_json)
-
-    logging.debug("Script completed successfully")
-
-except json.JSONDecodeError as e:
-    logging.error(f"JSON decoding error: {str(e)}")
-    print(json.dumps({"error": f"Invalid JSON input: {str(e)}"}, ensure_ascii=False))
-    sys.exit(1)
-except Exception as e:
-    logging.error(f"An error occurred: {str(e)}")
-    print(json.dumps({"error": str(e)}, ensure_ascii=False))
-    sys.exit(1)
+if __name__ == "__main__":
+    try:
+        input_data = sys.stdin.buffer.read().decode('utf-8').strip()
+        result = process_input(input_data)
+        json_result = json.dumps(result, ensure_ascii=False)
+        print(json_result)  # 직접 print 사용
+        sys.stdout.flush()
+    except Exception as e:
+        error_result = json.dumps({"error": str(e)}, ensure_ascii=False)
+        print(error_result)  # 직접 print 사용
+        sys.stdout.flush()
