@@ -7,8 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-
 public class IngredientSearchDTO {
+
     private Long id;
     private String foodName;
 }

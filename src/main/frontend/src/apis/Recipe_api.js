@@ -30,7 +30,9 @@ export const createRecipe = async (title, content, category, ingredients) => {
         content: content,
         ingredients: ingredients.map(ingredient => ({
             ingredientId: ingredient.ingredientId,
-            quantity: ingredient.quantity
+            quantity: ingredient.quantity,
+            section : ingredient.section,
+            unit : ingredient.unit
         }))
     };
 
@@ -56,7 +58,9 @@ export const updateRecipe = async (id, recipeTitle, recipeContent, recipeCategor
         content: recipeContent || null,
         ingredients: recipeIngredients && recipeIngredients.length > 0 ? recipeIngredients.map(ingredient => ({
             ingredientId: ingredient.ingredientId || null,
-            quantity: ingredient.quantity || 0
+            quantity: ingredient.quantity,
+            section : ingredient.section,
+            unit : ingredient.unit
         })) : []
     };
 
@@ -78,6 +82,13 @@ export const getAllRecipes = async () => {
     const response = await axios.get('/api/recipe');
     return response.data;
 };
+
+
+export const getFiveRecipes = async () => {
+    const response = await axios.get('/api/recipe/fiverecipes');
+    return response.data;
+};
+
 
 export const getRecipeById = async (id) => {
     console.log("getRecipeById 호출됨");

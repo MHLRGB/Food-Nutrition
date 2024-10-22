@@ -65,7 +65,7 @@ function Header() {
                     )}
             </div>
             <div className="header_nav">
-                <Link to="/pageA" className={`header_nav_circle ${location.pathname === '/pageA' ? 'active' : ''}`}>
+                <Link to="/aisearch" className={`header_nav_circle ${location.pathname === '/aisearch' ? 'active' : ''}`}>
                     <img src={ai_icon} alt="AI" className="header_icon" />
                 </Link>
                 <Link to="/" className={`header_nav_circle ${location.pathname === '/' ? 'active' : ''}`}>
@@ -74,7 +74,10 @@ function Header() {
                 <Link to="/pageC" className={`header_nav_circle ${location.pathname === '/pageC' ? 'active' : ''}`}>
                     <img src={search_icon} alt="Search" className="header_icon" />
                 </Link>
-                <Link to="/community" className={`header_nav_circle ${location.pathname === '/community' ? 'active' : ''}`}>
+                <Link
+                    to="/community"
+                    className={`header_nav_circle ${(location.pathname.startsWith('/community') || location.pathname.startsWith('/recipe')) ? 'active' : ''}`}
+                >
                     <img src={community_icon} alt="Community" className="header_icon" />
                 </Link>
                 </div>

@@ -18,6 +18,7 @@ import Recipe_detail from "./community/recipe/Recipe_detail";
 import Recipe_list from "./community/recipe/Recipe_list";
 import Community_board_detail from "./community/board/Community_board_detail";
 import Community_update from "./community/board/Community_board_update";
+import AI_Search from "./AI_Search";
 
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/common" element={<Common />} />
                 <Route path="/mypage" element={<MyPage />}/>
+                <Route path="/aisearch" element={<AI_Search />}/>
 
                 <Route path="/community" element={<Community />}/>
 

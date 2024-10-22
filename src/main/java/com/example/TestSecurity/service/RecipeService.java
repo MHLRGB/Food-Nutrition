@@ -103,6 +103,7 @@ public class RecipeService {
             RecipeIngredients.RecipeIngredientsId id = new RecipeIngredients.RecipeIngredientsId();
             id.setRecipeId(savedRecipe.getId());
             id.setIngredientId(ingredientRequestDTO.getIngredientId());
+            id.setSection(ingredientRequestDTO.getSection());
 
             recipeIngredients.setRecipe(savedRecipe);  // Recipe 엔티티 설정
             Ingredients ingredient = ingredientsRepository.findById(ingredientRequestDTO.getIngredientId())
@@ -112,6 +113,8 @@ public class RecipeService {
 
             recipeIngredients.setId(id);
             recipeIngredients.setQuantity(ingredientRequestDTO.getQuantity());
+            recipeIngredients.setUnit(ingredientRequestDTO.getUnit());
+            System.out.println("ingredientRequestDTO.getSection() : " + ingredientRequestDTO.getSection());
             recipeIngredientsRepository.save(recipeIngredients);
         }
 
@@ -145,6 +148,7 @@ public class RecipeService {
 
             recipeIngredientsId.setRecipeId(updatedRecipe.getId());
             recipeIngredientsId.setIngredientId(ingredientRequestDTO.getIngredientId());
+            recipeIngredientsId.setSection(ingredientRequestDTO.getSection());
 
             Ingredients ingredient = ingredientsRepository.findById(ingredientRequestDTO.getIngredientId())
                     .orElseThrow(() -> new IllegalArgumentException("Invalid Ingredient ID"));
@@ -153,6 +157,7 @@ public class RecipeService {
             recipeIngredients.setRecipe(updatedRecipe);
             recipeIngredients.setIngredient(ingredient);
             recipeIngredients.setQuantity(ingredientRequestDTO.getQuantity());
+            recipeIngredients.setUnit(ingredientRequestDTO.getUnit());
 
             recipeIngredientsRepository.save(recipeIngredients);
         }
@@ -245,6 +250,7 @@ public class RecipeService {
                 RecipeIngredients.RecipeIngredientsId id = new RecipeIngredients.RecipeIngredientsId();
                 id.setRecipeId(recipeId);
                 id.setIngredientId(matchedIngredient.get().getId());
+                id.setSection(section);
 
                 recipeIngredients.setRecipe(recipeRepository.findById(recipeId)
                         .orElseThrow(() -> new IllegalArgumentException("Invalid Recipe ID")));
@@ -252,7 +258,6 @@ public class RecipeService {
                 recipeIngredients.setId(id);
                 recipeIngredients.setQuantity(quantity); // Double 형식으로 설정
                 recipeIngredients.setUnit(unit); // 단위 설정
-                recipeIngredients.setIngredientSection(section); // 섹션 설정
 
                 recipeIngredientsRepository.save(recipeIngredients);
                 savedCount++; // 저장 카운트 증가
@@ -395,6 +400,8 @@ public class RecipeService {
                     ingredientsInfoResponseDTO.setIngredientId(recipeIngredient.getId().getIngredientId());
 //                    ingredientsInfoResponseDTO.setIngredientInfo(ingredientResponseDTO);
                     ingredientsInfoResponseDTO.setQuantity(recipeIngredient.getQuantity());
+                    ingredientsInfoResponseDTO.setUnit(recipeIngredient.getUnit());
+                    ingredientsInfoResponseDTO.setSection(recipeIngredient.getId().getSection());
 
                     return ingredientsInfoResponseDTO;
                 })

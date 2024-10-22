@@ -82,3 +82,674 @@
 2024-10-09 21:06:47,275 - DEBUG - Recipes with valid vectors: 128400
 2024-10-09 21:06:47,403 - DEBUG - Recommended recipes: [6898834, 6906657, 6943607, 6840644, 6888036]
 2024-10-09 21:06:47,560 - DEBUG - Script completed successfully
+2024-10-11 14:21:11,616 - DEBUG - Recommendation script started
+2024-10-11 14:21:11,686 - INFO - loading Word2Vec object from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model
+2024-10-11 14:21:11,686 - DEBUG - {'uri': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+2024-10-11 14:21:11,710 - INFO - loading wv recursively from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+2024-10-11 14:21:11,710 - INFO - setting ignored attribute cum_table to None
+2024-10-11 14:21:11,791 - INFO - Word2Vec lifecycle event {'fname': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-10-11T14:21:11.780820', 'gensim': '4.3.3', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.22631-SP0', 'event': 'loaded'}
+2024-10-11 14:21:12,451 - DEBUG - Raw input data: '{"input":"다이어트 요리 알려줘"}'
+2024-10-11 14:21:12,451 - DEBUG - Cleaned user input text: 다이어트 요리 알려줘
+2024-10-11 14:21:12,451 - DEBUG - Excluded recipes: []
+2024-10-11 14:21:14,678 - DEBUG - Processed user input: ['다이어트', '요리']
+2024-10-11 14:21:14,755 - DEBUG - Building SSL context
+2024-10-11 14:21:14,810 - DEBUG - Switching to SSL
+2024-10-11 14:21:14,835 - DEBUG - SSL has been enabled
+2024-10-11 14:21:14,835 - DEBUG - Starting authorization phase
+2024-10-11 14:21:14,835 - DEBUG - The provided initial strategy is mysql_native_password
+2024-10-11 14:21:14,835 - INFO - package: mysql.connector.plugins
+2024-10-11 14:21:14,835 - INFO - plugin_name: mysql_native_password
+2024-10-11 14:21:14,851 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-10-11 14:21:14,865 - DEBUG - mysql_native_password completed succesfully
+2024-10-11 14:21:41,655 - DEBUG - Recommendation script started
+2024-10-11 14:21:41,718 - INFO - loading Word2Vec object from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model
+2024-10-11 14:21:41,718 - DEBUG - {'uri': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+2024-10-11 14:21:41,724 - INFO - loading wv recursively from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+2024-10-11 14:21:41,724 - INFO - setting ignored attribute cum_table to None
+2024-10-11 14:21:41,813 - INFO - Word2Vec lifecycle event {'fname': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-10-11T14:21:41.782204', 'gensim': '4.3.3', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.22631-SP0', 'event': 'loaded'}
+2024-10-11 14:21:42,350 - DEBUG - Raw input data: '{"input":"다이어트 요리 알려줘"}'
+2024-10-11 14:21:42,350 - DEBUG - Cleaned user input text: 다이어트 요리 알려줘
+2024-10-11 14:21:42,350 - DEBUG - Excluded recipes: []
+2024-10-11 14:21:44,547 - DEBUG - Processed user input: ['다이어트', '요리']
+2024-10-11 14:21:44,595 - DEBUG - Building SSL context
+2024-10-11 14:21:44,642 - DEBUG - Switching to SSL
+2024-10-11 14:21:44,689 - DEBUG - SSL has been enabled
+2024-10-11 14:21:44,689 - DEBUG - Starting authorization phase
+2024-10-11 14:21:44,689 - DEBUG - The provided initial strategy is mysql_native_password
+2024-10-11 14:21:44,689 - INFO - package: mysql.connector.plugins
+2024-10-11 14:21:44,689 - INFO - plugin_name: mysql_native_password
+2024-10-11 14:21:44,689 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-10-11 14:21:44,705 - DEBUG - mysql_native_password completed succesfully
+2024-10-11 14:22:02,186 - DEBUG - Recommendation script started
+2024-10-11 14:22:02,242 - INFO - loading Word2Vec object from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model
+2024-10-11 14:22:02,242 - DEBUG - {'uri': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+2024-10-11 14:22:02,245 - INFO - loading wv recursively from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+2024-10-11 14:22:02,245 - INFO - setting ignored attribute cum_table to None
+2024-10-11 14:22:02,331 - INFO - Word2Vec lifecycle event {'fname': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-10-11T14:22:02.321096', 'gensim': '4.3.3', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.22631-SP0', 'event': 'loaded'}
+2024-10-11 14:22:02,962 - DEBUG - Raw input data: '{"input":"다이어트 요리 알려줘"}'
+2024-10-11 14:22:02,962 - DEBUG - Cleaned user input text: 다이어트 요리 알려줘
+2024-10-11 14:22:02,962 - DEBUG - Excluded recipes: []
+2024-10-11 14:22:05,628 - DEBUG - Processed user input: ['다이어트', '요리']
+2024-10-11 14:22:05,944 - DEBUG - Building SSL context
+2024-10-11 14:22:06,094 - DEBUG - Switching to SSL
+2024-10-11 14:22:06,211 - DEBUG - SSL has been enabled
+2024-10-11 14:22:06,211 - DEBUG - Starting authorization phase
+2024-10-11 14:22:06,211 - DEBUG - The provided initial strategy is mysql_native_password
+2024-10-11 14:22:06,211 - INFO - package: mysql.connector.plugins
+2024-10-11 14:22:06,211 - INFO - plugin_name: mysql_native_password
+2024-10-11 14:22:06,211 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-10-11 14:22:06,327 - DEBUG - mysql_native_password completed succesfully
+2024-10-11 14:22:12,436 - DEBUG - Fetched 123842 recipes from database
+2024-10-11 14:22:16,256 - DEBUG - Recipes with valid vectors: 123842
+2024-10-11 14:22:16,496 - DEBUG - Recommended recipes: [6871729, 6900284, 6920815, 6929560, 6854467]
+2024-10-11 14:22:16,804 - DEBUG - Script completed successfully
+2024-10-11 14:22:47,525 - DEBUG - Fetched 123842 recipes from database
+2024-10-11 14:22:48,777 - DEBUG - Recipes with valid vectors: 123842
+2024-10-11 14:22:48,857 - DEBUG - Recommended recipes: [6871729, 6900284, 6920815, 6929560, 6854467]
+2024-10-11 14:22:49,022 - DEBUG - Script completed successfully
+2024-10-11 14:23:03,038 - DEBUG - Fetched 123842 recipes from database
+2024-10-11 14:23:06,553 - DEBUG - Recommendation script started
+2024-10-11 14:23:06,634 - INFO - loading Word2Vec object from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model
+2024-10-11 14:23:06,634 - DEBUG - {'uri': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+2024-10-11 14:23:06,641 - INFO - loading wv recursively from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+2024-10-11 14:23:06,641 - INFO - setting ignored attribute cum_table to None
+2024-10-11 14:23:06,744 - INFO - Word2Vec lifecycle event {'fname': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-10-11T14:23:06.731346', 'gensim': '4.3.3', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.22631-SP0', 'event': 'loaded'}
+2024-10-11 14:23:06,880 - DEBUG - Recipes with valid vectors: 123842
+2024-10-11 14:23:07,093 - DEBUG - Recommended recipes: [6871729, 6900284, 6920815, 6929560, 6854467]
+2024-10-11 14:23:07,352 - DEBUG - Script completed successfully
+2024-10-11 14:23:07,393 - DEBUG - Raw input data: '{"input":"다이어트 요리"}'
+2024-10-11 14:23:07,393 - DEBUG - Cleaned user input text: 다이어트 요리
+2024-10-11 14:23:07,393 - DEBUG - Excluded recipes: []
+2024-10-11 14:23:08,994 - DEBUG - Processed user input: ['다이어트', '요리']
+2024-10-11 14:23:09,145 - DEBUG - Building SSL context
+2024-10-11 14:23:09,195 - DEBUG - Switching to SSL
+2024-10-11 14:23:09,214 - DEBUG - SSL has been enabled
+2024-10-11 14:23:09,214 - DEBUG - Starting authorization phase
+2024-10-11 14:23:09,214 - DEBUG - The provided initial strategy is mysql_native_password
+2024-10-11 14:23:09,214 - INFO - package: mysql.connector.plugins
+2024-10-11 14:23:09,214 - INFO - plugin_name: mysql_native_password
+2024-10-11 14:23:09,216 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-10-11 14:23:09,243 - DEBUG - mysql_native_password completed succesfully
+2024-10-11 14:23:45,532 - DEBUG - Fetched 123842 recipes from database
+2024-10-11 14:23:46,903 - DEBUG - Recipes with valid vectors: 123842
+2024-10-11 14:23:46,997 - DEBUG - Recommended recipes: [6871729, 6900284, 6920815, 6929560, 6854467]
+2024-10-11 14:23:47,153 - DEBUG - Script completed successfully
+2024-10-11 14:27:44,743 - DEBUG - Recommendation script started
+2024-10-11 14:27:44,808 - INFO - loading Word2Vec object from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model
+2024-10-11 14:27:44,808 - DEBUG - {'uri': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+2024-10-11 14:27:44,811 - INFO - loading wv recursively from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+2024-10-11 14:27:44,811 - INFO - setting ignored attribute cum_table to None
+2024-10-11 14:27:44,898 - INFO - Word2Vec lifecycle event {'fname': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-10-11T14:27:44.879709', 'gensim': '4.3.3', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.22631-SP0', 'event': 'loaded'}
+2024-10-11 14:27:45,470 - DEBUG - Raw input data: '{"input":"다이어트 씨발아","excluded_recipes":[]}'
+2024-10-11 14:27:45,470 - DEBUG - Cleaned user input text: 다이어트 씨발아
+2024-10-11 14:27:45,470 - DEBUG - Excluded recipes: []
+2024-10-11 14:27:47,022 - DEBUG - Processed user input: ['다이어트', '씨발']
+2024-10-11 14:27:47,074 - DEBUG - Building SSL context
+2024-10-11 14:27:47,217 - DEBUG - Switching to SSL
+2024-10-11 14:27:47,248 - DEBUG - SSL has been enabled
+2024-10-11 14:27:47,248 - DEBUG - Starting authorization phase
+2024-10-11 14:27:47,248 - DEBUG - The provided initial strategy is mysql_native_password
+2024-10-11 14:27:47,248 - INFO - package: mysql.connector.plugins
+2024-10-11 14:27:47,248 - INFO - plugin_name: mysql_native_password
+2024-10-11 14:27:47,248 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-10-11 14:27:47,289 - DEBUG - mysql_native_password completed succesfully
+2024-10-11 14:27:54,067 - DEBUG - Recommendation script started
+2024-10-11 14:27:54,125 - INFO - loading Word2Vec object from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model
+2024-10-11 14:27:54,125 - DEBUG - {'uri': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+2024-10-11 14:27:54,125 - INFO - loading wv recursively from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+2024-10-11 14:27:54,125 - INFO - setting ignored attribute cum_table to None
+2024-10-11 14:27:54,228 - INFO - Word2Vec lifecycle event {'fname': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-10-11T14:27:54.216659', 'gensim': '4.3.3', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.22631-SP0', 'event': 'loaded'}
+2024-10-11 14:27:54,775 - DEBUG - Raw input data: '{"input":"다이어트 요리 추천해","excluded_recipes":[]}'
+2024-10-11 14:27:54,775 - DEBUG - Cleaned user input text: 다이어트 요리 추천해
+2024-10-11 14:27:54,775 - DEBUG - Excluded recipes: []
+2024-10-11 14:27:57,089 - DEBUG - Processed user input: ['다이어트', '요리', '추천']
+2024-10-11 14:27:57,158 - DEBUG - Building SSL context
+2024-10-11 14:27:57,308 - DEBUG - Switching to SSL
+2024-10-11 14:27:57,325 - DEBUG - SSL has been enabled
+2024-10-11 14:27:57,325 - DEBUG - Starting authorization phase
+2024-10-11 14:27:57,325 - DEBUG - The provided initial strategy is mysql_native_password
+2024-10-11 14:27:57,325 - INFO - package: mysql.connector.plugins
+2024-10-11 14:27:57,325 - INFO - plugin_name: mysql_native_password
+2024-10-11 14:27:57,325 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-10-11 14:27:57,345 - DEBUG - mysql_native_password completed succesfully
+2024-10-11 14:28:46,662 - DEBUG - Fetched 123842 recipes from database
+2024-10-11 14:28:47,881 - DEBUG - Recipes with valid vectors: 123842
+2024-10-11 14:28:47,977 - DEBUG - Recommended recipes: [6871729, 6888313, 6920815, 6850240, 6945681]
+2024-10-11 14:28:48,107 - DEBUG - Script completed successfully
+2024-10-11 14:28:57,704 - DEBUG - Fetched 123842 recipes from database
+2024-10-11 14:28:59,496 - DEBUG - Recipes with valid vectors: 123842
+2024-10-11 14:28:59,606 - DEBUG - Recommended recipes: [6883273, 6931067, 6948894, 5176435, 6897366]
+2024-10-11 14:28:59,751 - DEBUG - Script completed successfully
+2024-10-11 14:29:59,092 - DEBUG - Recommendation script started
+2024-10-11 14:29:59,155 - INFO - loading Word2Vec object from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model
+2024-10-11 14:29:59,169 - DEBUG - {'uri': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+2024-10-11 14:29:59,169 - INFO - loading wv recursively from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+2024-10-11 14:29:59,169 - INFO - setting ignored attribute cum_table to None
+2024-10-11 14:29:59,260 - INFO - Word2Vec lifecycle event {'fname': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-10-11T14:29:59.238842', 'gensim': '4.3.3', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.22631-SP0', 'event': 'loaded'}
+2024-10-11 14:29:59,767 - DEBUG - Raw input data: '{"input":"다이어트 요리 추천해줘","excluded_recipes":[]}'
+2024-10-11 14:29:59,767 - DEBUG - Cleaned user input text: 다이어트 요리 추천해줘
+2024-10-11 14:29:59,767 - DEBUG - Excluded recipes: []
+2024-10-11 14:30:01,866 - DEBUG - Processed user input: ['다이어트', '요리', '추천']
+2024-10-11 14:30:02,040 - DEBUG - Building SSL context
+2024-10-11 14:30:02,074 - DEBUG - Switching to SSL
+2024-10-11 14:30:02,111 - DEBUG - SSL has been enabled
+2024-10-11 14:30:02,111 - DEBUG - Starting authorization phase
+2024-10-11 14:30:02,111 - DEBUG - The provided initial strategy is mysql_native_password
+2024-10-11 14:30:02,111 - INFO - package: mysql.connector.plugins
+2024-10-11 14:30:02,111 - INFO - plugin_name: mysql_native_password
+2024-10-11 14:30:02,115 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-10-11 14:30:02,250 - DEBUG - mysql_native_password completed succesfully
+2024-10-11 14:30:41,131 - DEBUG - Fetched 123842 recipes from database
+2024-10-11 14:30:42,417 - DEBUG - Recipes with valid vectors: 123842
+2024-10-11 14:30:42,501 - DEBUG - Recommended recipes: [6883273, 6931067, 6948894, 5176435, 6897366]
+2024-10-11 14:30:42,636 - DEBUG - Script completed successfully
+2024-10-11 14:32:23,362 - DEBUG - Recommendation script started
+2024-10-11 14:32:23,432 - INFO - loading Word2Vec object from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model
+2024-10-11 14:32:23,432 - DEBUG - {'uri': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+2024-10-11 14:32:23,436 - INFO - loading wv recursively from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+2024-10-11 14:32:23,436 - INFO - setting ignored attribute cum_table to None
+2024-10-11 14:32:23,548 - INFO - Word2Vec lifecycle event {'fname': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-10-11T14:32:23.539556', 'gensim': '4.3.3', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.22631-SP0', 'event': 'loaded'}
+2024-10-11 14:32:24,158 - DEBUG - Raw input data: '{"input":"다이어트 요리 추천해줘","excluded_recipes":[]}'
+2024-10-11 14:32:24,158 - DEBUG - Cleaned user input text: 다이어트 요리 추천해줘
+2024-10-11 14:32:24,158 - DEBUG - Excluded recipes: []
+2024-10-11 14:32:26,213 - DEBUG - Processed user input: ['다이어트', '요리', '추천']
+2024-10-11 14:32:26,296 - DEBUG - Building SSL context
+2024-10-11 14:32:26,427 - DEBUG - Switching to SSL
+2024-10-11 14:32:26,468 - DEBUG - SSL has been enabled
+2024-10-11 14:32:26,469 - DEBUG - Starting authorization phase
+2024-10-11 14:32:26,469 - DEBUG - The provided initial strategy is mysql_native_password
+2024-10-11 14:32:26,469 - INFO - package: mysql.connector.plugins
+2024-10-11 14:32:26,469 - INFO - plugin_name: mysql_native_password
+2024-10-11 14:32:26,469 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-10-11 14:32:26,477 - DEBUG - mysql_native_password completed succesfully
+2024-10-11 14:32:27,994 - DEBUG - Recommendation script started
+2024-10-11 14:32:28,057 - INFO - loading Word2Vec object from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model
+2024-10-11 14:32:28,057 - DEBUG - {'uri': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+2024-10-11 14:32:28,062 - INFO - loading wv recursively from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+2024-10-11 14:32:28,063 - INFO - setting ignored attribute cum_table to None
+2024-10-11 14:32:28,168 - INFO - Word2Vec lifecycle event {'fname': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-10-11T14:32:28.155264', 'gensim': '4.3.3', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.22631-SP0', 'event': 'loaded'}
+2024-10-11 14:32:28,755 - DEBUG - Raw input data: '{"input":"다이어트 요리 추천해줘","excluded_recipes":[]}'
+2024-10-11 14:32:28,755 - DEBUG - Cleaned user input text: 다이어트 요리 추천해줘
+2024-10-11 14:32:28,755 - DEBUG - Excluded recipes: []
+2024-10-11 14:32:30,675 - DEBUG - Processed user input: ['다이어트', '요리', '추천']
+2024-10-11 14:32:30,805 - DEBUG - Building SSL context
+2024-10-11 14:32:31,020 - DEBUG - Switching to SSL
+2024-10-11 14:32:31,037 - DEBUG - SSL has been enabled
+2024-10-11 14:32:31,037 - DEBUG - Starting authorization phase
+2024-10-11 14:32:31,037 - DEBUG - The provided initial strategy is mysql_native_password
+2024-10-11 14:32:31,037 - INFO - package: mysql.connector.plugins
+2024-10-11 14:32:31,037 - INFO - plugin_name: mysql_native_password
+2024-10-11 14:32:31,037 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-10-11 14:32:31,045 - DEBUG - mysql_native_password completed succesfully
+2024-10-11 14:33:41,220 - DEBUG - Fetched 123842 recipes from database
+2024-10-11 14:33:41,327 - DEBUG - Fetched 123842 recipes from database
+2024-10-11 14:33:45,775 - DEBUG - Recipes with valid vectors: 123842
+2024-10-11 14:33:45,799 - DEBUG - Recipes with valid vectors: 123842
+2024-10-11 14:33:46,089 - DEBUG - Recommended recipes: [6883273, 6931067, 6948894, 5176435, 6897366]
+2024-10-11 14:33:46,089 - DEBUG - Recommended recipes: [6883273, 6931067, 6948894, 5176435, 6897366]
+2024-10-11 14:33:46,469 - DEBUG - Script completed successfully
+2024-10-11 14:33:46,488 - DEBUG - Script completed successfully
+2024-10-11 14:34:01,800 - DEBUG - Recommendation script started
+2024-10-11 14:34:01,850 - INFO - loading Word2Vec object from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model
+2024-10-11 14:34:01,850 - DEBUG - {'uri': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+2024-10-11 14:34:01,865 - INFO - loading wv recursively from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+2024-10-11 14:34:01,866 - INFO - setting ignored attribute cum_table to None
+2024-10-11 14:34:01,960 - INFO - Word2Vec lifecycle event {'fname': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-10-11T14:34:01.950008', 'gensim': '4.3.3', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.22631-SP0', 'event': 'loaded'}
+2024-10-11 14:34:02,549 - DEBUG - Raw input data: '{"input":"다이어트 요리 추천","excluded_recipes":[]}'
+2024-10-11 14:34:02,549 - DEBUG - Cleaned user input text: 다이어트 요리 추천
+2024-10-11 14:34:02,549 - DEBUG - Excluded recipes: []
+2024-10-11 14:34:04,099 - DEBUG - Processed user input: ['다이어트', '요리', '추천']
+2024-10-11 14:34:04,149 - DEBUG - Building SSL context
+2024-10-11 14:34:04,197 - DEBUG - Switching to SSL
+2024-10-11 14:34:04,208 - DEBUG - SSL has been enabled
+2024-10-11 14:34:04,208 - DEBUG - Starting authorization phase
+2024-10-11 14:34:04,208 - DEBUG - The provided initial strategy is mysql_native_password
+2024-10-11 14:34:04,208 - INFO - package: mysql.connector.plugins
+2024-10-11 14:34:04,208 - INFO - plugin_name: mysql_native_password
+2024-10-11 14:34:04,208 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-10-11 14:34:04,233 - DEBUG - mysql_native_password completed succesfully
+2024-10-11 14:34:44,213 - DEBUG - Fetched 123842 recipes from database
+2024-10-11 14:34:45,877 - DEBUG - Recipes with valid vectors: 123842
+2024-10-11 14:34:45,973 - DEBUG - Recommended recipes: [6883273, 6931067, 6948894, 5176435, 6897366]
+2024-10-11 14:34:46,108 - DEBUG - Script completed successfully
+2024-10-11 14:35:04,379 - DEBUG - Recommendation script started
+2024-10-11 14:35:04,452 - INFO - loading Word2Vec object from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model
+2024-10-11 14:35:04,452 - DEBUG - {'uri': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+2024-10-11 14:35:04,457 - INFO - loading wv recursively from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+2024-10-11 14:35:04,457 - INFO - setting ignored attribute cum_table to None
+2024-10-11 14:35:04,537 - INFO - Word2Vec lifecycle event {'fname': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-10-11T14:35:04.520727', 'gensim': '4.3.3', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.22631-SP0', 'event': 'loaded'}
+2024-10-11 14:35:05,147 - DEBUG - Raw input data: '{"input":"다이어트 요리 추천","excluded_recipes":[]}'
+2024-10-11 14:35:05,147 - DEBUG - Cleaned user input text: 다이어트 요리 추천
+2024-10-11 14:35:05,147 - DEBUG - Excluded recipes: []
+2024-10-11 14:35:06,490 - DEBUG - Processed user input: ['다이어트', '요리', '추천']
+2024-10-11 14:35:27,580 - ERROR - An error occurred: (mysql.connector.errors.InterfaceError) 2003: Can't connect to MySQL server on 'foodlyze.c7sm4eciiv1v.ap-northeast-2.rds.amazonaws.com:3306' (10060 연결된 구성원으로부터 응답이 없어 연결하지 못했거나, 호스트로부터 응답이 없어 연결이 끊어졌습니다)
+(Background on this error at: https://sqlalche.me/e/20/rvf5)
+2024-10-11 14:36:53,780 - DEBUG - Recommendation script started
+2024-10-11 14:36:53,837 - INFO - loading Word2Vec object from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model
+2024-10-11 14:36:53,837 - DEBUG - {'uri': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+2024-10-11 14:36:53,840 - INFO - loading wv recursively from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+2024-10-11 14:36:53,840 - INFO - setting ignored attribute cum_table to None
+2024-10-11 14:36:53,926 - INFO - Word2Vec lifecycle event {'fname': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-10-11T14:36:53.918212', 'gensim': '4.3.3', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.22631-SP0', 'event': 'loaded'}
+2024-10-11 14:36:54,499 - DEBUG - Raw input data: '{"input":"다이어트 요리 알려줘","excluded_recipes":[]}'
+2024-10-11 14:36:54,499 - DEBUG - Cleaned user input text: 다이어트 요리 알려줘
+2024-10-11 14:36:54,499 - DEBUG - Excluded recipes: []
+2024-10-11 14:36:56,985 - DEBUG - Processed user input: ['다이어트', '요리']
+2024-10-11 14:36:57,045 - DEBUG - Building SSL context
+2024-10-11 14:36:57,088 - DEBUG - Switching to SSL
+2024-10-11 14:36:57,104 - DEBUG - SSL has been enabled
+2024-10-11 14:36:57,104 - DEBUG - Starting authorization phase
+2024-10-11 14:36:57,104 - DEBUG - The provided initial strategy is mysql_native_password
+2024-10-11 14:36:57,104 - INFO - package: mysql.connector.plugins
+2024-10-11 14:36:57,104 - INFO - plugin_name: mysql_native_password
+2024-10-11 14:36:57,104 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-10-11 14:36:57,104 - DEBUG - mysql_native_password completed succesfully
+2024-10-11 14:36:59,037 - DEBUG - Recommendation script started
+2024-10-11 14:36:59,094 - INFO - loading Word2Vec object from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model
+2024-10-11 14:36:59,094 - DEBUG - {'uri': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+2024-10-11 14:36:59,094 - INFO - loading wv recursively from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+2024-10-11 14:36:59,094 - INFO - setting ignored attribute cum_table to None
+2024-10-11 14:36:59,198 - INFO - Word2Vec lifecycle event {'fname': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-10-11T14:36:59.181886', 'gensim': '4.3.3', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.22631-SP0', 'event': 'loaded'}
+2024-10-11 14:36:59,661 - DEBUG - Raw input data: '{"input":"다이어트 요리 알려줘","excluded_recipes":[]}'
+2024-10-11 14:36:59,661 - DEBUG - Cleaned user input text: 다이어트 요리 알려줘
+2024-10-11 14:36:59,661 - DEBUG - Excluded recipes: []
+2024-10-11 14:37:02,239 - DEBUG - Processed user input: ['다이어트', '요리']
+2024-10-11 14:37:02,286 - DEBUG - Building SSL context
+2024-10-11 14:37:02,334 - DEBUG - Switching to SSL
+2024-10-11 14:37:02,350 - DEBUG - SSL has been enabled
+2024-10-11 14:37:02,350 - DEBUG - Starting authorization phase
+2024-10-11 14:37:02,350 - DEBUG - The provided initial strategy is mysql_native_password
+2024-10-11 14:37:02,350 - INFO - package: mysql.connector.plugins
+2024-10-11 14:37:02,350 - INFO - plugin_name: mysql_native_password
+2024-10-11 14:37:02,350 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-10-11 14:37:02,365 - DEBUG - mysql_native_password completed succesfully
+2024-10-11 14:38:08,474 - DEBUG - Fetched 123842 recipes from database
+2024-10-11 14:38:09,978 - DEBUG - Recipes with valid vectors: 123842
+2024-10-11 14:38:10,105 - DEBUG - Recommended recipes: [6871729, 6900284, 6920815, 6929560, 6854467]
+2024-10-11 14:38:10,263 - DEBUG - Script completed successfully
+2024-10-11 14:38:10,575 - DEBUG - Fetched 123842 recipes from database
+2024-10-11 14:38:12,188 - DEBUG - Recipes with valid vectors: 123842
+2024-10-11 14:38:12,311 - DEBUG - Recommended recipes: [6871729, 6900284, 6920815, 6929560, 6854467]
+2024-10-11 14:38:12,480 - DEBUG - Script completed successfully
+2024-10-11 14:38:59,678 - DEBUG - Recommendation script started
+2024-10-11 14:38:59,728 - INFO - loading Word2Vec object from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model
+2024-10-11 14:38:59,728 - DEBUG - {'uri': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+2024-10-11 14:38:59,728 - INFO - loading wv recursively from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+2024-10-11 14:38:59,728 - INFO - setting ignored attribute cum_table to None
+2024-10-11 14:38:59,834 - INFO - Word2Vec lifecycle event {'fname': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-10-11T14:38:59.821463', 'gensim': '4.3.3', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.22631-SP0', 'event': 'loaded'}
+2024-10-11 14:39:00,466 - DEBUG - Raw input data: '{"input":"다이어트 요리 알려줘","excluded_recipes":[]}'
+2024-10-11 14:39:00,466 - DEBUG - Cleaned user input text: 다이어트 요리 알려줘
+2024-10-11 14:39:00,466 - DEBUG - Excluded recipes: []
+2024-10-11 14:39:02,942 - DEBUG - Processed user input: ['다이어트', '요리']
+2024-10-11 14:39:03,006 - DEBUG - Building SSL context
+2024-10-11 14:39:03,047 - DEBUG - Switching to SSL
+2024-10-11 14:39:03,071 - DEBUG - SSL has been enabled
+2024-10-11 14:39:03,071 - DEBUG - Starting authorization phase
+2024-10-11 14:39:03,071 - DEBUG - The provided initial strategy is mysql_native_password
+2024-10-11 14:39:03,071 - INFO - package: mysql.connector.plugins
+2024-10-11 14:39:03,071 - INFO - plugin_name: mysql_native_password
+2024-10-11 14:39:03,071 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-10-11 14:39:03,103 - DEBUG - mysql_native_password completed succesfully
+2024-10-11 14:39:05,428 - DEBUG - Recommendation script started
+2024-10-11 14:39:05,481 - INFO - loading Word2Vec object from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model
+2024-10-11 14:39:05,481 - DEBUG - {'uri': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+2024-10-11 14:39:05,488 - INFO - loading wv recursively from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+2024-10-11 14:39:05,488 - INFO - setting ignored attribute cum_table to None
+2024-10-11 14:39:05,585 - INFO - Word2Vec lifecycle event {'fname': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-10-11T14:39:05.570004', 'gensim': '4.3.3', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.22631-SP0', 'event': 'loaded'}
+2024-10-11 14:39:06,078 - DEBUG - Raw input data: '{"input":"다이어트 요리 알려줘","excluded_recipes":[]}'
+2024-10-11 14:39:06,078 - DEBUG - Cleaned user input text: 다이어트 요리 알려줘
+2024-10-11 14:39:06,078 - DEBUG - Excluded recipes: []
+2024-10-11 14:39:08,039 - DEBUG - Processed user input: ['다이어트', '요리']
+2024-10-11 14:39:08,409 - DEBUG - Building SSL context
+2024-10-11 14:39:08,461 - DEBUG - Switching to SSL
+2024-10-11 14:39:08,528 - DEBUG - SSL has been enabled
+2024-10-11 14:39:08,528 - DEBUG - Starting authorization phase
+2024-10-11 14:39:08,528 - DEBUG - The provided initial strategy is mysql_native_password
+2024-10-11 14:39:08,528 - INFO - package: mysql.connector.plugins
+2024-10-11 14:39:08,528 - INFO - plugin_name: mysql_native_password
+2024-10-11 14:39:08,528 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-10-11 14:39:08,561 - DEBUG - mysql_native_password completed succesfully
+2024-10-11 14:40:10,544 - DEBUG - Fetched 123842 recipes from database
+2024-10-11 14:40:15,017 - DEBUG - Recipes with valid vectors: 123842
+2024-10-11 14:40:15,350 - DEBUG - Recommended recipes: [6871729, 6900284, 6920815, 6929560, 6854467]
+2024-10-11 14:40:15,760 - DEBUG - Script completed successfully
+2024-10-11 14:40:17,296 - DEBUG - Fetched 123842 recipes from database
+2024-10-11 14:40:21,059 - DEBUG - Recipes with valid vectors: 123842
+2024-10-11 14:40:21,335 - DEBUG - Recommended recipes: [6871729, 6900284, 6920815, 6929560, 6854467]
+2024-10-11 14:40:21,698 - DEBUG - Script completed successfully
+2024-10-11 14:46:09,606 - DEBUG - Recommendation script started
+2024-10-11 14:46:09,673 - INFO - loading Word2Vec object from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model
+2024-10-11 14:46:09,673 - DEBUG - {'uri': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+2024-10-11 14:46:09,689 - INFO - loading wv recursively from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+2024-10-11 14:46:09,689 - INFO - setting ignored attribute cum_table to None
+2024-10-11 14:46:09,781 - INFO - Word2Vec lifecycle event {'fname': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-10-11T14:46:09.765512', 'gensim': '4.3.3', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.22631-SP0', 'event': 'loaded'}
+2024-10-11 14:46:10,373 - DEBUG - Raw input data: '{"input":"닭요리 요리 알려줘","excluded_recipes":[]}'
+2024-10-11 14:46:10,373 - DEBUG - Cleaned user input text: 닭요리 요리 알려줘
+2024-10-11 14:46:10,373 - DEBUG - Excluded recipes: []
+2024-10-11 14:46:12,784 - DEBUG - Processed user input: ['닭', '요리', '요리']
+2024-10-11 14:46:12,840 - DEBUG - Building SSL context
+2024-10-11 14:46:12,890 - DEBUG - Switching to SSL
+2024-10-11 14:46:12,907 - DEBUG - SSL has been enabled
+2024-10-11 14:46:12,907 - DEBUG - Starting authorization phase
+2024-10-11 14:46:12,907 - DEBUG - The provided initial strategy is mysql_native_password
+2024-10-11 14:46:12,907 - INFO - package: mysql.connector.plugins
+2024-10-11 14:46:12,907 - INFO - plugin_name: mysql_native_password
+2024-10-11 14:46:12,907 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-10-11 14:46:12,923 - DEBUG - mysql_native_password completed succesfully
+2024-10-11 14:46:56,926 - DEBUG - Fetched 123842 recipes from database
+2024-10-11 14:47:00,794 - DEBUG - Recipes with valid vectors: 123842
+2024-10-11 14:47:01,045 - DEBUG - Recommended recipes: [6916505, 6852092, 6929547, 6877648, 6944134]
+2024-10-11 14:47:01,444 - DEBUG - Script completed successfully
+2024-10-11 14:48:08,896 - DEBUG - Recommendation script started
+2024-10-11 14:48:08,962 - INFO - loading Word2Vec object from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model
+2024-10-11 14:48:08,962 - DEBUG - {'uri': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+2024-10-11 14:48:08,962 - INFO - loading wv recursively from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+2024-10-11 14:48:08,962 - INFO - setting ignored attribute cum_table to None
+2024-10-11 14:48:09,055 - INFO - Word2Vec lifecycle event {'fname': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-10-11T14:48:09.038700', 'gensim': '4.3.3', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.22631-SP0', 'event': 'loaded'}
+2024-10-11 14:48:09,626 - DEBUG - Raw input data: '{"input":"아이에게 좋은 요리 알려줘","excluded_recipes":[]}'
+2024-10-11 14:48:09,626 - DEBUG - Cleaned user input text: 아이에게 좋은 요리 알려줘
+2024-10-11 14:48:09,626 - DEBUG - Excluded recipes: []
+2024-10-11 14:48:11,672 - DEBUG - Processed user input: ['아이', '요리']
+2024-10-11 14:48:11,746 - DEBUG - Building SSL context
+2024-10-11 14:48:11,992 - DEBUG - Switching to SSL
+2024-10-11 14:48:12,040 - DEBUG - SSL has been enabled
+2024-10-11 14:48:12,040 - DEBUG - Starting authorization phase
+2024-10-11 14:48:12,040 - DEBUG - The provided initial strategy is mysql_native_password
+2024-10-11 14:48:12,040 - INFO - package: mysql.connector.plugins
+2024-10-11 14:48:12,040 - INFO - plugin_name: mysql_native_password
+2024-10-11 14:48:12,046 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-10-11 14:48:12,079 - DEBUG - mysql_native_password completed succesfully
+2024-10-11 14:48:55,067 - DEBUG - Fetched 123842 recipes from database
+2024-10-11 14:48:59,118 - DEBUG - Recipes with valid vectors: 123842
+2024-10-11 14:48:59,392 - DEBUG - Recommended recipes: [6898465, 6832939, 6878078, 6896592, 6860966]
+2024-10-11 14:48:59,834 - DEBUG - Script completed successfully
+2024-10-11 14:53:48,369 - DEBUG - Recommendation script started
+2024-10-11 14:53:48,464 - INFO - loading Word2Vec object from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model
+2024-10-11 14:53:48,464 - DEBUG - {'uri': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+2024-10-11 14:53:48,464 - INFO - loading wv recursively from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+2024-10-11 14:53:48,464 - INFO - setting ignored attribute cum_table to None
+2024-10-11 14:53:48,558 - INFO - Word2Vec lifecycle event {'fname': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-10-11T14:53:48.542505', 'gensim': '4.3.3', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.22631-SP0', 'event': 'loaded'}
+2024-10-11 14:53:49,113 - DEBUG - Raw input data: '{"input":"닭요리 알려줘","excluded_recipes":[]}'
+2024-10-11 14:53:49,113 - DEBUG - Cleaned user input text: 닭요리 알려줘
+2024-10-11 14:53:49,113 - DEBUG - Excluded recipes: []
+2024-10-11 14:53:51,507 - DEBUG - Processed user input: ['닭', '요리']
+2024-10-11 14:53:51,570 - DEBUG - Building SSL context
+2024-10-11 14:53:51,713 - DEBUG - Switching to SSL
+2024-10-11 14:53:51,744 - DEBUG - SSL has been enabled
+2024-10-11 14:53:51,744 - DEBUG - Starting authorization phase
+2024-10-11 14:53:51,744 - DEBUG - The provided initial strategy is mysql_native_password
+2024-10-11 14:53:51,744 - INFO - package: mysql.connector.plugins
+2024-10-11 14:53:51,744 - INFO - plugin_name: mysql_native_password
+2024-10-11 14:53:51,744 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-10-11 14:53:51,760 - DEBUG - mysql_native_password completed succesfully
+2024-10-11 14:54:09,810 - DEBUG - Recommendation script started
+2024-10-11 14:54:09,871 - INFO - loading Word2Vec object from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model
+2024-10-11 14:54:09,871 - DEBUG - {'uri': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+2024-10-11 14:54:09,875 - INFO - loading wv recursively from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+2024-10-11 14:54:09,875 - INFO - setting ignored attribute cum_table to None
+2024-10-11 14:54:09,959 - INFO - Word2Vec lifecycle event {'fname': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-10-11T14:54:09.950721', 'gensim': '4.3.3', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.22631-SP0', 'event': 'loaded'}
+2024-10-11 14:54:10,578 - DEBUG - Raw input data: '{"input":"닭요리 알려줘","excluded_recipes":[]}'
+2024-10-11 14:54:10,578 - DEBUG - Cleaned user input text: 닭요리 알려줘
+2024-10-11 14:54:10,578 - DEBUG - Excluded recipes: []
+2024-10-11 14:54:12,971 - DEBUG - Processed user input: ['닭', '요리']
+2024-10-11 14:54:13,242 - DEBUG - Building SSL context
+2024-10-11 14:54:13,275 - DEBUG - Switching to SSL
+2024-10-11 14:54:13,321 - DEBUG - SSL has been enabled
+2024-10-11 14:54:13,321 - DEBUG - Starting authorization phase
+2024-10-11 14:54:13,321 - DEBUG - The provided initial strategy is mysql_native_password
+2024-10-11 14:54:13,321 - INFO - package: mysql.connector.plugins
+2024-10-11 14:54:13,321 - INFO - plugin_name: mysql_native_password
+2024-10-11 14:54:13,321 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-10-11 14:54:13,344 - DEBUG - mysql_native_password completed succesfully
+2024-10-11 14:54:40,833 - DEBUG - Fetched 123842 recipes from database
+2024-10-11 14:54:42,583 - DEBUG - Recipes with valid vectors: 123842
+2024-10-11 14:54:42,668 - DEBUG - Recommended recipes: [6916505, 6852092, 6929547, 6877648, 6944134]
+2024-10-11 14:54:42,813 - DEBUG - Script completed successfully
+2024-10-11 14:55:03,534 - DEBUG - Fetched 123842 recipes from database
+2024-10-11 14:55:05,247 - DEBUG - Recipes with valid vectors: 123842
+2024-10-11 14:55:05,342 - DEBUG - Recommended recipes: [6916505, 6852092, 6929547, 6877648, 6944134]
+2024-10-11 14:55:05,483 - DEBUG - Script completed successfully
+2024-10-11 14:55:43,585 - DEBUG - Recommendation script started
+2024-10-11 14:55:43,646 - INFO - loading Word2Vec object from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model
+2024-10-11 14:55:43,646 - DEBUG - {'uri': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+2024-10-11 14:55:43,647 - INFO - loading wv recursively from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+2024-10-11 14:55:43,647 - INFO - setting ignored attribute cum_table to None
+2024-10-11 14:55:43,749 - INFO - Word2Vec lifecycle event {'fname': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-10-11T14:55:43.733447', 'gensim': '4.3.3', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.22631-SP0', 'event': 'loaded'}
+2024-10-11 14:55:44,334 - DEBUG - Raw input data: '{"input":"닭요리 알려","excluded_recipes":[]}'
+2024-10-11 14:55:44,334 - DEBUG - Cleaned user input text: 닭요리 알려
+2024-10-11 14:55:44,334 - DEBUG - Excluded recipes: []
+2024-10-11 14:55:46,483 - DEBUG - Processed user input: ['닭', '요리']
+2024-10-11 14:55:46,571 - DEBUG - Building SSL context
+2024-10-11 14:55:46,799 - DEBUG - Switching to SSL
+2024-10-11 14:55:46,848 - DEBUG - SSL has been enabled
+2024-10-11 14:55:46,848 - DEBUG - Starting authorization phase
+2024-10-11 14:55:46,848 - DEBUG - The provided initial strategy is mysql_native_password
+2024-10-11 14:55:46,848 - INFO - package: mysql.connector.plugins
+2024-10-11 14:55:46,848 - INFO - plugin_name: mysql_native_password
+2024-10-11 14:55:46,848 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-10-11 14:55:46,895 - DEBUG - mysql_native_password completed succesfully
+2024-10-11 14:55:46,927 - DEBUG - Recommendation script started
+2024-10-11 14:55:46,991 - INFO - loading Word2Vec object from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model
+2024-10-11 14:55:46,991 - DEBUG - {'uri': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+2024-10-11 14:55:47,003 - INFO - loading wv recursively from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+2024-10-11 14:55:47,004 - INFO - setting ignored attribute cum_table to None
+2024-10-11 14:55:47,080 - INFO - Word2Vec lifecycle event {'fname': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-10-11T14:55:47.072085', 'gensim': '4.3.3', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.22631-SP0', 'event': 'loaded'}
+2024-10-11 14:55:47,703 - DEBUG - Raw input data: '{"input":"닭요리 알려","excluded_recipes":[]}'
+2024-10-11 14:55:47,703 - DEBUG - Cleaned user input text: 닭요리 알려
+2024-10-11 14:55:47,703 - DEBUG - Excluded recipes: []
+2024-10-11 14:55:49,580 - DEBUG - Processed user input: ['닭', '요리']
+2024-10-11 14:55:49,625 - DEBUG - Building SSL context
+2024-10-11 14:55:49,848 - DEBUG - Switching to SSL
+2024-10-11 14:55:49,863 - DEBUG - SSL has been enabled
+2024-10-11 14:55:49,863 - DEBUG - Starting authorization phase
+2024-10-11 14:55:49,863 - DEBUG - The provided initial strategy is mysql_native_password
+2024-10-11 14:55:49,879 - INFO - package: mysql.connector.plugins
+2024-10-11 14:55:49,879 - INFO - plugin_name: mysql_native_password
+2024-10-11 14:55:49,879 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-10-11 14:55:49,895 - DEBUG - mysql_native_password completed succesfully
+2024-10-11 14:57:19,422 - DEBUG - Recommendation script started
+2024-10-11 14:57:19,485 - INFO - loading Word2Vec object from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model
+2024-10-11 14:57:19,485 - DEBUG - {'uri': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+2024-10-11 14:57:19,485 - INFO - loading wv recursively from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+2024-10-11 14:57:19,485 - INFO - setting ignored attribute cum_table to None
+2024-10-11 14:57:19,577 - INFO - Word2Vec lifecycle event {'fname': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-10-11T14:57:19.564603', 'gensim': '4.3.3', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.22631-SP0', 'event': 'loaded'}
+2024-10-11 14:57:20,072 - DEBUG - Raw input data: '{"input":"닭요리 추천","excluded_recipes":[]}'
+2024-10-11 14:57:20,072 - DEBUG - Cleaned user input text: 닭요리 추천
+2024-10-11 14:57:20,072 - DEBUG - Excluded recipes: []
+2024-10-11 14:57:21,487 - DEBUG - Processed user input: ['닭', '요리', '추천']
+2024-10-11 14:57:21,543 - DEBUG - Building SSL context
+2024-10-11 14:57:21,743 - DEBUG - Switching to SSL
+2024-10-11 14:57:21,827 - DEBUG - SSL has been enabled
+2024-10-11 14:57:21,827 - DEBUG - Starting authorization phase
+2024-10-11 14:57:21,827 - DEBUG - The provided initial strategy is mysql_native_password
+2024-10-11 14:57:21,827 - INFO - package: mysql.connector.plugins
+2024-10-11 14:57:21,827 - INFO - plugin_name: mysql_native_password
+2024-10-11 14:57:21,827 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-10-11 14:57:21,902 - DEBUG - mysql_native_password completed succesfully
+2024-10-11 14:58:05,387 - DEBUG - Fetched 123842 recipes from database
+2024-10-11 14:58:09,253 - DEBUG - Recipes with valid vectors: 123842
+2024-10-11 14:58:09,518 - DEBUG - Recommended recipes: [6840638, 6944385, 6942795, 6862226, 6929788]
+2024-10-11 14:58:09,934 - DEBUG - Script completed successfully
+2024-10-11 15:02:56,420 - DEBUG - Recommendation script started
+2024-10-11 15:02:56,468 - INFO - loading Word2Vec object from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model
+2024-10-11 15:02:56,468 - DEBUG - {'uri': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+2024-10-11 15:02:56,468 - INFO - loading wv recursively from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+2024-10-11 15:02:56,468 - INFO - setting ignored attribute cum_table to None
+2024-10-11 15:02:56,563 - INFO - Word2Vec lifecycle event {'fname': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-10-11T15:02:56.559060', 'gensim': '4.3.3', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.22631-SP0', 'event': 'loaded'}
+2024-10-11 15:02:57,150 - DEBUG - Raw input data: '{"input":"닭요리 추천","excluded_recipes":[]}'
+2024-10-11 15:02:57,150 - DEBUG - Cleaned user input text: 닭요리 추천
+2024-10-11 15:02:57,150 - DEBUG - Excluded recipes: []
+2024-10-11 15:02:58,499 - DEBUG - Processed user input: ['닭', '요리', '추천']
+2024-10-11 15:02:58,547 - DEBUG - Building SSL context
+2024-10-11 15:02:58,685 - DEBUG - Switching to SSL
+2024-10-11 15:02:58,709 - DEBUG - SSL has been enabled
+2024-10-11 15:02:58,709 - DEBUG - Starting authorization phase
+2024-10-11 15:02:58,709 - DEBUG - The provided initial strategy is mysql_native_password
+2024-10-11 15:02:58,709 - INFO - package: mysql.connector.plugins
+2024-10-11 15:02:58,709 - INFO - plugin_name: mysql_native_password
+2024-10-11 15:02:58,709 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-10-11 15:02:58,717 - DEBUG - mysql_native_password completed succesfully
+2024-10-11 15:03:35,377 - DEBUG - Fetched 123842 recipes from database
+2024-10-11 15:03:36,647 - DEBUG - Recipes with valid vectors: 123842
+2024-10-11 15:03:36,736 - DEBUG - Recommended recipes: [6840638, 6944385, 6942795, 6862226, 6929788]
+2024-10-11 15:03:36,874 - DEBUG - Script completed successfully
+2024-10-11 15:06:45,179 - DEBUG - Recommendation script started
+2024-10-11 15:06:45,225 - INFO - loading Word2Vec object from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model
+2024-10-11 15:06:45,225 - DEBUG - {'uri': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+2024-10-11 15:06:45,241 - INFO - loading wv recursively from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+2024-10-11 15:06:45,241 - INFO - setting ignored attribute cum_table to None
+2024-10-11 15:06:45,336 - INFO - Word2Vec lifecycle event {'fname': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-10-11T15:06:45.319528', 'gensim': '4.3.3', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.22631-SP0', 'event': 'loaded'}
+2024-10-11 15:06:45,971 - DEBUG - Raw input data: '{"input":"닭요리 알려줘","excluded_recipes":[]}'
+2024-10-11 15:06:45,971 - DEBUG - Cleaned user input text: 닭요리 알려줘
+2024-10-11 15:06:45,971 - DEBUG - Excluded recipes: []
+2024-10-11 15:06:48,340 - DEBUG - Processed user input: ['닭', '요리']
+2024-10-11 15:06:48,403 - DEBUG - Building SSL context
+2024-10-11 15:06:48,547 - DEBUG - Switching to SSL
+2024-10-11 15:06:48,562 - DEBUG - SSL has been enabled
+2024-10-11 15:06:48,562 - DEBUG - Starting authorization phase
+2024-10-11 15:06:48,562 - DEBUG - The provided initial strategy is mysql_native_password
+2024-10-11 15:06:48,562 - INFO - package: mysql.connector.plugins
+2024-10-11 15:06:48,562 - INFO - plugin_name: mysql_native_password
+2024-10-11 15:06:48,562 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-10-11 15:06:48,562 - DEBUG - mysql_native_password completed succesfully
+2024-10-11 15:07:33,805 - DEBUG - Fetched 123842 recipes from database
+2024-10-11 15:07:38,174 - DEBUG - Recipes with valid vectors: 123842
+2024-10-11 15:07:38,465 - DEBUG - Recommended recipes: [6916505, 6852092, 6929547, 6877648, 6944134]
+2024-10-11 15:07:38,872 - DEBUG - Script completed successfully
+2024-10-11 15:18:32,837 - DEBUG - Recommendation script started
+2024-10-11 15:18:32,884 - INFO - loading Word2Vec object from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model
+2024-10-11 15:18:32,884 - DEBUG - {'uri': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+2024-10-11 15:18:32,884 - INFO - loading wv recursively from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+2024-10-11 15:18:32,884 - INFO - setting ignored attribute cum_table to None
+2024-10-11 15:18:32,963 - INFO - Word2Vec lifecycle event {'fname': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-10-11T15:18:32.963118', 'gensim': '4.3.3', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.22631-SP0', 'event': 'loaded'}
+2024-10-11 15:18:33,576 - DEBUG - Raw input data: '{"input":"국밥 메뉴 먹고싶어","excluded_recipes":[]}'
+2024-10-11 15:18:33,576 - DEBUG - Cleaned user input text: 국밥 메뉴 먹고싶어
+2024-10-11 15:18:33,576 - DEBUG - Excluded recipes: []
+2024-10-11 15:18:35,955 - DEBUG - Processed user input: ['국밥', '메뉴']
+2024-10-11 15:18:36,023 - DEBUG - Building SSL context
+2024-10-11 15:18:36,067 - DEBUG - Switching to SSL
+2024-10-11 15:18:36,100 - DEBUG - SSL has been enabled
+2024-10-11 15:18:36,100 - DEBUG - Starting authorization phase
+2024-10-11 15:18:36,100 - DEBUG - The provided initial strategy is mysql_native_password
+2024-10-11 15:18:36,100 - INFO - package: mysql.connector.plugins
+2024-10-11 15:18:36,102 - INFO - plugin_name: mysql_native_password
+2024-10-11 15:18:36,102 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-10-11 15:18:36,113 - DEBUG - mysql_native_password completed succesfully
+2024-10-11 15:19:13,266 - DEBUG - Fetched 123842 recipes from database
+2024-10-11 15:19:14,429 - DEBUG - Recipes with valid vectors: 123842
+2024-10-11 15:19:14,523 - DEBUG - Recommended recipes: [6881074, 6880633, 6839759, 6877279, 6877424]
+2024-10-11 15:19:14,666 - DEBUG - Script completed successfully
+2024-10-11 15:20:18,108 - DEBUG - Recommendation script started
+2024-10-11 15:20:18,156 - INFO - loading Word2Vec object from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model
+2024-10-11 15:20:18,156 - DEBUG - {'uri': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+2024-10-11 15:20:18,156 - INFO - loading wv recursively from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+2024-10-11 15:20:18,156 - INFO - setting ignored attribute cum_table to None
+2024-10-11 15:20:18,245 - INFO - Word2Vec lifecycle event {'fname': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-10-11T15:20:18.234971', 'gensim': '4.3.3', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.22631-SP0', 'event': 'loaded'}
+2024-10-11 15:20:18,792 - DEBUG - Raw input data: '{"input":"돼지고기 먹고싶어","excluded_recipes":[]}'
+2024-10-11 15:20:18,792 - DEBUG - Cleaned user input text: 돼지고기 먹고싶어
+2024-10-11 15:20:18,792 - DEBUG - Excluded recipes: []
+2024-10-11 15:20:20,691 - DEBUG - Processed user input: ['돼지고기']
+2024-10-11 15:20:20,771 - DEBUG - Building SSL context
+2024-10-11 15:20:20,990 - DEBUG - Switching to SSL
+2024-10-11 15:20:21,022 - DEBUG - SSL has been enabled
+2024-10-11 15:20:21,022 - DEBUG - Starting authorization phase
+2024-10-11 15:20:21,022 - DEBUG - The provided initial strategy is mysql_native_password
+2024-10-11 15:20:21,022 - INFO - package: mysql.connector.plugins
+2024-10-11 15:20:21,022 - INFO - plugin_name: mysql_native_password
+2024-10-11 15:20:21,022 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-10-11 15:20:21,037 - DEBUG - mysql_native_password completed succesfully
+2024-10-11 15:21:03,600 - DEBUG - Fetched 123842 recipes from database
+2024-10-11 15:21:07,029 - DEBUG - Recipes with valid vectors: 123842
+2024-10-11 15:21:07,255 - DEBUG - Recommended recipes: [6845803, 6917713, 6834241, 2776384, 6877687]
+2024-10-11 15:21:07,570 - DEBUG - Script completed successfully
+2024-10-11 15:21:54,434 - DEBUG - Recommendation script started
+2024-10-11 15:21:54,494 - INFO - loading Word2Vec object from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model
+2024-10-11 15:21:54,494 - DEBUG - {'uri': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+2024-10-11 15:21:54,494 - INFO - loading wv recursively from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+2024-10-11 15:21:54,494 - INFO - setting ignored attribute cum_table to None
+2024-10-11 15:21:54,580 - INFO - Word2Vec lifecycle event {'fname': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-10-11T15:21:54.580470', 'gensim': '4.3.3', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.22631-SP0', 'event': 'loaded'}
+2024-10-11 15:21:55,206 - DEBUG - Raw input data: '{"input":"노트북 먹고싶어","excluded_recipes":[]}'
+2024-10-11 15:21:55,206 - DEBUG - Cleaned user input text: 노트북 먹고싶어
+2024-10-11 15:21:55,206 - DEBUG - Excluded recipes: []
+2024-10-11 15:21:57,190 - DEBUG - Processed user input: ['노트북']
+2024-10-11 15:21:57,238 - DEBUG - Building SSL context
+2024-10-11 15:21:57,380 - DEBUG - Switching to SSL
+2024-10-11 15:21:57,413 - DEBUG - SSL has been enabled
+2024-10-11 15:21:57,413 - DEBUG - Starting authorization phase
+2024-10-11 15:21:57,413 - DEBUG - The provided initial strategy is mysql_native_password
+2024-10-11 15:21:57,413 - INFO - package: mysql.connector.plugins
+2024-10-11 15:21:57,413 - INFO - plugin_name: mysql_native_password
+2024-10-11 15:21:57,413 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-10-11 15:21:57,428 - DEBUG - mysql_native_password completed succesfully
+2024-10-11 15:22:37,929 - DEBUG - Fetched 123842 recipes from database
+2024-10-11 15:22:41,930 - DEBUG - Recipes with valid vectors: 123842
+2024-10-11 15:22:42,199 - DEBUG - Recommended recipes: [6899713, 6898717, 6865766, 6886427, 6879647]
+2024-10-11 15:22:42,532 - DEBUG - Script completed successfully
+2024-10-11 15:23:44,989 - DEBUG - Recommendation script started
+2024-10-11 15:23:45,052 - INFO - loading Word2Vec object from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model
+2024-10-11 15:23:45,052 - DEBUG - {'uri': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+2024-10-11 15:23:45,052 - INFO - loading wv recursively from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+2024-10-11 15:23:45,052 - INFO - setting ignored attribute cum_table to None
+2024-10-11 15:23:45,131 - INFO - Word2Vec lifecycle event {'fname': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-10-11T15:23:45.131736', 'gensim': '4.3.3', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.22631-SP0', 'event': 'loaded'}
+2024-10-11 15:23:45,721 - DEBUG - Raw input data: '{"input":"피자 먹고싶어","excluded_recipes":[]}'
+2024-10-11 15:23:45,721 - DEBUG - Cleaned user input text: 피자 먹고싶어
+2024-10-11 15:23:45,721 - DEBUG - Excluded recipes: []
+2024-10-11 15:23:47,804 - DEBUG - Processed user input: ['피자']
+2024-10-11 15:23:47,852 - DEBUG - Building SSL context
+2024-10-11 15:23:48,010 - DEBUG - Switching to SSL
+2024-10-11 15:23:48,041 - DEBUG - SSL has been enabled
+2024-10-11 15:23:48,041 - DEBUG - Starting authorization phase
+2024-10-11 15:23:48,041 - DEBUG - The provided initial strategy is mysql_native_password
+2024-10-11 15:23:48,041 - INFO - package: mysql.connector.plugins
+2024-10-11 15:23:48,041 - INFO - plugin_name: mysql_native_password
+2024-10-11 15:23:48,041 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-10-11 15:23:48,057 - DEBUG - mysql_native_password completed succesfully
+2024-10-11 15:24:33,879 - DEBUG - Fetched 123842 recipes from database
+2024-10-11 15:24:37,647 - DEBUG - Recipes with valid vectors: 123842
+2024-10-11 15:24:37,898 - DEBUG - Recommended recipes: [6844321, 6932976, 6914765, 6844375, 6180069]
+2024-10-11 15:24:38,261 - DEBUG - Script completed successfully
+2024-10-11 15:28:49,110 - DEBUG - Recommendation script started
+2024-10-11 15:28:49,189 - INFO - loading Word2Vec object from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model
+2024-10-11 15:28:49,189 - DEBUG - {'uri': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+2024-10-11 15:28:49,189 - INFO - loading wv recursively from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+2024-10-11 15:28:49,189 - INFO - setting ignored attribute cum_table to None
+2024-10-11 15:28:49,280 - INFO - Word2Vec lifecycle event {'fname': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-10-11T15:28:49.263253', 'gensim': '4.3.3', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.22631-SP0', 'event': 'loaded'}
+2024-10-11 15:28:49,923 - DEBUG - Raw input data: '{"input":"피자 먹고싶어","excluded_recipes":[]}'
+2024-10-11 15:28:49,923 - DEBUG - Cleaned user input text: 피자 먹고싶어
+2024-10-11 15:28:49,923 - DEBUG - Excluded recipes: []
+2024-10-11 15:28:52,337 - DEBUG - Processed user input: ['피자']
+2024-10-11 15:28:52,433 - DEBUG - Building SSL context
+2024-10-11 15:28:52,495 - DEBUG - Switching to SSL
+2024-10-11 15:28:52,511 - DEBUG - SSL has been enabled
+2024-10-11 15:28:52,511 - DEBUG - Starting authorization phase
+2024-10-11 15:28:52,511 - DEBUG - The provided initial strategy is mysql_native_password
+2024-10-11 15:28:52,511 - INFO - package: mysql.connector.plugins
+2024-10-11 15:28:52,511 - INFO - plugin_name: mysql_native_password
+2024-10-11 15:28:52,511 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-10-11 15:28:52,560 - DEBUG - mysql_native_password completed succesfully
+2024-10-11 15:29:35,463 - DEBUG - Fetched 123842 recipes from database
+2024-10-11 15:29:39,304 - DEBUG - Recipes with valid vectors: 123842
+2024-10-11 15:29:39,617 - DEBUG - Recommended recipes: [6844321, 6932976, 6914765, 6844375, 6180069]
+2024-10-11 15:29:40,007 - DEBUG - Script completed successfully
+2024-10-11 15:31:13,114 - DEBUG - Recommendation script started
+2024-10-11 15:31:13,161 - INFO - loading Word2Vec object from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model
+2024-10-11 15:31:13,161 - DEBUG - {'uri': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'mode': 'rb', 'buffering': -1, 'encoding': None, 'errors': None, 'newline': None, 'closefd': True, 'opener': None, 'ignore_ext': False, 'compression': None, 'transport_params': None}
+2024-10-11 15:31:13,176 - INFO - loading wv recursively from C:\Users\song4\IdeaProjects\Food-Nutrition\src\main\resources\PythonScript\word2vec_model.model.wv.* with mmap=None
+2024-10-11 15:31:13,176 - INFO - setting ignored attribute cum_table to None
+2024-10-11 15:31:13,249 - INFO - Word2Vec lifecycle event {'fname': 'C:\\Users\\song4\\IdeaProjects\\Food-Nutrition\\src\\main\\resources\\PythonScript\\word2vec_model.model', 'datetime': '2024-10-11T15:31:13.241004', 'gensim': '4.3.3', 'python': '3.11.7 | packaged by Anaconda, Inc. | (main, Dec 15 2023, 18:05:47) [MSC v.1916 64 bit (AMD64)]', 'platform': 'Windows-10-10.0.22631-SP0', 'event': 'loaded'}
+2024-10-11 15:31:13,792 - DEBUG - Raw input data: '{"input":"꼬치","excluded_recipes":[]}'
+2024-10-11 15:31:13,792 - DEBUG - Cleaned user input text: 꼬치
+2024-10-11 15:31:13,792 - DEBUG - Excluded recipes: []
+2024-10-11 15:31:15,226 - DEBUG - Processed user input: ['꼬치']
+2024-10-11 15:31:15,305 - DEBUG - Building SSL context
+2024-10-11 15:31:15,353 - DEBUG - Switching to SSL
+2024-10-11 15:31:15,369 - DEBUG - SSL has been enabled
+2024-10-11 15:31:15,369 - DEBUG - Starting authorization phase
+2024-10-11 15:31:15,369 - DEBUG - The provided initial strategy is mysql_native_password
+2024-10-11 15:31:15,369 - INFO - package: mysql.connector.plugins
+2024-10-11 15:31:15,369 - INFO - plugin_name: mysql_native_password
+2024-10-11 15:31:15,369 - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLNativePasswordAuthPlugin
+2024-10-11 15:31:15,385 - DEBUG - mysql_native_password completed succesfully
+2024-10-11 15:31:56,235 - DEBUG - Fetched 123842 recipes from database
+2024-10-11 15:31:59,902 - DEBUG - Recipes with valid vectors: 123842
+2024-10-11 15:32:00,252 - DEBUG - Recommended recipes: [6944328, 6831741, 6843396, 6896696, 6864343]
+2024-10-11 15:32:00,656 - DEBUG - Script completed successfully

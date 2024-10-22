@@ -29,20 +29,22 @@ public class RecipeIngredients {
     private Ingredients ingredient;
 
     @Column(name = "Unit")
-    private String Unit;
+    private String unit;
 
-    @Column(name = "IngredientSection")
-    private String IngredientSection;
 
     @Getter
     @Setter
     @Embeddable
     public static class RecipeIngredientsId implements Serializable {
-        @Column(name = "RecipeID", length = 20) // 길이를 20으로 설정
+        @Column(name = "RecipeID", length = 20)
         private Long recipeId;
 
-        @Column(name = "IngredientID", length = 20) // 길이를 20으로 설정
+        @Column(name = "IngredientID", length = 20)
         private Long ingredientId;
+
+        // RecipeID, IngredientID, Section을 복합키로 두어 각 레시피의 섹션마다 같은 재료를 저장할 수 있게 설정
+        @Column(name = "Section")
+        private String section;
 
         // equals() and hashCode() methods
         @Override
@@ -50,12 +52,14 @@ public class RecipeIngredients {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             RecipeIngredientsId that = (RecipeIngredientsId) o;
-            return recipeId.equals(that.recipeId) && ingredientId.equals(that.ingredientId);
+            return recipeId.equals(that.recipeId) &&
+                    ingredientId.equals(that.ingredientId) &&
+                    section.equals(that.section);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(recipeId, ingredientId);
+            return Objects.hash(recipeId, ingredientId, section);
         }
     }
 }

@@ -8,9 +8,9 @@ const RecipeIngredientsBox = ({recipeId}) => {
     const [loading, setLoading] = useState(true);
     const [recipe, setRecipe] = useState(null);
 
+    const [renderedIngredients, setRenderedIngredients] = useState([]);
 
     useEffect(() => {
-
         const fetchData = async () => {
             try {
                 // 레시피 데이터 가져오기
@@ -32,6 +32,20 @@ const RecipeIngredientsBox = ({recipeId}) => {
         }
     }, [recipeId]);  // recipeId가 변경될 때마다 실행
 
+    // 섹션별로 재료를 그룹화하는 함수
+    const groupIngredientsBySection = (ingredients) => {
+        return ingredients.reduce((acc, ingredient) => {
+            const section = ingredient.section;
+            if (!acc[section]) {
+                acc[section] = [];
+            }
+            acc[section].push(ingredient);
+            return acc;
+        }, {});
+    };
+
+    const groupedIngredients = groupIngredientsBySection(ingredients);
+
     if (recipeId == null) {
         return <div>등록된 레시피가 없습니다.</div>;
     }
@@ -46,37 +60,31 @@ const RecipeIngredientsBox = ({recipeId}) => {
 
     return (
         <div className='recipe_container'>
-            {/*<img*/}
-            {/*    src={}*/}
-            {/*    alt='레시피 이미지'*/}
-            {/*    className='mypage_interaction_image'*/}
-            {/*    onError={(e) => {*/}
-            {/*        e.target.src = recipeImg;*/}
-            {/*    }}*/}
-            {/*/>*/}
             <div className="recipe_info">
                 <div className="recipe_title">{recipe.title}</div>
-                {/*<div className="recipe_category">카테고리 : {recipe.category}</div>*/}
-                {/*<div className="recipe_author">작성자 : {recipe.author}</div>*/}
             </div>
-            {ingredients.length > 0 ? (
-                <>
-                    {ingredients.map((ingredient, index) => (
-                        <IngredientGroup
-                            key={index}
-                            ingredientId={ingredient.ingredientId}
-                            standard={ingredient.quantity}
-                        />
-                    ))}
-                </>
-            ) : (
-                <p>레시피에 재료가 없습니다.</p>
-            )}
+
+            {Object.keys(groupedIngredients).map((section) => (
+                <div key={section}>
+                    <h3>{section}</h3>
+                    <ul>
+                        {groupedIngredients[section].map((ingredient) => (
+                            <IngredientGroup
+                                key={ingredient.ingredientId}
+                                ingredientId={ingredient.ingredientId}
+                                unit={ingredient.unit}
+                                section={ingredient.section}
+                                standard={ingredient.quantity}
+                            />
+                        ))}
+                    </ul>
+                </div>
+            ))}
             <div className="recipe_bottom" />
         </div>
     );
 }
-const IngredientGroup = ({ingredientId, standard}) => {
+const IngredientGroup = ({ingredientId, standard, unit, section}) => {
     const [currentStandard, setCurrentStandard] = useState(standard || 0); // 기본값 0 설정
     const [ingredient, setIngredient] = useState(null);
 
@@ -122,7 +130,23 @@ const IngredientGroup = ({ingredientId, standard}) => {
     }, [currentStandard, ingredient]);
 
     const handleStandardChange = (e) => {
-        setCurrentStandard(parseInt(e.target.value) || 0);  // 값이 없으면 0으로 설정
+
+        // setCurrentStandard(parseInt(e.target.value) || 0);  // 값이 없으면 0으로 설정
+
+        const newQuantity = parseInt(e.target.value) || 0;  // 값이 없으면 0으로 설정
+        setCurrentStandard(newQuantity);
+
+        // console.log("Section 정보:", section);
+
+        // Update the quantity in totalIngredients, checking both ingredientId and section
+        setTotalIngredients((prevIngredients) => {
+            console.log("Total Ingredients before update:", prevIngredients);  // 이전 totalIngredients 값 로깅
+            return prevIngredients.map((ing) =>
+                ing.id === ingredientId && ing.section === section
+                    ? { ...ing, quantity: newQuantity }
+                    : ing
+            );
+        });
     };
 
     const calculateTotalIngredient = () => {
@@ -146,11 +170,20 @@ const IngredientGroup = ({ingredientId, standard}) => {
 
         // 기존 재료 정보를 삭제하고 새로운 재료 정보를 추가
         setTotalIngredients((prevIngredients) =>
-            prevIngredients.filter((ing) => ing.name !== ingredient.name)
+            prevIngredients.filter((ing) =>
+                !(ing.id === ingredientId && ing.section === section)
+            )
         );
 
+        // 기존 재료 정보를 삭제하고 새로운 재료 정보를 추가
+        // setTotalIngredients((prevIngredients) =>
+        //     prevIngredients.filter((ing) => ing.name !== ingredient.name)
+        // );
+
         const newIngredient = {
-            name: ingredient.name,
+            id : ingredientId,
+            // name: ingredient.name,
+            section: section,
             calorie: newCalorieAmount,
             sugar: newSugarAmount,
             sodium: newSodiumAmount,
@@ -176,7 +209,7 @@ const IngredientGroup = ({ingredientId, standard}) => {
                                 value={currentStandard}
                                 onChange={handleStandardChange}
                             />
-                            <div className="ingredient_unit">g</div>
+                            <div className="ingredient_unit">{unit}</div>
                         </div>
                     </div>
                     <div className="ingredient_info_group">

@@ -9,6 +9,8 @@ import com.example.TestSecurity.repository.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,14 +30,17 @@ public class IngredientService {
         this.ingredientsRepository = ingredientsRepository;
         this.recipeIngredientsRepository = recipeIngredientsRepository;
     }
- public Optional<Ingredients> getIngredientById(Long id) {
+    public Optional<Ingredients> getIngredientById(Long id) {
         return ingredientsRepository.findById(id);
     }
 
     public List<IngredientSearchDTO> searchIngredients(String keyword) {
-        List<Ingredients> ingredientsList = ingredientsRepository.findTop5ByFoodNameContainingIgnoreCase(keyword);
+        List<Ingredients> ingredientsList = ingredientsRepository.findByFoodNameContainingIgnoreCase(keyword);
+
         return ingredientsList.stream()
                 .map(ingredient -> new IngredientSearchDTO(ingredient.getId(), ingredient.getFoodName()))
+                .sorted(Comparator.comparing((IngredientSearchDTO dto) -> !dto.getFoodName().toLowerCase().startsWith(keyword.toLowerCase()))
+                        .thenComparing(IngredientSearchDTO::getFoodName))
                 .collect(Collectors.toList());
     }
 
