@@ -19,14 +19,14 @@
 .header_nav {
     display: flex;
     justify-content: space-around;
-    width: 500px;
+    width: 400px;
     margin: auto;
 }
 
 .header_nav_circle {
     display: flex;
-    width: 65px;
-    height: 65px;
+    width: 55px;
+    height: 55px;
     /*background : linear-gradient(315deg, #A0EBB5 , #C4E9CE, #C4E9CE);*/
     background-color: #dbdbdb;
     border-radius: 50%;
@@ -92,7 +92,7 @@
     align-items: center;
     margin-left:15px;
     .header_user_name {
-        font-size:20px;
+        font-size:18px;
         width: 50px;
         height: 50px;
         display: flex;
@@ -109,8 +109,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
     }
 }
 

@@ -66,13 +66,13 @@ public class SecurityConfig {
 
 
                         /// api 호출 접근 권한
-                        .requestMatchers( HttpMethod.GET,"/api/user/now","/api/logout",
-                                "/api/recipe", "/api/recipe/*", "/api/ingredient/*", "/api/community", "/api/community/*",
+                        .requestMatchers( HttpMethod.GET,"/api/user/now","/api/logout", "/api/recommend-recipes**",
+                                "/api/recipe","/api/recipe/fiverecipes", "/api/recipe/*", "/api/ingredient/*", "/api/community", "/api/community/*",
                                 "/api/ingredients/search")
                         .permitAll()
 
                         /// api 호출 접근 권한
-                        .requestMatchers( HttpMethod.POST, "/api/checkid","/api/recipe", "/api/recipe/recipeig" , "/api/community")
+                        .requestMatchers( HttpMethod.POST, "/api/checkid","/api/recipe", "/api/recipe/recipeig" , "/api/community","/api/recommend-recipes**", "/api/recommend-recipes")
                         .permitAll()
 
                         // 삭제 권한 설정 필요
@@ -87,7 +87,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/recommend-recipes").permitAll()
 
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
 
                 ).exceptionHandling((exception)->exception
                         .authenticationEntryPoint(authenticationEntryPoint()) // 인증되지 않은 페이지 접근 시

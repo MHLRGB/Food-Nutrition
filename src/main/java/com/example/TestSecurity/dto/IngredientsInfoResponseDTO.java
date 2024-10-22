@@ -10,4 +10,6 @@ public class IngredientsInfoResponseDTO {
 
     private Long ingredientId;
     private Double quantity;
+    private String unit;
+    private String section;
 }

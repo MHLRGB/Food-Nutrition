@@ -1,10 +1,10 @@
-import React, {useContext, useEffect, useState} from "react";
-import {createRecipe, getIngredientById, getRecipeById, updateRecipe} from "../apis/Recipe_api";
-import {RecipeContext, RecipeProvider} from "../community/RecipeContext";
-import {MainContext, MainProvider} from "./MainContext";
-import {useNavigate} from "react-router-dom";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { createRecipe, getIngredientById, searchIngredients } from "../apis/Recipe_api";
+import { RecipeContext } from "../community/RecipeContext";
+import { MainContext } from "./MainContext";
+import { useNavigate } from "react-router-dom";
 
-const RecipeIngredientsCreateBox = ({showEditButton}) => {
+const RecipeIngredientsCreateBox = ({ showEditButton }) => {
     const navigate = useNavigate();
     const {
         recipeTitle,
@@ -20,9 +20,76 @@ const RecipeIngredientsCreateBox = ({showEditButton}) => {
     const { totalIngredients, setTotalIngredients } = React.useContext(MainContext);
 
     const [error, setError] = useState(null);
-    const [newIngredientId, setNewIngredientId] = useState(""); // State for new ingredient ID
 
     const [renderedIngredients, setRenderedIngredients] = useState([]);
+
+    // 섹션 추가 / 수정을 위한 섹션 temp
+    const [newSection, setNewSection] = useState("");
+
+    // 실질적인 섹션 저장 내용. 섹션 이름,
+    const [sections, setSections] = useState([{ name: "재료", searchKeyword: "", searchResults: [] }]);
+
+    const debounceTimeoutRef = useRef(null); // 디바운스 타이머를 관리할 ref
+
+    // 섹션 추가 함수
+    const handleAddSection = () => {
+        if (newSection && !sections.some(section => section.name === newSection)) {
+            setSections([...sections, { name: newSection, searchKeyword: "", searchResults: [] }]);
+            setNewSection("");
+        }
+    };
+
+    // 섹션 삭제 함수
+    const handleRemoveSection = (sectionToRemove) => {
+        const updatedSections = sections.filter(section => section.name !== sectionToRemove);
+        setSections(updatedSections);
+
+        // 해당 섹션의 재료도 삭제
+        const ingredientsToRemove = recipeIngredients.filter(ingredient => ingredient.section === sectionToRemove);
+        const updatedIngredients = recipeIngredients.filter(ingredient => ingredient.section !== sectionToRemove);
+        setRecipeIngredients(updatedIngredients);
+
+        // totalIngredients에서 삭제된 재료의 영양소 정보 제거
+        setTotalIngredients(prevIngredients =>
+            prevIngredients.filter(ingredient => !ingredientsToRemove.some(item => item.ingredientId === ingredient.id))
+        );
+    };
+
+    // 섹션에서 재료를 검색할 때 해당하는 섹션의 검색창 하단에 검색 결과를 출력하기 위한 함수
+    const handleSectionKeywordChange = async (index, keyword) => {
+        console.log("인덱스 : " + index + " 키워드 : " + keyword);
+        const newSections = [...sections];
+        newSections[index].searchKeyword = keyword;
+
+        setSections(newSections);
+
+        if (debounceTimeoutRef.current) {
+            clearTimeout(debounceTimeoutRef.current); // 이전 타이머를 클리어
+        }
+
+        debounceTimeoutRef.current = setTimeout(async () => {
+            if (keyword.trim().length > 0) {
+                try {
+                    newSections[index].searchResults = await searchIngredients(keyword.trim());
+                    setSections(newSections);
+
+                    // 로깅
+                    newSections[index].searchResults.forEach(ingredient => {
+                        console.log("sections : " + ingredient.foodName);
+                    });
+                } catch (error) {
+                    console.error("Error fetching search results:", error);
+                }
+            }
+        }, 300); // 300ms 후에 실행
+    };
+
+    // 재료 입력창에서 커서를 잃을 때 검색 결과 초기화
+    const handleBlur = (index) => {
+        const newSections = [...sections];
+        newSections[index].searchResults = [];
+        setSections(newSections);
+    };
 
     useEffect(() => {
         setRecipeIngredients([]);
@@ -35,29 +102,41 @@ const RecipeIngredientsCreateBox = ({showEditButton}) => {
         });
 
         // recipeIngredients가 변경될 때 totalIngredients 업데이트
-        const updatedTotalIngredients = totalIngredients.filter(
-            (ingredient) => !recipeIngredients.some((item) => item.ingredientId === ingredient.id)
+        const updatedTotalIngredients = totalIngredients.filter((ingredient) =>
+            !recipeIngredients.some((item) =>
+                item.ingredientId === ingredient.id && item.section === ingredient.section
+            )
         );
-
         setTotalIngredients(updatedTotalIngredients);
 
-        if (recipeIngredients.length > 0) {
-            const ingredientsToRender = recipeIngredients.map((ingredient) => (
-                <IngredientGroup
-                    key={ingredient.ingredientId}
-                    ingredientId={ingredient.ingredientId}
-                    standard={ingredient.quantity}
-                    onRemove={() => handleRemoveIngredient(ingredient.ingredientId)}
-                    ParentRecipeIngredients={recipeIngredients} // 추가된 부분
-                />
-            ));
-            setRenderedIngredients(ingredientsToRender);
-        } else {
-            setRenderedIngredients(<p>레시피에 재료가 없습니다.</p>);
-        }
+        const ingredientsBySection = {};
 
-    }, [recipeIngredients]); // recipeIngredients가 변경될 때마다 실행
+        sections.forEach((section) => {
+            const sectionIngredients = recipeIngredients.filter(
+                (ingredient) => ingredient.section === section.name
+            );
 
+            if (sectionIngredients.length > 0) {
+                ingredientsBySection[section.name] = sectionIngredients.map((ingredient) => (
+                    <IngredientGroup
+                        key={ingredient.ingredientId}
+                        ingredientId={ingredient.ingredientId}
+                        standard={ingredient.quantity}
+                        unit={ingredient.unit}
+                        section={ingredient.section}
+                        onRemove={() => handleRemoveIngredient(ingredient.ingredientId, ingredient.section)}
+                        ParentRecipeIngredients={recipeIngredients}
+                    />
+                ));
+            } else {
+                ingredientsBySection[section.name] = <p>레시피에 재료가 없습니다.</p>;
+            }
+        });
+
+        setRenderedIngredients(ingredientsBySection);
+    }, [recipeIngredients]); // sections 의존성 추가
+
+    // 레시피 저장 함수
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -71,85 +150,127 @@ const RecipeIngredientsCreateBox = ({showEditButton}) => {
         }
     };
 
-    const handleAddIngredient = () => {
-        if (newIngredientId) {
+    // 재료 추가 함수
+    const handleAddIngredient = (ingredientId, section) => {
+        // if (!recipeIngredients.some(ingredient => ingredient.ingredientId === ingredientId)) {
+        //     setRecipeIngredients([...recipeIngredients, { ingredientId, quantity: 100, foodName, unit: "unittest", section }]);
+        // }
 
-            setRecipeIngredients([...recipeIngredients, { ingredientId: newIngredientId, quantity: 100 }]);
-            setNewIngredientId(""); // Reset the input
+        // 다른 재료 Section에 같은 재료가 있을 수 있으니 같은 재료 삽입 허용
+        setRecipeIngredients([...recipeIngredients, { ingredientId, quantity: 100, unit: "unittest", section }]);
+
+        const sectionIndex = sections.findIndex(sec => sec.name === section);
+        if (sectionIndex !== -1) {
+            const updatedSections = [...sections];
+            updatedSections[sectionIndex].searchKeyword = "";
+            updatedSections[sectionIndex].searchResults = [];
+            setSections(updatedSections);
         }
     };
 
-    const handleRemoveIngredient = (ingredientIdToRemove) => {
+    const handleRemoveIngredient = (ingredientIdToRemove, ingredientSectionToRemove) => {
         console.log("handleRemoveIngredient() 함수 호출");
 
         // recipeIngredients에서 해당 ingredientId를 제외한 새 배열을 생성
-        const updatedIngredients = recipeIngredients.filter(ingredient => ingredient.ingredientId !== ingredientIdToRemove);
+        //const updatedIngredients = recipeIngredients.filter(ingredient => ingredient.ingredientId !== ingredientIdToRemove);
+        const updatedIngredients = recipeIngredients.filter(ingredient =>
+            !(ingredient.ingredientId === ingredientIdToRemove && ingredient.section === ingredientSectionToRemove)
+        );
 
         // 상태 업데이트 (recipeIngredients)
         setRecipeIngredients(updatedIngredients);
 
         // totalIngredients에서 해당 ingredientId를 가진 재료의 영양소 정보 제거
         setTotalIngredients((prevIngredients) =>
-            prevIngredients.filter(ingredient => ingredient.id !== ingredientIdToRemove)
+            prevIngredients.filter(
+                ingredient => !(ingredient.id === ingredientIdToRemove && ingredient.section === ingredientSectionToRemove)
+            )
         );
-
-        // totalIngredients.forEach((ingredient) => {
-        //     console.log(ingredient);
-        // });
     };
 
     if (error) {
         return <div>Error: {error.message}</div>;
     }
 
-
     return (
         <div className="recipe_container">
-                <form onSubmit={handleSubmit}>
-                    <div className="recipeIngredients_form">
-                        <input
-                            type="text"
-                            placeholder="Title"
-                            className="recipeIngredients_form_input"
-                            value={recipeTitle}
-                            onChange={(e) => setRecipeTitle(e.target.value)}
-                            required
-                        />
-                        <input
-                            type="text"
-                            placeholder="Category"
-                            value={recipeCategory}
-                            className="recipeIngredients_form_input"
-                            onChange={(e) => setRecipeCategory(e.target.value)}
-                            required
-                        />
-                        <input
-                            type="text"
-                            placeholder="Content"
-                            value={recipeContent}
-                            className="recipeIngredients_form_input"
-                            onChange={(e) => setRecipeContent(e.target.value)}
-                            required
-                        />
+            <form onSubmit={handleSubmit}>
+                <div className="recipeIngredients_form">
+                    <input
+                        type="text"
+                        placeholder="Title"
+                        className="recipeIngredients_form_input"
+                        value={recipeTitle}
+                        onChange={(e) => setRecipeTitle(e.target.value)}
+                        required
+                    />
+                    <input
+                        type="text"
+                        placeholder="Category"
+                        value={recipeCategory}
+                        className="recipeIngredients_form_input"
+                        onChange={(e) => setRecipeCategory(e.target.value)}
+                        required
+                    />
+                    <input
+                        type="text"
+                        placeholder="Content"
+                        value={recipeContent}
+                        className="recipeIngredients_form_input"
+                        onChange={(e) => setRecipeContent(e.target.value)}
+                        required
+                    />
 
-                        <input
-                            type="text"
-                            placeholder="Ingredient ID"
-                            value={newIngredientId}
-                            className="recipeIngredients_form_input"
-                            onChange={(e) => setNewIngredientId(e.target.value)}
-                        />
+                </div>
+                <div className="section-add">
+                    <input
+                        type="text"
+                        placeholder="New Section"
+                        value={newSection}
+                        onChange={(e) => setNewSection(e.target.value)}
+                    />
+                    <button type="button" onClick={handleAddSection}>섹션 추가</button>
+                </div>
+
+                {sections.map((section, index) => (
+                    <div key={section.name} className="section">
+                        <h3>
+                            {section.name}
+                            <button type="button" onClick={() => handleRemoveSection(section.name)}>삭제</button>
+                        </h3>
+                        <div className="search-container">
+                            <input
+                                type="text"
+                                placeholder="Search Ingredients..."
+                                value={section.searchKeyword}
+                                onChange={(e) => handleSectionKeywordChange(index, e.target.value)}
+                                onBlur={() => handleBlur(index)}
+                                className="search-input"
+                            />
+                            {section.searchKeyword.length > 0 && (
+                                <div className="results-box">
+                                    <ul className="results-list">
+                                        {section.searchResults.map(ingredient => (
+                                            <li key={ingredient.id} className="results-item"
+                                                onMouseDown={() => handleAddIngredient(ingredient.id, section.name)}>
+                                                {ingredient.foodName}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
+                        </div>
+                        {renderedIngredients[section.name]}
                     </div>
-                    <button type="button" onClick={handleAddIngredient}>Add Ingredient</button>
-                    {showEditButton && <button type="submit">Create Recipe</button>}
-                </form>
-            {renderedIngredients}
+                ))}
+                {showEditButton && <button type="submit">Create Recipe</button>}
+            </form>
         </div>
     );
 };
 
 const IngredientGroup = ({
-                             ingredientId, standard, onRemove, ParentRecipeIngredients
+                             ingredientId, standard, unit, section, onRemove, ParentRecipeIngredients
                          }) => {
 
     const [currentStandard, setCurrentStandard] = useState(standard || 0);  // 값이 없으면 0으로 설정
@@ -179,7 +300,7 @@ const IngredientGroup = ({
     }, [ingredientId]);
 
     // 총 재료 값들을 컨텍스트에서 가져오기
-    const { totalIngredients, setTotalIngredients } = React.useContext(MainContext);
+    const {totalIngredients, setTotalIngredients } = React.useContext(MainContext);
 
     // 영양소별 상태값
     const [calorieAmount, setCalorieAmount] = useState(0);
@@ -228,11 +349,14 @@ const IngredientGroup = ({
         setFatAmount(newFatAmount);
 
         setTotalIngredients((prevIngredients) =>
-            prevIngredients.filter((ing) => ing.id !== ingredientId)
+            prevIngredients.filter((ing) =>
+                !(ing.id === ingredientId && ing.section === section) // 조건 변경
+            )
         );
 
         const newIngredient = {
-            name: ingredient.name,
+            // name: ingredient.name,
+            section : section,
             id: ingredientId,
             calorie: newCalorieAmount,
             sugar: newSugarAmount,
@@ -252,7 +376,7 @@ const IngredientGroup = ({
                 <>
                     <div className="ingredient_title">
                         {/*<div className="ingredient_title_text">{ingredient.name}</div>*/}
-                        <div className="ingredient_title_text">{ingredientId}</div>
+                        <div className="ingredient_title_text">{ingredient.name}</div>
                         <div className="ingredient_standard_input_group">
                             <input
                                 type="number"
@@ -260,7 +384,7 @@ const IngredientGroup = ({
                                 value={currentStandard}
                                 onChange={handleStandardChange}
                             />
-                            <div className="ingredient_unit">g</div>
+                            <div className="ingredient_unit">{unit}</div>
                             <button type="button" onClick={() => {
                                 onRemove();
                             }}>Remove
