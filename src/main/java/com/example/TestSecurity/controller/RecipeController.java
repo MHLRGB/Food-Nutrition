@@ -5,6 +5,7 @@ import com.example.TestSecurity.dto.RecipeRequestDTO;
 import com.example.TestSecurity.dto.RecipeResponseDTO;
 import com.example.TestSecurity.entity.Ingredients;
 import com.example.TestSecurity.entity.Recipe;
+import com.example.TestSecurity.service.IngredientProcessService;
 import com.example.TestSecurity.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -20,10 +22,12 @@ import java.util.stream.Collectors;
 public class RecipeController {
 
     private final RecipeService recipeService;
+    private final IngredientProcessService ingredientProcessService;
 
     @Autowired
-    public RecipeController(RecipeService recipeService) {
+    public RecipeController(RecipeService recipeService, IngredientProcessService ingredientProcessService) {
         this.recipeService = recipeService;
+        this.ingredientProcessService = ingredientProcessService;
     }
 
     @PostMapping
@@ -56,6 +60,10 @@ public class RecipeController {
 
         return new ResponseEntity<>(responseDTOs, HttpStatus.OK);
     }
+
+
+
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRecipeById(@PathVariable long id) {
@@ -106,36 +114,20 @@ public class RecipeController {
         }
     }
 
-    @PostMapping("/parsingExRecipes")
-    public void parsingExRecipes() {
+    @PostMapping("/process-data")
+    public String processData() {
+        // 레포지토리에서 "조리_재료_내용" 가져오기
+        List<String> ingredientContents = ingredientProcessService.getAllIngredientContents();
 
-//        recipeService.processAndSaveIngredients();
+        // 괄호 내용 추출
+        List<String> extractedData = ingredientProcessService.extractBracketContents();
+
+        // 추출된 데이터 저장
+        ingredientProcessService.saveExtractedData(extractedData);
+
+        return "추출된 데이터: " + String.join(", ", extractedData);
     }
 
-
-    @GetMapping("/fiverecipes")
-    public ResponseEntity<List<Map<String, String>>> getFiverecipes() {
-        // 레시피 데이터 리스트 생성
-        List<Map<String, String>> recipes = new ArrayList<>();
-
-        // 예시 레시피 데이터 추가
-        recipes.add(createRecipe("1", "김치찌개"));
-        recipes.add(createRecipe("2", "불고기"));
-        recipes.add(createRecipe("3", "비빔밥"));
-        recipes.add(createRecipe("4", "떡볶이"));
-        recipes.add(createRecipe("5", "된장찌개"));
-
-        // JSON 형식의 데이터 반환
-        return ResponseEntity.ok(recipes);
-    }
-
-    // 레시피 생성 메소드
-    private Map<String, String> createRecipe(String id, String name) {
-        Map<String, String> recipe = new HashMap<>();
-        recipe.put("recipeId", id);
-        recipe.put("recipeName", name);
-        return recipe;
-    }
 
     //
 //    @GetMapping("/top-popular-recipe")
