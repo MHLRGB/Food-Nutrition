@@ -1,19 +1,21 @@
 {
   "files": {
-    "main.css": "/static/css/main.27969f20.css",
-    "main.js": "/static/js/main.bc8924c1.js",
+    "main.css": "/static/css/main.007b0bfa.css",
+    "main.js": "/static/js/main.8a60e0bf.js",
     "static/js/453.8ab44547.chunk.js": "/static/js/453.8ab44547.chunk.js",
-    "static/media/slide-3.png": "/static/media/slide-3.d9df98f93847af3de98f.png",
-    "static/media/slide-2.png": "/static/media/slide-2.75e8c98acc7dce02cbf5.png",
-    "static/media/slide-1.png": "/static/media/slide-1.772a61916e502cb65cbd.png",
+    "static/media/slide-1.png": "/static/media/slide-1.9cf264e47836aaf92288.png",
+    "static/media/slide-2.png": "/static/media/slide-2.73b17941740af13a3669.png",
+    "static/media/slide-3.png": "/static/media/slide-3.5967745b111e8d19e13c.png",
+    "static/media/ai_icon.png": "/static/media/ai_icon.e524b6ce59e0ed9d0215.png",
+    "static/media/community_icon.png": "/static/media/community_icon.bbb81d6dc1dfb375b306.png",
     "static/media/recipe.png": "/static/media/recipe.49a37917e818138f9f68.png",
     "index.html": "/index.html",
-    "main.27969f20.css.map": "/static/css/main.27969f20.css.map",
-    "main.bc8924c1.js.map": "/static/js/main.bc8924c1.js.map",
+    "main.007b0bfa.css.map": "/static/css/main.007b0bfa.css.map",
+    "main.8a60e0bf.js.map": "/static/js/main.8a60e0bf.js.map",
     "453.8ab44547.chunk.js.map": "/static/js/453.8ab44547.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.27969f20.css",
-    "static/js/main.bc8924c1.js"
+    "static/css/main.007b0bfa.css",
+    "static/js/main.8a60e0bf.js"
   ]
 }

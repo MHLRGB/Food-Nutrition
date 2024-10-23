@@ -1,29 +1,18 @@
-# -*- coding: utf-8 -*-
 import sys
 import json
-import logging
-import io
-import numpy as np
-from sqlalchemy import create_engine
-import pandas as pd
-from sklearn.metrics.pairwise import cosine_similarity
-from gensim.models import Word2Vec
-from konlpy.tag import Okt
 import os
+import numpy as np
+from sqlalchemy import create_engine, text
+import pandas as pd
+from gensim.models import Word2Vec
+import re
+import io
+import asyncio
+import aiomysql
+from concurrent.futures import ThreadPoolExecutor
 
-# 입출력 스트림을 UTF-8로 설정
-sys.stdin = io.TextIOWrapper(sys.stdin.buffer, encoding='utf-8')
+# 표준 출력을 UTF-8로 설정
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
-sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
-
-# 현재 스크립트의 디렉토리를 가져옵니다.
-current_dir = os.path.dirname(os.path.abspath(__file__))
-
-# 로깅 설정
-log_file = os.path.join(current_dir, 'recommendation_log.txt')
-logging.basicConfig(filename=log_file, level=logging.DEBUG, encoding='utf-8',
-                    format='%(asctime)s - %(levelname)s - %(message)s')
-logging.debug("Recommendation script started")
 
 # 데이터베이스 연결 설정
 db_config = {
@@ -33,94 +22,150 @@ db_config = {
     'database': 'Foodlyze'
 }
 
-# SSL 없이 데이터베이스 연결
-engine = create_engine(f"mysql+mysqlconnector://{db_config['user']}:{db_config['password']}@{db_config['host']}/{db_config['database']}")
-
 # Word2Vec 모델 로드
-model_path = os.path.join(current_dir, "word2vec_model.model")
-model = Word2Vec.load(model_path)
+model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "word2vec_model.model")
+try:
+    model = Word2Vec.load(model_path)
+except Exception as e:
+    sys.exit(1)
 
-okt = Okt()
-
+# 텍스트 전처리 함수
 def preprocess_text(text):
-    return okt.nouns(text)
+    text = text.encode('utf-8', errors='ignore').decode('utf-8')
+    text = re.sub(r'[\udc80-\udcff]', '', text)  # 대체 문자 제거
+    text = re.sub(r'[^가-힣a-zA-Z0-9\s]', ' ', text)
+    text = re.sub(r'\s+', ' ', text).strip()
+    processed_words = text.lower().split()
+    return processed_words
 
-def get_recipe_vector(words):
+# 입력 텍스트의 벡터를 계산하는 함수
+def get_recipe_vector(text):
+    words = preprocess_text(text)
     valid_words = [word for word in words if word in model.wv]
     if not valid_words:
-        return None
-    return np.mean([model.wv[word] for word in valid_words], axis=0)
+        return np.zeros(model.vector_size)  # 빈 벡터 반환
+    vector = np.mean([model.wv[word] for word in valid_words], axis=0)
+    return vector
 
-def recommend_recipes(input_text, n=5, excluded_recipes=None):
-    processed_input = preprocess_text(input_text)
-    logging.debug(f"Processed user input: {processed_input}")
+# 코사인 유사도를 계산하는 함수
+def cosine_similarity(v1, v2):
+    return np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2))
 
-    input_vector = get_recipe_vector(processed_input)
-    if input_vector is None:
-        logging.warning("No valid words found in input text")
-        return pd.DataFrame()
+# 병렬로 벡터 유사도를 계산하는 함수
+def compute_similarity(row, input_vector):
+    try:
+        vector = np.fromstring(row['processed_vector'][1:-1], sep=',')
+        return cosine_similarity(vector, input_vector)
+    except Exception as e:
+        return 0
 
-    # 데이터베이스에서 전처리된 레시피 데이터 가져오기
-    query = "SELECT 레시피_번호, 레시피_제목, 조리_이름, 조리_소개, 조리_재료_내용, processed_vector FROM PreprocessedRecipes"
-    df = pd.read_sql(query, engine)
-    logging.debug(f"Fetched {len(df)} recipes from database")
+# 키워드 추출 함수
+def extract_keywords(text):
+    words = preprocess_text(text)
+    return set(words)
 
-    # 이전에 추천된 레시피 제외
+# 키워드 매칭 점수 계산 함수
+def keyword_matching_score(keywords, recipe_text):
+    recipe_words = set(preprocess_text(recipe_text))
+    return len(keywords.intersection(recipe_words)) / len(keywords) if keywords else 0
+
+# 비동기 데이터베이스 연결 풀 생성
+async def create_pool():
+    return await aiomysql.create_pool(
+        host=db_config['host'],
+        user=db_config['user'],
+        password=db_config['password'],
+        db=db_config['database'],
+        charset='utf8mb4',
+        cursorclass=aiomysql.DictCursor,
+        autocommit=True
+    )
+
+# 비동기로 유사한 레시피를 찾는 함수
+async def get_similar_recipes_async(pool, input_vector, input_keywords, n=5, excluded_recipes=None):
+    similarity_query = """
+    SELECT 레시피_번호, 레시피_제목, 조리_이름, 조리_소개, 조리_재료_내용, processed_vector
+    FROM PreprocessedRecipes
+    """
+
     if excluded_recipes:
-        df = df[~df['레시피_번호'].isin(excluded_recipes)]
-        logging.debug(f"Excluded {len(excluded_recipes)} previously recommended recipes")
+        placeholders = ', '.join(['%s' for _ in excluded_recipes])
+        exclusion_clause = f" WHERE 레시피_번호 NOT IN ({placeholders})"
+        similarity_query += exclusion_clause
 
-    # 문자열로 저장된 벡터를 numpy 배열로 변환
-    df['processed_vector'] = df['processed_vector'].apply(lambda x: np.fromstring(x, sep=',') if isinstance(x, str) else None)
-    df = df.dropna(subset=['processed_vector'])
-    logging.debug(f"Recipes with valid vectors: {len(df)}")
+    async with pool.acquire() as conn:
+        async with conn.cursor() as cur:
+            await cur.execute(similarity_query, excluded_recipes or ())
+            result = await cur.fetchall()
 
-    # 코사인 유사도 계산
-    similarities = cosine_similarity([input_vector], df['processed_vector'].tolist())[0]
+    recipes = pd.DataFrame(result)
 
-    # 상위 n개의 유사한 레시피 선택
-    top_indices = similarities.argsort()[-n:][::-1]
-    recommended_recipes = df.iloc[top_indices]
+    input_vector_exists = np.any(input_vector)
 
-    logging.debug(f"Recommended recipes: {recommended_recipes['레시피_번호'].tolist()}")
-    return recommended_recipes
-
-def clean_text(text):
-    return text.encode('utf-8', errors='ignore').decode('utf-8')
-
-try:
-    # 표준 입력에서 JSON 데이터 읽기
-    input_data = sys.stdin.read().strip()
-    logging.debug(f"Raw input data: {repr(input_data)}")
-
-    user_input_json = json.loads(input_data)
-    user_input_text = user_input_json.get('input', '')
-    excluded_recipes = user_input_json.get('excluded_recipes', [])
-
-    # 입력 텍스트 정제
-    user_input_text = clean_text(user_input_text)
-    logging.debug(f"Cleaned user input text: {user_input_text}")
-    logging.debug(f"Excluded recipes: {excluded_recipes}")
-
-    # 레시피 추천
-    recommended_recipes = recommend_recipes(user_input_text, excluded_recipes=excluded_recipes)
-
-    if recommended_recipes.empty:
-        print(json.dumps({"error": "No recommendations found"}, ensure_ascii=False))
+    if input_vector_exists:
+        with ThreadPoolExecutor() as executor:
+            recipes['w2v_similarity'] = list(executor.map(lambda row: compute_similarity(row, input_vector), recipes.itertuples()))
     else:
-        # JSON 형태로 변환 (한글 깨짐 방지)
-        recipes_json = json.dumps(recommended_recipes[['레시피_번호', '레시피_제목', '조리_이름', '조리_소개', '조리_재료_내용']].to_dict('records'), ensure_ascii=False, indent=2)
+        recipes['w2v_similarity'] = 0
 
-        # 결과를 표준 출력으로 반환
-        print(recipes_json)
+    recipes['keyword_score'] = recipes.apply(
+        lambda row: keyword_matching_score(
+            input_keywords,
+            f"{row['레시피_제목']} {row['조리_소개']} {row['조리_재료_내용']}"
+        ),
+        axis=1
+    )
 
-    logging.debug("Script completed successfully")
+    recipes['final_similarity'] = np.where(
+        input_vector_exists,
+        0.3 * recipes['w2v_similarity'] + 0.7 * recipes['keyword_score'],
+        recipes['keyword_score']
+    )
 
-except json.JSONDecodeError as e:
-    logging.error(f"JSON decoding error: {str(e)}")
-    print(json.dumps({"error": f"Invalid JSON input: {str(e)}"}, ensure_ascii=False))
-    sys.exit(1)
-except Exception as e:
-    logging.error(f"An error occurred: {str(e)}")
-    print(json.dumps({"error": str(e)}, ensure_ascii=False))
-    sys.exit(1)
+    similar_recipes = recipes.nlargest(n, 'final_similarity')
+
+    return similar_recipes
+
+# 비동기로 사용자 입력을 처리하는 함수
+async def process_input_async(pool, input_data):
+    try:
+        user_input_json = json.loads(input_data)
+        user_input_text = user_input_json.get('input', '')
+        excluded_recipes = user_input_json.get('excluded_recipes', [])
+
+        input_vector = get_recipe_vector(user_input_text)
+        input_keywords = extract_keywords(user_input_text)
+
+        if not input_keywords:
+            return {"error": "유효한 키워드를 입력해주세요."}
+
+        similar_recipes = await get_similar_recipes_async(pool, input_vector, input_keywords, n=5, excluded_recipes=excluded_recipes)
+
+        if similar_recipes.empty:
+            return {"error": "추천 결과가 없습니다."}
+
+        similar_recipes = similar_recipes.drop(['processed_vector', 'w2v_similarity', 'keyword_score', 'final_similarity'], axis=1)
+
+        return similar_recipes.to_dict('records')
+    except Exception as e:
+        return {"error": f"오류 발생: {str(e)}"}
+
+# 메인 함수 (비동기)
+async def main():
+    pool = await create_pool()
+    try:
+        input_data = sys.stdin.buffer.read().decode('utf-8').strip()
+        result = await process_input_async(pool, input_data)
+        json_result = json.dumps(result, ensure_ascii=False)
+        print(json_result)
+        sys.stdout.flush()
+    except Exception as e:
+        error_result = json.dumps({"error": str(e)}, ensure_ascii=False)
+        print(error_result)
+        sys.stdout.flush()
+    finally:
+        pool.close()
+        await pool.wait_closed()
+
+if __name__ == "__main__":
+    asyncio.run(main())
