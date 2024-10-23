@@ -1,6 +1,7 @@
 import React, {useEffect, useState, createContext, useContext} from 'react';
 import { Link } from 'react-router-dom';
 import '../css/Main.css';
+import '../css/App.css';
 import axios from 'axios';
 import '../css/imageSlider.css';
 

@@ -36,3 +36,13 @@
     transform: rotate(360deg);
   }
 }
+
+html::-webkit-scrollbar {
+  display: none; /* 브라우저의 스크롤바 숨기기 */
+}
+
+
+/* 스크롤바 핸들에 마우스를 올렸을 때 */
+/*html::-webkit-scrollbar-thumb:hover {*/
+/*  background-color: #45A049; !* 핸들 색상 변화 *!*/
+/*}*/

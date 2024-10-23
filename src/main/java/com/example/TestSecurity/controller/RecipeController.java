@@ -5,6 +5,7 @@ import com.example.TestSecurity.dto.RecipeRequestDTO;
 import com.example.TestSecurity.dto.RecipeResponseDTO;
 import com.example.TestSecurity.entity.Ingredients;
 import com.example.TestSecurity.entity.Recipe;
+import com.example.TestSecurity.service.IngredientProcessService;
 import com.example.TestSecurity.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,10 +22,12 @@ import java.util.stream.Collectors;
 public class RecipeController {
 
     private final RecipeService recipeService;
+    private final IngredientProcessService ingredientProcessService;
 
     @Autowired
-    public RecipeController(RecipeService recipeService) {
+    public RecipeController(RecipeService recipeService, IngredientProcessService ingredientProcessService) {
         this.recipeService = recipeService;
+        this.ingredientProcessService = ingredientProcessService;
     }
 
     @PostMapping
@@ -110,6 +113,21 @@ public class RecipeController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @PostMapping("/process-data")
+    public String processData() {
+        // 레포지토리에서 "조리_재료_내용" 가져오기
+        List<String> ingredientContents = ingredientProcessService.getAllIngredientContents();
+
+        // 괄호 내용 추출
+        List<String> extractedData = ingredientProcessService.extractBracketContents();
+
+        // 추출된 데이터 저장
+        ingredientProcessService.saveExtractedData(extractedData);
+
+        return "추출된 데이터: " + String.join(", ", extractedData);
+    }
+
 
     //
 //    @GetMapping("/top-popular-recipe")
