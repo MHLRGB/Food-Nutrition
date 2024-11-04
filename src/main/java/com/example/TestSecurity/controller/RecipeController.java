@@ -116,14 +116,9 @@ public class RecipeController {
 
     @PostMapping("/process-data")
     public String processData() {
-        // 레포지토리에서 "조리_재료_내용" 가져오기
-        List<String> ingredientContents = ingredientProcessService.getAllIngredientContents();
 
-        // 괄호 내용 추출
+        // 괄호 내용 추출 & 저장
         List<String> extractedData = ingredientProcessService.extractBracketContents();
-
-        // 추출된 데이터 저장
-        ingredientProcessService.saveExtractedData(extractedData);
 
         return "추출된 데이터: " + String.join(", ", extractedData);
     }

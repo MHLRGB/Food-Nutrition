@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
+// 레시피 저장 테스트 테이블
 @Data
 @NoArgsConstructor
 @Entity
