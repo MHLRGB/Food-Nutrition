@@ -29,16 +29,15 @@ try:
 except Exception as e:
     sys.exit(1)
 
-# 텍스트 전처리 함수
+# 사용자 입력 텍스트 전처리 함수
 def preprocess_text(text):
     text = text.encode('utf-8', errors='ignore').decode('utf-8')
-    text = re.sub(r'[\udc80-\udcff]', '', text)  # 대체 문자 제거
     text = re.sub(r'[^가-힣a-zA-Z0-9\s]', ' ', text)
     text = re.sub(r'\s+', ' ', text).strip()
     processed_words = text.lower().split()
     return processed_words
 
-# 입력 텍스트의 벡터를 계산하는 함수
+# 입력 텍스트의 벡터를 계산하는 함수 (사용자 입력에만 적용)
 def get_recipe_vector(text):
     words = preprocess_text(text)
     valid_words = [word for word in words if word in model.wv]
@@ -59,15 +58,15 @@ def compute_similarity(row, input_vector):
     except Exception as e:
         return 0
 
-# 키워드 추출 함수
+# 키워드 추출 함수 (사용자 입력에만 적용)
 def extract_keywords(text):
     words = preprocess_text(text)
     return set(words)
 
-# 키워드 매칭 점수 계산 함수
-def keyword_matching_score(keywords, recipe_text):
-    recipe_words = set(preprocess_text(recipe_text))
-    return len(keywords.intersection(recipe_words)) / len(keywords) if keywords else 0
+# 키워드 매칭 점수 계산 함수 (미리 전처리된 레시피 키워드 사용)
+def keyword_matching_score(input_keywords, recipe_keywords):
+    recipe_words = set(recipe_keywords.split())
+    return len(input_keywords.intersection(recipe_words)) / len(input_keywords) if input_keywords else 0
 
 # 비동기 데이터베이스 연결 풀 생성
 async def create_pool():
@@ -84,7 +83,7 @@ async def create_pool():
 # 비동기로 유사한 레시피를 찾는 함수
 async def get_similar_recipes_async(pool, input_vector, input_keywords, n=5, excluded_recipes=None):
     similarity_query = """
-    SELECT 레시피_번호, 레시피_제목, 조리_이름, 조리_소개, 조리_재료_내용, processed_vector
+    SELECT 레시피_번호, 레시피_제목, 조리_이름, 조리_소개, 조리_재료_내용, processed_vector, processed_keywords
     FROM PreprocessedRecipes
     """
 
@@ -109,10 +108,7 @@ async def get_similar_recipes_async(pool, input_vector, input_keywords, n=5, exc
         recipes['w2v_similarity'] = 0
 
     recipes['keyword_score'] = recipes.apply(
-        lambda row: keyword_matching_score(
-            input_keywords,
-            f"{row['레시피_제목']} {row['조리_소개']} {row['조리_재료_내용']}"
-        ),
+        lambda row: keyword_matching_score(input_keywords, row['processed_keywords']),
         axis=1
     )
 
