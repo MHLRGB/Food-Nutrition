@@ -72,7 +72,8 @@ public class SecurityConfig {
                         .permitAll()
 
                         /// api 호출 접근 권한
-                        .requestMatchers( HttpMethod.POST, "/api/checkid","/api/recipe", "/api/recipe/recipeig" , "/api/community","/api/recommend-recipes**", "/api/recommend-recipes")
+                        .requestMatchers( HttpMethod.POST, "/api/checkid","/api/recipe", "/api/recipe/recipeig" , "/api/community","/api/recommend-recipes**", "/api/recommend-recipes"
+                        ,"/api/batch/start")
                         .permitAll()
 
                         // 삭제 권한 설정 필요
