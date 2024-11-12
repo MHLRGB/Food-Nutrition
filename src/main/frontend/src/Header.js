@@ -71,7 +71,7 @@ function Header() {
                 <Link to="/" className={`header_nav_circle ${location.pathname === '/' ? 'active' : ''}`}>
                     <img src={main_icon} alt="Main" className="header_icon" />
                 </Link>
-                <Link to="/pageC" className={`header_nav_circle ${location.pathname === '/pageC' ? 'active' : ''}`}>
+                <Link to="/Search" className={`header_nav_circle ${location.pathname === '/Search' ? 'active' : ''}`}>
                     <img src={search_icon} alt="Search" className="header_icon" />
                 </Link>
                 <Link

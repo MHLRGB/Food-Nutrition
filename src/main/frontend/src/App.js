@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Login from './Login.js';
 import Join from './Join.js';
@@ -19,7 +19,7 @@ import Recipe_list from "./community/recipe/Recipe_list";
 import Community_board_detail from "./community/board/Community_board_detail";
 import Community_update from "./community/board/Community_board_update";
 import AI_Search from "./AI_Search";
-
+import Search from "./Search"; // Search 컴포넌트 임포트 추가
 
 const App = () => {
     return (
@@ -30,23 +30,24 @@ const App = () => {
                 <Route path="/test" element={<Test />} />
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/common" element={<Common />} />
-                <Route path="/mypage" element={<MyPage />}/>
-                <Route path="/aisearch" element={<AI_Search />}/>
+                <Route path="/mypage" element={<MyPage />} />
+                <Route path="/aisearch" element={<AI_Search />} />
+                <Route path="/search" element={<Search />} /> {/* 여기에 /search 경로 추가 */}
 
-                <Route path="/community" element={<Community />}/>
+                <Route path="/community" element={<Community />} />
 
-                <Route path="/recipe/write" element={<Recipe_write />}/>
-                <Route path="/recipe" element={<Recipe_list />}/>
+                <Route path="/recipe/write" element={<Recipe_write />} />
+                <Route path="/recipe" element={<Recipe_list />} />
                 <Route path="/recipe/:id" element={<Recipe_detail />} />
-                <Route path="/recipe/update/:id" element={<Recipe_update />}/>
+                <Route path="/recipe/update/:id" element={<Recipe_update />} />
 
-                <Route path="/community/board" element={<Community_board_list />}/>
+                <Route path="/community/board" element={<Community_board_list />} />
                 <Route path="/community/board/:id" element={<Community_board_detail />} />
-                <Route path="/community/board/write" element={<Community_board_write />}/>
-                <Route path="/community/board/update/:id" element={<Community_update />}/>
+                <Route path="/community/board/write" element={<Community_board_write />} />
+                <Route path="/community/board/update/:id" element={<Community_update />} />
 
-                <Route path="/community/info_tips" element={<Community_info_tips />}/>
-                <Route path="/" element={<Main />}/>
+                <Route path="/community/info_tips" element={<Community_info_tips />} />
+                <Route path="/" element={<Main />} />
             </Routes>
         </div>
     );
