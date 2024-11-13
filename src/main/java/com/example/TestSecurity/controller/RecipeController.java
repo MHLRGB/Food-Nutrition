@@ -48,13 +48,9 @@ public class RecipeController {
     @GetMapping
     public ResponseEntity<List<RecipeResponseDTO>> getAllRecipes() {
         List<Recipe> Recipes = recipeService.getAllRecipes();
-        List<RecipeResponseDTO> responseDTOs = Recipes.stream().map(Recipe -> {
+        List<RecipeResponseDTO> responseDTOs = Recipes.stream().map(recipe -> {
             RecipeResponseDTO dto = new RecipeResponseDTO();
-            dto.setId(Recipe.getId());
-            dto.setTitle(Recipe.getTitle());
-            dto.setAuthor(Recipe.getAuthor());
-            dto.setCategory(Recipe.getCategory());
-            dto.setCreatedDate(Recipe.getCreatedDate());
+            RecipeResponseDTO.from(recipe);
             return dto;
         }).collect(Collectors.toList());
 

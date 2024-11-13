@@ -2,7 +2,6 @@ import sys
 import json
 import os
 import numpy as np
-from sqlalchemy import create_engine, text
 import pandas as pd
 from gensim.models import Word2Vec
 import re
@@ -29,29 +28,57 @@ try:
 except Exception as e:
     sys.exit(1)
 
-# 텍스트 전처리 함수
+# 캐시 파일 경로 설정
+cache_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "cache.json")
+
+# 캐시 초기화 및 로드
+if os.path.exists(cache_file_path):
+    with open(cache_file_path, "r", encoding="utf-8") as cache_file:
+        cache = json.load(cache_file)
+else:
+    cache = {}
+
+# 유의어 매핑 정의
+synonym_dict = {
+    "추천": ["추천해줘", "추천해", "추천이야", "추천해줄래", "알려줘", "알려", "알려줄래", "있을까", "있어"],
+    "요리": ["요리법", "조리법", "음식", "메뉴", "요리", "식사"],
+    "좋은": ["추천", "강추", "권해", "좋아요", "권하다", "추천하다", "먹기 좋은"],
+    "안주": ["요깃거리", "과자"],
+    "보양식": ["보양", "몸보신", "보신"]
+}
+
+def normalize_synonyms(text):
+    words = text.split()
+    normalized_words = []
+    for word in words:
+        normalized_word = word
+        for key, synonyms in synonym_dict.items():
+            if word in synonyms:
+                normalized_word = key
+                break
+        normalized_words.append(normalized_word)
+    return " ".join(normalized_words)
+
 def preprocess_text(text):
+    text = normalize_synonyms(text)
     text = text.encode('utf-8', errors='ignore').decode('utf-8')
-    text = re.sub(r'[\udc80-\udcff]', '', text)  # 대체 문자 제거
+    text = re.sub(r'[\udc80-\udcff]', '', text)
     text = re.sub(r'[^가-힣a-zA-Z0-9\s]', ' ', text)
     text = re.sub(r'\s+', ' ', text).strip()
     processed_words = text.lower().split()
     return processed_words
 
-# 입력 텍스트의 벡터를 계산하는 함수
 def get_recipe_vector(text):
     words = preprocess_text(text)
     valid_words = [word for word in words if word in model.wv]
     if not valid_words:
-        return np.zeros(model.vector_size)  # 빈 벡터 반환
+        return np.zeros(model.vector_size)
     vector = np.mean([model.wv[word] for word in valid_words], axis=0)
     return vector
 
-# 코사인 유사도를 계산하는 함수
 def cosine_similarity(v1, v2):
     return np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2))
 
-# 병렬로 벡터 유사도를 계산하는 함수
 def compute_similarity(row, input_vector):
     try:
         vector = np.fromstring(row['processed_vector'][1:-1], sep=',')
@@ -59,17 +86,29 @@ def compute_similarity(row, input_vector):
     except Exception as e:
         return 0
 
-# 키워드 추출 함수
 def extract_keywords(text):
     words = preprocess_text(text)
     return set(words)
 
-# 키워드 매칭 점수 계산 함수
 def keyword_matching_score(keywords, recipe_text):
-    recipe_words = set(preprocess_text(recipe_text))
+    recipe_words = set(recipe_text.lower().split())
     return len(keywords.intersection(recipe_words)) / len(keywords) if keywords else 0
 
-# 비동기 데이터베이스 연결 풀 생성
+def create_cache_key(text):
+    keywords = extract_keywords(text)
+    extended_keywords = set(keywords)
+    for word in keywords:
+        if word in model.wv:
+            similar_words = [similar_word for similar_word, _ in model.wv.most_similar(word, topn=2)]
+            extended_keywords.update(similar_words)
+    return json.dumps(sorted(extended_keywords), ensure_ascii=False)
+
+def save_cache(new_key, new_value):
+    if new_key not in cache:
+        cache[new_key] = new_value
+        with open(cache_file_path, "w", encoding="utf-8") as cache_file:
+            json.dump(cache, cache_file, ensure_ascii=False)
+
 async def create_pool():
     return await aiomysql.create_pool(
         host=db_config['host'],
@@ -81,16 +120,15 @@ async def create_pool():
         autocommit=True
     )
 
-# 비동기로 유사한 레시피를 찾는 함수
 async def get_similar_recipes_async(pool, input_vector, input_keywords, n=5, excluded_recipes=None):
     similarity_query = """
-    SELECT 레시피_번호, 레시피_제목, 조리_이름, 조리_소개, 조리_재료_내용, processed_vector
+    SELECT recipe_number, recipe_title, recipe_info, ingredient_content, hashtag, by_type, by_situation, by_ingredient, by_method, processed_vector
     FROM PreprocessedRecipes
     """
 
     if excluded_recipes:
         placeholders = ', '.join(['%s' for _ in excluded_recipes])
-        exclusion_clause = f" WHERE 레시피_번호 NOT IN ({placeholders})"
+        exclusion_clause = f" WHERE recipe_number NOT IN ({placeholders})"
         similarity_query += exclusion_clause
 
     async with pool.acquire() as conn:
@@ -99,7 +137,6 @@ async def get_similar_recipes_async(pool, input_vector, input_keywords, n=5, exc
             result = await cur.fetchall()
 
     recipes = pd.DataFrame(result)
-
     input_vector_exists = np.any(input_vector)
 
     if input_vector_exists:
@@ -111,7 +148,7 @@ async def get_similar_recipes_async(pool, input_vector, input_keywords, n=5, exc
     recipes['keyword_score'] = recipes.apply(
         lambda row: keyword_matching_score(
             input_keywords,
-            f"{row['레시피_제목']} {row['조리_소개']} {row['조리_재료_내용']}"
+            f"{row['recipe_title']} {row['recipe_info']} {row['ingredient_content']}"
         ),
         axis=1
     )
@@ -123,15 +160,18 @@ async def get_similar_recipes_async(pool, input_vector, input_keywords, n=5, exc
     )
 
     similar_recipes = recipes.nlargest(n, 'final_similarity')
-
     return similar_recipes
 
-# 비동기로 사용자 입력을 처리하는 함수
 async def process_input_async(pool, input_data):
     try:
         user_input_json = json.loads(input_data)
         user_input_text = user_input_json.get('input', '')
         excluded_recipes = user_input_json.get('excluded_recipes', [])
+
+        cache_key = create_cache_key(user_input_text)
+
+        if cache_key in cache:
+            return cache[cache_key]
 
         input_vector = get_recipe_vector(user_input_text)
         input_keywords = extract_keywords(user_input_text)
@@ -145,12 +185,14 @@ async def process_input_async(pool, input_data):
             return {"error": "추천 결과가 없습니다."}
 
         similar_recipes = similar_recipes.drop(['processed_vector', 'w2v_similarity', 'keyword_score', 'final_similarity'], axis=1)
+        result = similar_recipes.to_dict('records')
 
-        return similar_recipes.to_dict('records')
+        save_cache(cache_key, result)
+
+        return result
     except Exception as e:
         return {"error": f"오류 발생: {str(e)}"}
 
-# 메인 함수 (비동기)
 async def main():
     pool = await create_pool()
     try:

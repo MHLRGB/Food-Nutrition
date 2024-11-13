@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-// 크롤링 데이터 다루는 테스트 테이블
-
 @Entity
 @Table(name = "Test_Crawling_Recipe")
 @Getter
@@ -15,52 +13,49 @@ import lombok.Setter;
 public class TestCrawlingRecipe {
 
     @Id
-    @Column(name = "아이디", nullable = false)
+    @Column(name = "id", nullable = false)  // Primary key
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
-    @Column(name = "recipe_number", nullable = false)
+    @Column(name = "recipe_number", nullable = false)  // recipe_number
     private Integer recipeNumber;
 
-    @Column(name = "레시피_제목", length = 255)
+    @Column(name = "recipe_title", length = 255)  // recipe_title
     private String recipeTitle;
 
-    @Column(name = "레시피_소개", columnDefinition = "TEXT")
-    private String recipeIntro;
+    @Column(name = "recipe_info", columnDefinition = "TEXT")  // recipe_info
+    private String recipeInfo;
 
-    @Column(name = "조회수")
+    @Column(name = "views")  // views
     private Integer views;
 
-    @Column(name = "셰프", length = 100)
+    @Column(name = "chef", length = 100)  // chef
     private String chef;
 
-    @Column(name = "인분", length = 50)
+    @Column(name = "serving", length = 50)  // serving
     private String servings;
 
-    @Column(name = "조리시간", length = 50)
+    @Column(name = "cooking_time", length = 50)  // cooking_time
     private String cookingTime;
 
-    @Column(name = "난이도", length = 50)
+    @Column(name = "difficulty", length = 50)  // difficulty
     private String difficulty;
 
-    @Column(name = "ingredient_content", columnDefinition = "TEXT")
-    private String ingredientsContent;
+    @Column(name = "ingredient_content", columnDefinition = "TEXT")  // ingredient_content
+    private String ingredientContent;
 
-    @Column(name = "인트로", columnDefinition = "TEXT")
-    private String intro;
-
-    @Column(name = "해시태그", columnDefinition = "TEXT")
+    @Column(name = "hashtag", columnDefinition = "TEXT")  // hashtag
     private String hashtags;
 
-    @Column(name = "종류별", length = 50)
+    @Column(name = "by_type", length = 50)  // by_type
     private String category;
 
-    @Column(name = "상황별", length = 50)
+    @Column(name = "by_situation", length = 50)  // by_situation
     private String situation;
 
-    @Column(name = "재료별", length = 50)
+    @Column(name = "by_ingredient", length = 50)  // by_ingredient
     private String ingredientType;
 
-    @Column(name = "방법별", length = 50)
+    @Column(name = "by_method", length = 50)  // by_method
     private String method;
 }

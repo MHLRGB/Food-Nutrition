@@ -12,13 +12,19 @@ import java.util.List;
 @Setter
 public class RecipeIngredientsResponseDTO {
 
-    private Long id;
-    private String title;
-    private String content;
-    private String author;
-    private String category;
-    private int likes;
-    private LocalDateTime createdDate;
+    private Long recipe_id;
+    private String recipe_title;
+    private String recipe_info;
+    private Integer views;
+    private String chef;
+    private String serving;
+    private String cooking_time;
+    private String difficulty;
+    private String hashtag;
+    private String by_type;
+    private String by_situation;
+    private String by_ingredient;
+    private String by_method;
 
     private List<IngredientsInfoResponseDTO> ingredientsInfo;
 }

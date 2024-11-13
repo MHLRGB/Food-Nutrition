@@ -10,5 +10,5 @@ import lombok.Setter;
 public class IngredientSearchDTO {
 
     private Long id;
-    private String foodName;
+    private String ingredient_name;
 }

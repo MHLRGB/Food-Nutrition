@@ -34,7 +34,7 @@ const Main = () => {
 
 const Body = () => {
     const recommendedRecipe = [
-        { src: image1, recipeId: [1, 2, 3, 4] },   // 1~5
+        { src: image1, recipeId: [35, 36, 37, 38] },   // 1~5
         { src: image2, recipeId: [5, 6, 7, 8, 9, 10] },  // 6~10
         { src: image3, recipeId: [11, 12, 13] } // 11~15
     ];

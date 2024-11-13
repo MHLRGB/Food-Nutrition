@@ -9,9 +9,18 @@ import java.util.List;
 @Setter
 public class RecipeRequestDTO {
 
-    private String title;
-    private String author;
-    private String category;
-    private String content;
+    private String recipe_title;
+    private String recipe_info;
+    private Integer views;
+    private String chef;
+    private String serving;
+    private String cooking_time;
+    private String difficulty;
+    private String hashtag;
+    private String by_type;
+    private String by_situation;
+    private String by_ingredient;
+    private String by_method;
     private List<IngredientRequestDTO> ingredients;
 }
+

@@ -3,6 +3,7 @@ import './css/AI_Search.css';
 import Header from "./Header";
 import ai_icon from "./image/ai_search_button.png";
 import axios from "axios";
+import RecipeIngredientsBox from "./main/RecipeIngredientsBox";
 
 const getAIRecipes = async (input) => {
     const response = await axios.post('/api/recommend-recipes',
@@ -67,7 +68,7 @@ const Body = () => {
         setInputValue(e.target.value);
     };
 
-    const selectedRecipe = recipes.find(recipe => recipe.레시피_번호 === selectedRecipeId);
+    const selectedRecipe = recipes.find(recipe => recipe.recipe_number === selectedRecipeId);
 
     return (
         <div className='ai_search_body'>
@@ -94,18 +95,19 @@ const Body = () => {
                     <>
                         {recipes.map((recipe) => (
                             <div
-                                key={recipe.레시피_번호}
+                                key={recipe.recipe_number}
                                 className="recipe_item_box"
-                                onClick={() => handleRecipeClick(recipe.레시피_번호)}
+                                onClick={() => handleRecipeClick(recipe.recipe_number)}
                             >
-                                <div className='recipe_item_name'>{recipe.레시피_제목}</div>
+                                <div className='recipe_item_name'>{recipe.recipe_title}</div>
                             </div>
                         ))}
                         {selectedRecipe ? (
                             <div className='ai_search_result_detail'>
-                                <div className='ai_search_result_detail_category'>제목: {selectedRecipe.레시피_제목}</div>
-                                <div className='ai_search_result_detail_category'>소개: {selectedRecipe.조리_소개}</div>
-                                <div className='ai_search_result_detail_category'>재료: {selectedRecipe.조리_재료_내용}</div>
+                                <div className='ai_search_result_detail_category'>제목: {selectedRecipe.recipe_title}</div>
+                                <div className='ai_search_result_detail_category'>소개: {selectedRecipe.recipe_info}</div>
+                                <div className='ai_search_result_detail_category'>재료: {selectedRecipe.ingredient_content}</div>
+                                <RecipeIngredientsBox recipeId={selectedRecipe.recipe_number}/>
                             </div>
                         ) : null}
                     </>

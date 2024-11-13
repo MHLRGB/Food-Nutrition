@@ -12,9 +12,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 @RestController
 public class PythonScriptController {
+
+    private static final Logger logger = Logger.getLogger(PythonScriptController.class.getName());
 
     @Value("${python.path}")
     private String pythonPath;
@@ -24,34 +27,35 @@ public class PythonScriptController {
 
     @PostMapping(value = "/api/recommend-recipes", produces = "application/json; charset=UTF-8")
     public ResponseEntity<String> recommendRecipes(@RequestBody Map<String, Object> input) {
+        logger.info("Received request to recommend recipes with input: " + input);
+
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-
-            // 사용자 입력 텍스트 가져오기
             String userInput = (String) input.get("input");
 
-            // 이전에 추천된 레시피 번호 리스트 처리
             List<Integer> excludedRecipes = (List<Integer>) input.getOrDefault("excludedRecipes", new ArrayList<>());
 
-            // 입력 데이터 준비
             Map<String, Object> scriptInput = new HashMap<>();
             scriptInput.put("input", userInput);
             scriptInput.put("excluded_recipes", excludedRecipes);
 
             String inputJson = objectMapper.writeValueAsString(scriptInput);
+            logger.info("Prepared input JSON for Python script: " + inputJson);
 
             File scriptFile = new File(scriptPath);
             ProcessBuilder pb = new ProcessBuilder(pythonPath, scriptFile.getAbsolutePath());
-            pb.redirectErrorStream(true);
+            pb.redirectErrorStream(false); // 오류 스트림 분리
             Process process = pb.start();
+            logger.info("Started Python process with path: " + pythonPath + " and script: " + scriptPath);
 
-            // Python 스크립트에 JSON 데이터를 전달
+            // 표준 입력 스트림에 JSON 데이터 전송
             try (Writer writer = new OutputStreamWriter(process.getOutputStream(), "UTF-8")) {
                 writer.write(inputJson);
                 writer.flush();
+                logger.info("Sent input JSON to Python script.");
             }
 
-            // Python 스크립트의 출력을 읽어오기
+            // 표준 출력 스트림에서 Python 스크립트의 출력 읽기
             StringBuilder output = new StringBuilder();
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"))) {
                 String line;
@@ -60,53 +64,32 @@ public class PythonScriptController {
                 }
             }
 
-            // Python 스크립트의 종료 코드 확인
+            // 표준 오류 스트림에서 Python 스크립트의 오류 메시지 읽기
+            StringBuilder errorOutput = new StringBuilder();
+            try (BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream(), "UTF-8"))) {
+                String line;
+                while ((line = errorReader.readLine()) != null) {
+                    errorOutput.append(line).append("\n");
+                }
+            }
+
             int exitCode = process.waitFor();
             if (exitCode != 0) {
+                logger.severe("Python script exited with error code: " + exitCode);
+                logger.severe("Python script error output: " + errorOutput.toString().trim());
                 return ResponseEntity.internalServerError().body("{\"error\": \"Python script execution failed\"}");
             }
 
             String result = output.toString().trim();
-            // JSON 형식 검증
-            objectMapper.readTree(result);
+            logger.info("Received output from Python script: " + result);
 
+            objectMapper.readTree(result); // JSON 형식 유효성 검사
             return ResponseEntity.ok(result);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.severe("Exception while executing Python script: " + e.getMessage());
+            e.printStackTrace(); // 추가적인 에러 정보를 콘솔에 출력
             return ResponseEntity.internalServerError().body("{\"error\": \"" + e.getMessage() + "\"}");
         }
     }
 }
-
-/*
-* 초기 추천 요청:
-사용자가 처음 레시피를 요청합니다.
-프론트엔드는 excluded_recipes 없이 요청을 보냅니다.
-백엔드 컨트롤러가 요청을 받아 파이썬 스크립트를 실행합니다.
-파이썬 스크립트는 모든 레시피를 대상으로 추천을 생성합니다.
-추천된 레시피가 프론트엔드로 반환됩니다.
-프론트엔드에서 레시피 번호 저장:
-프론트엔드는 받은 레시피의 레시피_번호를 배열에 저장합니다.
-"다른 레시피" 요청:
-사용자가 "다른 레시피" 버튼을 클릭합니다.
-프론트엔드는 저장된 레시피_번호 배열을 excluded_recipes로 포함하여 새 요청을 보냅니다.
-백엔드 처리:
-컨트롤러가 요청을 받아 excluded_recipes를 포함한 데이터를 파이썬 스크립트에 전달합니다.
-파이썬 스크립트 처리:
-스크립트는 excluded_recipes를 받아 해당 레시피를 제외하고 새로운 추천을 생성합니다.
-결과 반환:
-새로운 추천 결과가 프론트엔드로 반환됩니다.
-프로세스 반복:
-프론트엔드는 새로 받은 레시피 번호를 기존 배열에 추가합니다.
-사용자가 다시 "다른 레시피"를 요청하면 3~6 단계가 반복됩니다.
-이 프로세스를 구현하기 위해 각 부분에서 해야 할 일은 다음과 같습니다:
-프론트엔드:
-추천받은 레시피 번호를 배열로 관리합니다.
-"다른 레시피" 버튼 클릭 시 저장된 레시피 번호를 excluded_recipes로 포함하여 요청을 보냅니다.
-백엔드 컨트롤러:
-excluded_recipes를 포함한 요청을 처리할 수 있도록 수정합니다.
-이 정보를 파이썬 스크립트에 전달합니다.
-파이썬 스크립트:
-excluded_recipes를 받아 처리하는 로직을 구현합니다 (이미 완료됨).
-* */

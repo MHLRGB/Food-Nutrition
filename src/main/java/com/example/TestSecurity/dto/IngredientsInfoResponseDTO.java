@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 public class IngredientsInfoResponseDTO {
 
+    private String ingredientName;
     private Long ingredientId;
     private Double quantity;
     private String unit;

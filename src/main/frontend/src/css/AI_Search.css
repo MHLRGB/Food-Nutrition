@@ -121,3 +121,56 @@
 .ai_search_result_detail_category {
   margin-bottom:20px
 }
+
+/* 로딩 중 위/아래 애니메이션 */
+@keyframes moveUpDown {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px); /* 위로 5px */
+  }
+  100% {
+    transform: translateY(0); /* 원래 위치로 돌아옴 */
+  }
+}
+
+/* 로딩 상태에서의 아이템 애니메이션 */
+.loading {
+  animation: moveUpDown 1s infinite; /* 1초마다 반복되는 애니메이션 */
+  font-size: 16px;
+  color: #555;
+}
+
+/* 추천 메뉴가 옆에서 나오는 애니메이션 */
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%); /* 처음에는 화면 밖에 위치 */
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0); /* 화면 안으로 들어오며 */
+    opacity: 1;
+  }
+}
+
+/* 추천된 레시피 리스트가 나타날 때 적용될 클래스 */
+.recipe_item_box {
+  animation: slideInFromRight 0.5s ease-out; /* 0.5초 동안 오른쪽에서 왼쪽으로 */
+}
+
+/* 레시피 선택 시 세부사항 애니메이션 */
+@keyframes slideInFromBottom {
+  0% {
+    transform: translateY(100%); /* 화면 아래로 시작 */
+    opacity: 0; /* 초기에는 투명 */
+  }
+  100% {
+    transform: translateY(0); /* 원래 위치로 */
+    opacity: 1; /* 최종적으로 불투명 */
+  }
+}
+
+.ai_search_result_detail {
+  animation: slideInFromBottom 0.5s ease-out; /* 0.5초 동안 아래에서 위로 */
+}

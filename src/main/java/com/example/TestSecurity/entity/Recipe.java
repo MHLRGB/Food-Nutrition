@@ -15,39 +15,34 @@ public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(length = 20)
-    private Long id;
+    private Long recipe_id;
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RecipeIngredients> recipeIngredients = new ArrayList<>();
 
-    @Column(nullable = false)
-    private String title;
+    private String recipe_title;
 
-    @Column(nullable = false)
-    private String content;
+    @Lob
+    private String recipe_info;
 
-    @Column(nullable = false)
-    private String author;
+    private Integer views;
 
-    @Column(nullable = false)
-    private String category;
+    private String chef;
 
-    @Column(nullable = false)
-    private int likes = 0; // 기본값 0으로 설정
+    private String serving;
 
-    @Column(nullable = false)
-    private int views = 0; // 기본값 0으로 설정
+    private String cooking_time;
 
-    private LocalDateTime createdDate;
+    private String difficulty;
 
-    @PrePersist
-    protected void onCreate() {
-        createdDate = LocalDateTime.now();
-        if (likes == 0) { // likes가 초기화되지 않았다면 0으로 설정
-            likes = 0;
-        }
-        if (views == 0) { // views가 초기화되지 않았다면 0으로 설정
-            views = 0;
-        }
-    }
+    @Lob
+    private String hashtag;
+
+    private String by_type;
+
+    private String by_situation;
+
+    private String by_ingredient;
+
+    private String by_method;
 }
