@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Setter
@@ -15,13 +17,16 @@ public class Ingredients {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(length = 20)
-    private Long ingredient_id;
+    private Long ingredientId;
+
+    @OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RecipeIngredients> recipeIngredients = new ArrayList<>();
 
     @Column(name = "식품군")
     private String foodGroup;
 
-    @Column(name = "식품명")
-    private String foodName;
+    @Column(name = "ingredientName")
+    private String ingredientName;
 
     @Column(name = "에너지_kcal")
     private Float energyKcal;

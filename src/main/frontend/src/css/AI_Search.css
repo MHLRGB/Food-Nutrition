@@ -1,7 +1,7 @@
 .ai_search_body {
   width: 100%;
   min-height: 85vh;
-  background: linear-gradient(to top, #F7FFF9 60%, #FFFFFF 40%);
+  background: linear-gradient(to top, #F7FFF9, #FFFFFF);
 
   display: flex;
   justify-content: flex-start; /* 자식 요소들을 상단으로 정렬 */
@@ -9,6 +9,7 @@
   align-items: center; /* 자식 요소들을 좌우 가운데 정렬 */
   padding-top:130px;
 }
+
 
 
 .ai_search_group {
@@ -67,12 +68,19 @@
   height: 40px;
 }
 
+.ai_search_result_container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .ai_search_result_box {
-  width: 100%; /* 너비를 100%로 설정하여 화면을 가득 채움 */
+  width: 1000px; /* 너비를 100%로 설정하여 화면을 가득 채움 */
   display: flex;
   align-items: center; /* 중앙 정렬 */
   justify-content: center;
-  flex-wrap: wrap;
+  flex-direction: column;
   font-size: 20px;
   margin-top: 20px;
   gap:15px;
@@ -107,15 +115,15 @@
 }
 
 .ai_search_result_detail {
-  width: 1040px;
-  min-height: 600px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  border: 3px solid #CEF5D9;
-  border-radius: 20px;
-  background-color: #F7FFF9;
+  width: 900px;
+  /*min-height: 600px;*/
+  /*display: flex;*/
+  /*flex-direction: column;*/
+  /*justify-content: center;*/
+  /*text-align: center;*/
+  /*border: 3px solid #CEF5D9;*/
+  /*border-radius: 20px;*/
+  /*background-color: #F7FFF9;*/
 }
 
 .ai_search_result_detail_category {
@@ -173,4 +181,17 @@
 
 .ai_search_result_detail {
   animation: slideInFromBottom 0.5s ease-out; /* 0.5초 동안 아래에서 위로 */
+}
+
+.ai_recipe_title_group {
+  display: flex;
+  justify-content: space-around;
+  width:1000px;
+
+}
+
+.ai_search_result_side {
+  width:100%;
+  height: 100vh;
+  align-items: center;
 }

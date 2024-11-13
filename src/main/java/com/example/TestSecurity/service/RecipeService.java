@@ -86,20 +86,19 @@ public class RecipeService {
 
         // 레시피 저장
         Recipe recipe = new Recipe();
-        recipe.setRecipe_title(recipeRequestDTO.getRecipe_title());
-        recipe.setRecipe_info(recipeRequestDTO.getRecipe_info());
+        recipe.setRecipeTitle(recipeRequestDTO.getRecipeTitle());
+        recipe.setRecipeInfo(recipeRequestDTO.getRecipeInfo());
         recipe.setViews(recipeRequestDTO.getViews() != null ? recipeRequestDTO.getViews() : 0); // views는 null일 경우 기본값 0으로 설정
         recipe.setChef(author); // author를 chef로 설정
         recipe.setServing(recipeRequestDTO.getServing() != null ? recipeRequestDTO.getServing() : null);
-        recipe.setCooking_time(recipeRequestDTO.getCooking_time() != null ? recipeRequestDTO.getCooking_time() : null);
+        recipe.setCookingTime(recipeRequestDTO.getCookingTime() != null ? recipeRequestDTO.getCookingTime() : null);
         recipe.setDifficulty(recipeRequestDTO.getDifficulty() != null ? recipeRequestDTO.getDifficulty() : null);
         recipe.setHashtag(recipeRequestDTO.getHashtag() != null ? recipeRequestDTO.getHashtag() : null);
-        recipe.setBy_type(recipeRequestDTO.getBy_type());
-        recipe.setBy_situation(recipeRequestDTO.getBy_situation());
-        recipe.setBy_ingredient(recipeRequestDTO.getBy_ingredient());
-        recipe.setBy_method(recipeRequestDTO.getBy_method());
+        recipe.setByType(recipeRequestDTO.getByType());
+        recipe.setBySituation(recipeRequestDTO.getBySituation());
+        recipe.setByIngredient(recipeRequestDTO.getByIngredient());
+        recipe.setByMethod(recipeRequestDTO.getByMethod());
         Recipe savedRecipe = recipeRepository.save(recipe);
-
 
         List<IngredientRequestDTO> ingredients = recipeRequestDTO.getIngredients();
 
@@ -107,20 +106,27 @@ public class RecipeService {
         for (IngredientRequestDTO ingredientRequestDTO : ingredients) {
             RecipeIngredients recipeIngredients = new RecipeIngredients();
 
+            // RecipeIngredientsId 객체 생성 및 설정
             RecipeIngredients.RecipeIngredientsId id = new RecipeIngredients.RecipeIngredientsId();
-            id.setRecipe_id(savedRecipe.getRecipe_id());
-            id.setIngredient_id(ingredientRequestDTO.getIngredient_id());
-            id.setSection(ingredientRequestDTO.getSection());
+            id.setRecipeId(savedRecipe.getRecipeId());
 
+            // ingredientId가 null인 경우 99999로 설정
+            Long ingredientId = ingredientRequestDTO.getIngredientId();
+            if (ingredientId == null) {
+                ingredientId = 99999L;  // 99999로 설정
+            }
+            id.setIngredientId(ingredientId);
+            id.setSection(ingredientRequestDTO.getSection());
+            // RecipeIngredients 객체 설정
             recipeIngredients.setRecipe(savedRecipe);  // Recipe 엔티티 설정
-            Ingredients ingredient = ingredientsRepository.findById(ingredientRequestDTO.getIngredient_id())
+            Ingredients ingredient = ingredientsRepository.findById(ingredientId)
                     .orElseThrow(() -> new IllegalArgumentException("createRecipeWithIngredients() : Invalid Ingredient ID"));
             recipeIngredients.setIngredient(ingredient);  // Ingredient 엔티티 설정
 
+            recipeIngredients.setId(id);  // RecipeIngredientsId 설정
 
-            recipeIngredients.setId(id);
-
-            recipeIngredients.setIngredient_name(ingredientRequestDTO.getIngredientName());
+            // recipeIngredients.setSection(ingredientRequestDTO.getSection());
+            recipeIngredients.setIngredientName(ingredientRequestDTO.getIngredientName());
             recipeIngredients.setQuantity(ingredientRequestDTO.getQuantity());
             recipeIngredients.setUnit(ingredientRequestDTO.getUnit());
             System.out.println("ingredientRequestDTO.getSection() : " + ingredientRequestDTO.getSection());
@@ -131,6 +137,7 @@ public class RecipeService {
     }
 
 
+
     @Transactional
     public RecipeIngredientsResponseDTO updateRecipe(Long id, RecipeRequestDTO recipeRequestDTO) {
         // 레시피 가져오기
@@ -138,23 +145,23 @@ public class RecipeService {
                 .orElseThrow(() -> new NoSuchElementException("Recipe not found"));
 
         // 레시피 정보 업데이트
-        recipe.setRecipe_title(recipeRequestDTO.getRecipe_title());
-        recipe.setRecipe_info(recipeRequestDTO.getRecipe_info());
+        recipe.setRecipeTitle(recipeRequestDTO.getRecipeTitle());
+        recipe.setRecipeInfo(recipeRequestDTO.getRecipeInfo());
         recipe.setViews(recipeRequestDTO.getViews() != null ? recipeRequestDTO.getViews() : 0); // views는 null일 경우 기본값 0으로 설정
         recipe.setServing(recipeRequestDTO.getServing() != null ? recipeRequestDTO.getServing() : null);
-        recipe.setCooking_time(recipeRequestDTO.getCooking_time() != null ? recipeRequestDTO.getCooking_time() : null);
+        recipe.setCookingTime(recipeRequestDTO.getCookingTime() != null ? recipeRequestDTO.getCookingTime() : null);
         recipe.setDifficulty(recipeRequestDTO.getDifficulty() != null ? recipeRequestDTO.getDifficulty() : null);
         recipe.setHashtag(recipeRequestDTO.getHashtag() != null ? recipeRequestDTO.getHashtag() : null);
-        recipe.setBy_type(recipeRequestDTO.getBy_type());
-        recipe.setBy_situation(recipeRequestDTO.getBy_situation());
-        recipe.setBy_ingredient(recipeRequestDTO.getBy_ingredient());
-        recipe.setBy_method(recipeRequestDTO.getBy_method());
+        recipe.setByType(recipeRequestDTO.getByType());
+        recipe.setBySituation(recipeRequestDTO.getBySituation());
+        recipe.setByIngredient(recipeRequestDTO.getByIngredient());
+        recipe.setByMethod(recipeRequestDTO.getByMethod());
 
         // 레시피 저장
         Recipe updatedRecipe = recipeRepository.save(recipe);
 
         // 기존 재료 삭제
-        recipeIngredientsRepository.deleteByRecipeId(updatedRecipe.getRecipe_id());
+        recipeIngredientsRepository.deleteById_RecipeId(updatedRecipe.getRecipeId());
 
         // 새로운 재료 저장
         List<IngredientRequestDTO> ingredientRequestDTOs = recipeRequestDTO.getIngredients();
@@ -163,17 +170,18 @@ public class RecipeService {
             RecipeIngredients recipeIngredients = new RecipeIngredients();
             RecipeIngredients.RecipeIngredientsId recipeIngredientsId = new RecipeIngredients.RecipeIngredientsId();
 
-            recipeIngredientsId.setRecipe_id(updatedRecipe.getRecipe_id());
-            recipeIngredientsId.setIngredient_id(ingredientRequestDTO.getIngredient_id());
+            recipeIngredientsId.setRecipeId(updatedRecipe.getRecipeId());
+            recipeIngredientsId.setIngredientId(ingredientRequestDTO.getIngredientId());
             recipeIngredientsId.setSection(ingredientRequestDTO.getSection());
 
-            Ingredients ingredient = ingredientsRepository.findById(ingredientRequestDTO.getIngredient_id())
+            Ingredients ingredient = ingredientsRepository.findById(ingredientRequestDTO.getIngredientId())
                     .orElseThrow(() -> new IllegalArgumentException("Invalid Ingredient ID"));
 
             recipeIngredients.setId(recipeIngredientsId);
             recipeIngredients.setRecipe(updatedRecipe);
             recipeIngredients.setIngredient(ingredient);
-            recipeIngredients.setIngredient_name(ingredientRequestDTO.getIngredientName());
+            // recipeIngredients.setSection(ingredientRequestDTO.getSection());
+            recipeIngredients.setIngredientName(ingredientRequestDTO.getIngredientName());
             recipeIngredients.setQuantity(ingredientRequestDTO.getQuantity());
             recipeIngredients.setUnit(ingredientRequestDTO.getUnit());
 
@@ -196,26 +204,26 @@ public class RecipeService {
             recipe.setChef(community.getAuthor());
         } else {
             // 레시피가 있으면 기존 재료 삭제
-            recipeIngredientsRepository.deleteByRecipeId(recipe.getRecipe_id());
+            recipeIngredientsRepository.deleteById_RecipeId(recipe.getRecipeId());
         }
 
         // 레시피 정보 생성 or 업데이트
-        recipe.setRecipe_title(recipeRequestDTO.getRecipe_title());
-        recipe.setRecipe_info(recipeRequestDTO.getRecipe_info());
+        recipe.setRecipeTitle(recipeRequestDTO.getRecipeTitle());
+        recipe.setRecipeInfo(recipeRequestDTO.getRecipeInfo());
         recipe.setViews(recipeRequestDTO.getViews() != null ? recipeRequestDTO.getViews() : 0); // views는 null일 경우 기본값 0으로 설정
         recipe.setServing(recipeRequestDTO.getServing() != null ? recipeRequestDTO.getServing() : null);
-        recipe.setCooking_time(recipeRequestDTO.getCooking_time() != null ? recipeRequestDTO.getCooking_time() : null);
+        recipe.setCookingTime(recipeRequestDTO.getCookingTime() != null ? recipeRequestDTO.getCookingTime() : null);
         recipe.setDifficulty(recipeRequestDTO.getDifficulty() != null ? recipeRequestDTO.getDifficulty() : null);
         recipe.setHashtag(recipeRequestDTO.getHashtag() != null ? recipeRequestDTO.getHashtag() : null);
-        recipe.setBy_type(recipeRequestDTO.getBy_type());
-        recipe.setBy_situation(recipeRequestDTO.getBy_situation());
-        recipe.setBy_ingredient(recipeRequestDTO.getBy_ingredient());
-        recipe.setBy_method(recipeRequestDTO.getBy_method());
+        recipe.setByType(recipeRequestDTO.getByType());
+        recipe.setBySituation(recipeRequestDTO.getBySituation());
+        recipe.setByIngredient(recipeRequestDTO.getByIngredient());
+        recipe.setByMethod(recipeRequestDTO.getByMethod());
         // 레시피 저장
         Recipe savedRecipe = recipeRepository.save(recipe);
 
         // 레시피 ID가 null인지 확인
-        if (savedRecipe.getRecipe_id() == null) {
+        if (savedRecipe.getRecipeId() == null) {
             throw new IllegalStateException("저장된 레시피의 ID가 null입니다.");
         }
 
@@ -223,17 +231,17 @@ public class RecipeService {
         // 새로운 재료 저장
         if (recipeRequestDTO.getIngredients() != null) {
             for (IngredientRequestDTO ingredientRequestDTO : recipeRequestDTO.getIngredients()) {
-                if (ingredientRequestDTO.getIngredient_id() == null) {
+                if (ingredientRequestDTO.getIngredientId() == null) {
                     throw new IllegalArgumentException("재료 ID는 null일 수 없습니다.");
                 }
 
                 RecipeIngredients recipeIngredients = new RecipeIngredients();
                 RecipeIngredients.RecipeIngredientsId recipeIngredientsId = new RecipeIngredients.RecipeIngredientsId();
 
-                recipeIngredientsId.setRecipe_id(savedRecipe.getRecipe_id());
-                recipeIngredientsId.setIngredient_id(ingredientRequestDTO.getIngredient_id());
+                recipeIngredientsId.setRecipeId(savedRecipe.getRecipeId());
+                recipeIngredientsId.setIngredientId(ingredientRequestDTO.getIngredientId());
 
-                Ingredients ingredient = ingredientsRepository.findById(ingredientRequestDTO.getIngredient_id())
+                Ingredients ingredient = ingredientsRepository.findById(ingredientRequestDTO.getIngredientId())
                         .orElseThrow(() -> new IllegalArgumentException("Invalid Ingredient ID"));
 
                 recipeIngredients.setId(recipeIngredientsId);
@@ -409,32 +417,33 @@ public class RecipeService {
 
         // RecipeIngredientsResponseDTO 객체 생성
         RecipeIngredientsResponseDTO recipeIngredientsResponseDTO = new RecipeIngredientsResponseDTO();
-        recipeIngredientsResponseDTO.setRecipe_id(recipe.getRecipe_id()); // recipe_id
-        recipeIngredientsResponseDTO.setRecipe_title(recipe.getRecipe_title()); // recipe_title
-        recipeIngredientsResponseDTO.setRecipe_info(recipe.getRecipe_info()); // recipe_info
+        recipeIngredientsResponseDTO.setRecipeId(recipe.getRecipeId()); // recipe_id
+        recipeIngredientsResponseDTO.setRecipeTitle(recipe.getRecipeTitle()); // recipe_title
+        recipeIngredientsResponseDTO.setRecipeInfo(recipe.getRecipeInfo()); // recipe_info
         recipeIngredientsResponseDTO.setViews(recipe.getViews()); // views
         recipeIngredientsResponseDTO.setChef(recipe.getChef()); // chef
         recipeIngredientsResponseDTO.setServing(recipe.getServing()); // serving
-        recipeIngredientsResponseDTO.setCooking_time(recipe.getCooking_time()); // cooking_time
+        recipeIngredientsResponseDTO.setCookingTime(recipe.getCookingTime()); // cooking_time
         recipeIngredientsResponseDTO.setDifficulty(recipe.getDifficulty()); // difficulty
         recipeIngredientsResponseDTO.setHashtag(recipe.getHashtag()); // hashtag
-        recipeIngredientsResponseDTO.setBy_type(recipe.getBy_type()); // by_type
-        recipeIngredientsResponseDTO.setBy_situation(recipe.getBy_situation()); // by_situation
-        recipeIngredientsResponseDTO.setBy_ingredient(recipe.getBy_ingredient()); // by_ingredient
-        recipeIngredientsResponseDTO.setBy_method(recipe.getBy_method()); // by_method
+        recipeIngredientsResponseDTO.setByType(recipe.getByType()); // by_type
+        recipeIngredientsResponseDTO.setBySituation(recipe.getBySituation()); // by_situation
+        recipeIngredientsResponseDTO.setByIngredient(recipe.getByIngredient()); // by_ingredient
+        recipeIngredientsResponseDTO.setByMethod(recipe.getByMethod()); // by_method
 
-        List<IngredientsInfoResponseDTO> IngredientsInfoResponseDTOs = recipeIngredientsRepository.findById_RecipeId(recipe.getRecipe_id()).stream()
+        List<IngredientsInfoResponseDTO> IngredientsInfoResponseDTOs = recipeIngredientsRepository.findById_RecipeId(recipe.getRecipeId()).stream()
                 .map(recipeIngredient -> {
                     // IngredientsInfoResponseDTO 객체 생성
                     IngredientsInfoResponseDTO ingredientsInfoResponseDTO = new IngredientsInfoResponseDTO();
 
                     // IngredientsInfoResponseDTO 필드 설정
-                    ingredientsInfoResponseDTO.setIngredientId(recipeIngredient.getId().getIngredient_id());
-//                    ingredientsInfoResponseDTO.setIngredientInfo(ingredientResponseDTO);
-                    ingredientsInfoResponseDTO.setIngredientName(recipeIngredient.getIngredient_name());
-                    ingredientsInfoResponseDTO.setQuantity(recipeIngredient.getQuantity());
-                    ingredientsInfoResponseDTO.setUnit(recipeIngredient.getUnit());
+                    ingredientsInfoResponseDTO.setIngredientId(recipeIngredient.getId().getIngredientId());
                     ingredientsInfoResponseDTO.setSection(recipeIngredient.getId().getSection());
+//                    ingredientsInfoResponseDTO.setIngredientInfo(ingredientResponseDTO);
+                    ingredientsInfoResponseDTO.setIngredientName(recipeIngredient.getIngredientName());
+                    ingredientsInfoResponseDTO.setQuantity(recipeIngredient.getQuantity());
+//                    ingredientsInfoResponseDTO.setUnit(recipeIngredient.getSection());
+                    ingredientsInfoResponseDTO.setUnit(recipeIngredient.getUnit());
 
                     return ingredientsInfoResponseDTO;
                 })

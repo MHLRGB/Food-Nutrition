@@ -15,15 +15,15 @@ public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(length = 20)
-    private Long recipe_id;
+    private Long recipeId;
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RecipeIngredients> recipeIngredients = new ArrayList<>();
 
-    private String recipe_title;
+    private String recipeTitle;
 
     @Lob
-    private String recipe_info;
+    private String recipeInfo;
 
     private Integer views;
 
@@ -31,18 +31,18 @@ public class Recipe {
 
     private String serving;
 
-    private String cooking_time;
+    private String cookingTime;
 
     private String difficulty;
 
     @Lob
     private String hashtag;
 
-    private String by_type;
+    private String byType;
 
-    private String by_situation;
+    private String bySituation;
 
-    private String by_ingredient;
+    private String byIngredient;
 
-    private String by_method;
+    private String byMethod;
 }

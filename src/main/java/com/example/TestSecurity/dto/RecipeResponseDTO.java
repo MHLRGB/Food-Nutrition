@@ -10,36 +10,36 @@ import java.util.List;
 @Setter
 public class RecipeResponseDTO {
 
-    private Long recipe_id;
-    private String recipe_title;
-    private String recipe_info;
+    private Long recipeId;
+    private String recipeTitle;
+    private String recipeInfo;
     private Integer views;
     private String chef;
     private String serving;
-    private String cooking_time;
+    private String cookingTime;
     private String difficulty;
     private String hashtag;
-    private String by_type;
-    private String by_situation;
-    private String by_ingredient;
-    private String by_method;
+    private String byType;
+    private String bySituation;
+    private String byIngredient;
+    private String byMethod;
 
     // Recipe -> RecipeResponseDTO 변환하는 메서드
     public static RecipeResponseDTO from(Recipe recipe) {
         RecipeResponseDTO dto = new RecipeResponseDTO();
-        dto.setRecipe_id(recipe.getRecipe_id());
-        dto.setRecipe_title(recipe.getRecipe_title());
-        dto.setRecipe_info(recipe.getRecipe_info());
+        dto.setRecipeId(recipe.getRecipeId());
+        dto.setRecipeTitle(recipe.getRecipeTitle());
+        dto.setRecipeInfo(recipe.getRecipeInfo());
         dto.setViews(recipe.getViews());
         dto.setChef(recipe.getChef());
         dto.setServing(recipe.getServing());
-        dto.setCooking_time(recipe.getCooking_time());
+        dto.setCookingTime(recipe.getCookingTime());
         dto.setDifficulty(recipe.getDifficulty());
         dto.setHashtag(recipe.getHashtag());
-        dto.setBy_type(recipe.getBy_type());
-        dto.setBy_situation(recipe.getBy_situation());
-        dto.setBy_ingredient(recipe.getBy_ingredient());
-        dto.setBy_method(recipe.getBy_method());
+        dto.setByType(recipe.getByType());
+        dto.setBySituation(recipe.getBySituation());
+        dto.setByIngredient(recipe.getByIngredient());
+        dto.setByMethod(recipe.getByMethod());
 
         return dto;
     }

@@ -28,10 +28,10 @@ public class IngredientProcessService {
         this.testCrawlingRecipeRepository = testCrawlingRecipeRepository;
     }
 
-    public List<String> getAllIngredientContents() {
-        List<String> contents = mun_Test_ExRecipeRepository.findAllIngredientContents();
-        return contents;
-    }
+//    public List<String> getAllIngredientContents() {
+//        List<String> contents = mun_Test_ExRecipeRepository.findAllIngredientContents();
+//        return contents;
+//    }
 
     // 배치삽입 29분 소요
     public List<String> extractBracketContents() {
@@ -41,9 +41,8 @@ public class IngredientProcessService {
         int batchSize = 10000; // 배치 크기 설정
 
         for (TestCrawlingRecipe recipe : recipes) {
-            int recipeNumber = recipe.getRecipeNumber();
-            String content = recipe.getIngredientsContent();
-
+            Long recipeNumber = recipe.getRecipeId();
+            String content = recipe.getIngredientContent();
             if (content != null && !content.isEmpty()) {
                 Pattern pattern = Pattern.compile("\\[(.*?)\\]");
                 Matcher matcher = pattern.matcher(content);

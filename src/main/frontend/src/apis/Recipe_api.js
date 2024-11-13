@@ -23,20 +23,36 @@ import axios from "axios";
 // };
 
 
-export const createRecipe = async (title, content, category, ingredients) => {
+export const createRecipe = async (recipe, ingredients) => {
     const requestDTO = {
-        title: title,
-        category: category,
-        content: content,
+        recipeTitle: recipe.recipeTitle,
+        recipeInfo: recipe.recipeInfo,
+        views: null, // 기본 값 또는 필요한 경우 추가
+        chef: recipe.chef,
+        serving: null, // 기본 값 또는 필요한 경우 추가
+        cookingTime: null, // 기본 값 또는 필요한 경우 추가
+        difficulty: null, // 기본 값 또는 필요한 경우 추가
+        hashtag: recipe.hashtag,
+        byType: recipe.byType,
+        bySituation: recipe.bySituation,
+        byIngredient: recipe.byIngredient,
+        byMethod: recipe.byMethod,
         ingredients: ingredients.map(ingredient => ({
+            section: ingredient.section,
             ingredientId: ingredient.ingredientId || null,
-            ingredient_name:ingredient.ingredient_name || null,
+            ingredientName: ingredient.ingredientName || null,
             quantity: ingredient.quantity,
-            section : ingredient.section,
-            unit : ingredient.unit
+            unit: ingredient.unit,
         }))
     };
+    ingredients.forEach(ingredient => {
+        console.log('섹션 내용', ingredient.section);
+    });
 
+    // console.log("섹션 내용 name 1 : "+ingredients.section);
+    // console.log("섹션 내용 order 1 : "+ingredients[0].section.order);
+    // console.log("섹션 내용 name 2 : "+ingredients[1].section.name);
+    // console.log("섹션 내용 order 2 : "+ingredients[1].section.order);
     try {
         const response = await axios.post('/api/recipe', requestDTO, {
             headers: {
@@ -50,16 +66,25 @@ export const createRecipe = async (title, content, category, ingredients) => {
     }
 };
 
-export const updateRecipe = async (id, recipeTitle, recipeContent, recipeCategory, recipeIngredients) => {
+export const updateRecipe = async (id, recipe, recipeIngredients) => {
 
     // requestDTO 정의
     const requestDTO = {
-        title: recipeTitle || null,
-        category: recipeCategory || null,
-        content: recipeContent || null,
+        recipeTitle: recipe.recipeTitle,
+        recipeInfo: recipe.recipeInfo,
+        views: null, // 기본 값 또는 필요한 경우 추가
+        chef: recipe.chef,
+        serving: null, // 기본 값 또는 필요한 경우 추가
+        cookingTime: null, // 기본 값 또는 필요한 경우 추가
+        difficulty: null, // 기본 값 또는 필요한 경우 추가
+        hashtag: recipe.hashtag,
+        byType: recipe.byType,
+        bySituation: recipe.bySituation,
+        byIngredient: recipe.byIngredient,
+        byMethod: recipe.byMethod,
         ingredients: recipeIngredients && recipeIngredients.length > 0 ? recipeIngredients.map(ingredient => ({
             ingredientId: ingredient.ingredientId || null,
-            ingredient_name:ingredient.ingredient_name || null,
+            ingredientName:ingredient.ingredientName || null,
             quantity: ingredient.quantity,
             section : ingredient.section,
             unit : ingredient.unit

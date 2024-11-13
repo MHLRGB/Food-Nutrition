@@ -74,16 +74,16 @@ const Body = () => {
                 </div>
 
                 <div className='community_board_body_center'>
-                    <RecipeIngredientsBox recipeId={recipe.id}/>
+                    <RecipeIngredientsBox recipeId={recipe.recipeId}/>
 
                     <button
                         type='button'
-                        onClick={() => deleteRecipe(recipe.id)}
+                        onClick={() => deleteRecipe(recipe.recipeId)}
                     >
                         레시피 삭제하기
                     </button>
 
-                    <div onClick={() => handleNavRecipe(recipe.id)}>수정</div>
+                    <div onClick={() => handleNavRecipe(recipe.recipeId)}>수정</div>
                 </div>
 
                 <div className='community_board_body_right'>

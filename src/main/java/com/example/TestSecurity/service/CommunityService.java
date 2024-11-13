@@ -106,7 +106,7 @@ public class CommunityService {
 
         // 레시피가 존재하는 경우에만 recipeId 설정
         if (savedCommunity.getRecipe() != null) {
-            responseDTO.setRecipeId(savedCommunity.getRecipe().getId());
+            responseDTO.setRecipeId(savedCommunity.getRecipe().getRecipeId());
         } else {
             responseDTO.setRecipeId(null);
         }
@@ -142,7 +142,7 @@ public class CommunityService {
         responseDTO.setTitle(savedcommunity.getTitle());
         responseDTO.setContent(savedcommunity.getContent());
         responseDTO.setCategory(savedcommunity.getCategory());
-        responseDTO.setRecipeId(savedcommunity.getRecipe().getId());
+        responseDTO.setRecipeId(savedcommunity.getRecipe().getRecipeId());
 
         return responseDTO;
     }

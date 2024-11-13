@@ -49,8 +49,8 @@ const TitleList = ({ category }) => {
     return (
         <div className='community_board_title_list'>
             {titles.map((title, index) => (
-                <div className='community_board_title' key={index} onClick={() => handleNavRecipe(title.id)}>
-                    {title.title}
+                <div className='community_board_title' key={index} onClick={() => handleNavRecipe(title.recipeId)}>
+                    {title.recipeTitle}
                 </div>
             ))}
         </div>

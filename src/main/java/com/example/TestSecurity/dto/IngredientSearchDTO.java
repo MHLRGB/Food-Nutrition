@@ -9,6 +9,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class IngredientSearchDTO {
 
-    private Long id;
-    private String ingredient_name;
+    private Long ingredientId;
+    private String ingredientName;
 }

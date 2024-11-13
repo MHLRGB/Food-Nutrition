@@ -4,6 +4,8 @@ import Header from "./Header";
 import ai_icon from "./image/ai_search_button.png";
 import axios from "axios";
 import RecipeIngredientsBox from "./main/RecipeIngredientsBox";
+import StickyBanner from "./main/StickyBanner";
+import {MainProvider} from "./main/MainContext";
 
 const getAIRecipes = async (input) => {
     const response = await axios.post('/api/recommend-recipes',
@@ -71,6 +73,7 @@ const Body = () => {
     const selectedRecipe = recipes.find(recipe => recipe.recipe_number === selectedRecipeId);
 
     return (
+        <MainProvider>
         <div className='ai_search_body'>
             <div className='ai_search_group'>
                 <div className="ai_search_input_box">
@@ -86,34 +89,47 @@ const Body = () => {
                     <img className="ai_search-button_img" src={ai_icon} alt="AI" />
                 </div>
             </div>
-            <div className='ai_search_result_box'>
-                {loading ? ( // 로딩 상태에 따라 메시지 또는 스피너 표시
-                    <div className='loading'>
-                        로딩 중... {elapsedTime}초
-                    </div>
-                ) : (
-                    <>
-                        {recipes.map((recipe) => (
-                            <div
-                                key={recipe.recipe_number}
-                                className="recipe_item_box"
-                                onClick={() => handleRecipeClick(recipe.recipe_number)}
-                            >
-                                <div className='recipe_item_name'>{recipe.recipe_title}</div>
+
+            <div className='ai_search_result_container'>
+                <div className='ai_search_result_side' />
+                <div className='ai_search_result_box'>
+                    {loading ? ( // 로딩 상태에 따라 메시지 또는 스피너 표시
+                        <div className='loading'>
+                            로딩 중... {elapsedTime}초
+                        </div>
+                    ) : (
+                        <>
+                            <div className="ai_recipe_title_group">
+                                {recipes.map((recipe) => (
+                                    <div
+                                        key={recipe.recipe_number}
+                                        className="recipe_item_box"
+                                        onClick={() => handleRecipeClick(recipe.recipe_number)}
+                                    >
+                                        <div className='recipe_item_name'>{recipe.recipe_title}</div>
+                                    </div>
+                                ))}
                             </div>
-                        ))}
-                        {selectedRecipe ? (
-                            <div className='ai_search_result_detail'>
-                                <div className='ai_search_result_detail_category'>제목: {selectedRecipe.recipe_title}</div>
-                                <div className='ai_search_result_detail_category'>소개: {selectedRecipe.recipe_info}</div>
-                                <div className='ai_search_result_detail_category'>재료: {selectedRecipe.ingredient_content}</div>
-                                <RecipeIngredientsBox recipeId={selectedRecipe.recipe_number}/>
-                            </div>
-                        ) : null}
-                    </>
-                )}
+                            {selectedRecipe ? (
+                                <>
+                                    <div className='ai_search_result_detail'>
+                                        아이디: {selectedRecipe.recipe_number}
+                                        <RecipeIngredientsBox recipeId={selectedRecipe.recipe_number}/>
+                                    </div>
+
+                                </>
+
+                            ) : null}
+
+                        </>
+                    )}
+                </div>
+                <div className='ai_search_result_side'>
+                    <StickyBanner/>
+                </div>
             </div>
         </div>
+        </MainProvider>
     );
 }
 

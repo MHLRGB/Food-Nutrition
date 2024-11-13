@@ -10,6 +10,6 @@ import java.util.Optional;
 
 public interface Mun_Test_ExRecipeRepository extends JpaRepository<MunTestExRecipe, Integer> {
 
-      @Query("SELECT r.cookingIngredientsContent FROM MunTestExRecipe r") // YourEntity를 실제 엔티티 이름으로 변경
-      List<String> findAllIngredientContents();
+//      @Query("SELECT r.cookingIngredientsContent FROM MunTestExRecipe r") // YourEntity를 실제 엔티티 이름으로 변경
+//      List<String> findAllIngredientContents();
 }

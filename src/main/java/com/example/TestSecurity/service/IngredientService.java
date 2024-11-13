@@ -35,12 +35,12 @@ public class IngredientService {
     }
 
     public List<IngredientSearchDTO> searchIngredients(String keyword) {
-        List<Ingredients> ingredientsList = ingredientsRepository.findByFoodNameContainingIgnoreCase(keyword);
+        List<Ingredients> ingredientsList = ingredientsRepository.findByIngredientNameContainingIgnoreCase(keyword);
 
         return ingredientsList.stream()
-                .map(ingredient -> new IngredientSearchDTO(ingredient.getIngredient_id(), ingredient.getFoodName()))
-                .sorted(Comparator.comparing((IngredientSearchDTO dto) -> !dto.getFoodName().toLowerCase().startsWith(keyword.toLowerCase()))
-                        .thenComparing(IngredientSearchDTO::getFoodName))
+                .map(ingredient -> new IngredientSearchDTO(ingredient.getIngredientId(), ingredient.getIngredientName()))
+                .sorted(Comparator.comparing((IngredientSearchDTO dto) -> !dto.getIngredientName().toLowerCase().startsWith(keyword.toLowerCase()))
+                        .thenComparing(IngredientSearchDTO::getIngredientName))
                 .collect(Collectors.toList());
     }
 
