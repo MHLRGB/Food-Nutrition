@@ -38,7 +38,7 @@ public class IngredientService {
         List<Ingredients> ingredientsList = ingredientsRepository.findByFoodNameContainingIgnoreCase(keyword);
 
         return ingredientsList.stream()
-                .map(ingredient -> new IngredientSearchDTO(ingredient.getId(), ingredient.getFoodName()))
+                .map(ingredient -> new IngredientSearchDTO(ingredient.getIngredient_id(), ingredient.getFoodName()))
                 .sorted(Comparator.comparing((IngredientSearchDTO dto) -> !dto.getFoodName().toLowerCase().startsWith(keyword.toLowerCase()))
                         .thenComparing(IngredientSearchDTO::getFoodName))
                 .collect(Collectors.toList());

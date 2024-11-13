@@ -15,20 +15,23 @@ public class RecipeIngredients {
     @EmbeddedId
     private RecipeIngredientsId id;
 
-    @Column(name = "Quantity")
+    @Column(name = "quantity")
     private Double quantity;
 
+    @Column(name = "ingredient_name")
+    private String ingredient_name;
+
     @ManyToOne
-    @MapsId("recipeId")
-    @JoinColumn(name = "RecipeID", referencedColumnName = "id")
+    @MapsId("recipe_id")
+    @JoinColumn(name = "recipe_id", referencedColumnName = "recipe_id")
     private Recipe recipe;
 
     @ManyToOne
-    @MapsId("ingredientId")
-    @JoinColumn(name = "IngredientID", referencedColumnName = "id")
+    @MapsId("ingredient_id")
+    @JoinColumn(name = "Ingredient_id", referencedColumnName = "Ingredient_id")
     private Ingredients ingredient;
 
-    @Column(name = "Unit")
+    @Column(name = "unit")
     private String unit;
 
 
@@ -36,14 +39,14 @@ public class RecipeIngredients {
     @Setter
     @Embeddable
     public static class RecipeIngredientsId implements Serializable {
-        @Column(name = "RecipeID", length = 20)
-        private Long recipeId;
+        @Column(name = "recipe_id", length = 20)
+        private Long recipe_id;
 
-        @Column(name = "IngredientID", length = 20)
-        private Long ingredientId;
+        @Column(name = "Ingredient_id", length = 20)
+        private Long ingredient_id;
 
         // RecipeID, IngredientID, Section을 복합키로 두어 각 레시피의 섹션마다 같은 재료를 저장할 수 있게 설정
-        @Column(name = "Section")
+        @Column(name = "section")
         private String section;
 
         // equals() and hashCode() methods
@@ -52,14 +55,14 @@ public class RecipeIngredients {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             RecipeIngredientsId that = (RecipeIngredientsId) o;
-            return recipeId.equals(that.recipeId) &&
-                    ingredientId.equals(that.ingredientId) &&
+            return recipe_id.equals(that.recipe_id) &&
+                    ingredient_id.equals(that.ingredient_id) &&
                     section.equals(that.section);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(recipeId, ingredientId, section);
+            return Objects.hash(recipe_id, ingredient_id, section);
         }
     }
 }

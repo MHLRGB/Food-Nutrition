@@ -15,7 +15,7 @@ public class Ingredients {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(length = 20)
-    private Long id;
+    private Long ingredient_id;
 
     @Column(name = "식품군")
     private String foodGroup;

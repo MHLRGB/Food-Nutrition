@@ -29,7 +29,8 @@ export const createRecipe = async (title, content, category, ingredients) => {
         category: category,
         content: content,
         ingredients: ingredients.map(ingredient => ({
-            ingredientId: ingredient.ingredientId,
+            ingredientId: ingredient.ingredientId || null,
+            ingredient_name:ingredient.ingredient_name || null,
             quantity: ingredient.quantity,
             section : ingredient.section,
             unit : ingredient.unit
@@ -58,6 +59,7 @@ export const updateRecipe = async (id, recipeTitle, recipeContent, recipeCategor
         content: recipeContent || null,
         ingredients: recipeIngredients && recipeIngredients.length > 0 ? recipeIngredients.map(ingredient => ({
             ingredientId: ingredient.ingredientId || null,
+            ingredient_name:ingredient.ingredient_name || null,
             quantity: ingredient.quantity,
             section : ingredient.section,
             unit : ingredient.unit

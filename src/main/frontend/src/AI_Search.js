@@ -3,6 +3,7 @@ import './css/AI_Search.css';
 import Header from "./Header";
 import ai_icon from "./image/ai_search_button.png";
 import axios from "axios";
+import RecipeIngredientsBox from "./main/RecipeIngredientsBox";
 
 const getAIRecipes = async (input) => {
     const response = await axios.post('/api/recommend-recipes',
@@ -106,6 +107,7 @@ const Body = () => {
                                 <div className='ai_search_result_detail_category'>제목: {selectedRecipe.recipe_title}</div>
                                 <div className='ai_search_result_detail_category'>소개: {selectedRecipe.recipe_info}</div>
                                 <div className='ai_search_result_detail_category'>재료: {selectedRecipe.ingredient_content}</div>
+                                <RecipeIngredientsBox recipeId={selectedRecipe.recipe_number}/>
                             </div>
                         ) : null}
                     </>

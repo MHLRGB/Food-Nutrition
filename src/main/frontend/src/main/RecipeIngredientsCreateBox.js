@@ -75,7 +75,7 @@ const RecipeIngredientsCreateBox = ({ showEditButton }) => {
 
                     // 로깅
                     newSections[index].searchResults.forEach(ingredient => {
-                        console.log("sections : " + ingredient.foodName);
+                        console.log("sections : " + ingredient.ingredient_name);
                     });
                 } catch (error) {
                     console.error("Error fetching search results:", error);
@@ -121,6 +121,7 @@ const RecipeIngredientsCreateBox = ({ showEditButton }) => {
                     <IngredientGroup
                         key={ingredient.ingredientId}
                         ingredientId={ingredient.ingredientId}
+                        ingredientName={ingredient.ingredientName}
                         standard={ingredient.quantity}
                         unit={ingredient.unit}
                         section={ingredient.section}
@@ -151,13 +152,13 @@ const RecipeIngredientsCreateBox = ({ showEditButton }) => {
     };
 
     // 재료 추가 함수
-    const handleAddIngredient = (ingredientId, section) => {
+    const handleAddIngredient = (ingredientId, ingredient_name, section) => {
         // if (!recipeIngredients.some(ingredient => ingredient.ingredientId === ingredientId)) {
         //     setRecipeIngredients([...recipeIngredients, { ingredientId, quantity: 100, foodName, unit: "unittest", section }]);
         // }
 
         // 다른 재료 Section에 같은 재료가 있을 수 있으니 같은 재료 삽입 허용
-        setRecipeIngredients([...recipeIngredients, { ingredientId, quantity: 100, unit: "unittest", section }]);
+        setRecipeIngredients([...recipeIngredients, { ingredientId, ingredient_name:ingredient_name, quantity: 100, unit: "unittest", section }]);
 
         const sectionIndex = sections.findIndex(sec => sec.name === section);
         if (sectionIndex !== -1) {
@@ -252,7 +253,7 @@ const RecipeIngredientsCreateBox = ({ showEditButton }) => {
                                     <ul className="results-list">
                                         {section.searchResults.map(ingredient => (
                                             <li key={ingredient.id} className="results-item"
-                                                onMouseDown={() => handleAddIngredient(ingredient.id, section.name)}>
+                                                onMouseDown={() => handleAddIngredient(ingredient.id, ingredient.ingredient_name, section.name)}>
                                                 {ingredient.foodName}
                                             </li>
                                         ))}
