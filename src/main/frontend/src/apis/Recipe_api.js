@@ -29,8 +29,8 @@ export const createRecipe = async (recipe, ingredients) => {
         recipeInfo: recipe.recipeInfo,
         views: null, // 기본 값 또는 필요한 경우 추가
         serving: null, // 기본 값 또는 필요한 경우 추가
-        cookingTime: null, // 기본 값 또는 필요한 경우 추가
-        difficulty: null, // 기본 값 또는 필요한 경우 추가
+        cookingTime: recipe.cookingTime || null, // 기본 값 또는 필요한 경우 추가
+        difficulty: recipe.difficulty || null, // 기본 값 또는 필요한 경우 추가
         hashtag: recipe.hashtag,
         byType: recipe.byType,
         bySituation: recipe.bySituation,
@@ -74,8 +74,8 @@ export const updateRecipe = async (id, recipe, recipeIngredients) => {
         views: null, // 기본 값 또는 필요한 경우 추가
         chef: recipe.chef,
         serving: null, // 기본 값 또는 필요한 경우 추가
-        cookingTime: null, // 기본 값 또는 필요한 경우 추가
-        difficulty: null, // 기본 값 또는 필요한 경우 추가
+        cookingTime: recipe.cookingTime || null, // 기본 값 또는 필요한 경우 추가
+        difficulty: recipe.difficulty || null, // 기본 값 또는 필요한 경우 추가
         hashtag: recipe.hashtag,
         byType: recipe.byType,
         bySituation: recipe.bySituation,

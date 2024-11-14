@@ -212,7 +212,7 @@ const RecipeIngredientsCreateBox = ({ showEditButton }) => {
                         <input
                             type="text"
                             name="recipeTitle"
-                            placeholder="Title"
+                            placeholder="레시피 제목"
                             className="recipeIngredients_form_title_input"
                             value={recipe.recipeTitle}
                             onChange={handleInputChange}
@@ -224,11 +224,33 @@ const RecipeIngredientsCreateBox = ({ showEditButton }) => {
                         <input
                             type="text"
                             name="recipeInfo"
-                            placeholder="Recipe Info"
+                            placeholder="레시피 소개"
                             className="recipeIngredients_form_info_input"
                             value={recipe.recipeInfo}
                             onChange={handleInputChange}
                             required
+                        />
+                    </div>
+                    <div className="recipeIngredients_form_title_value_group">
+                        <div className="recipeIngredients_form_title">조리시간</div>
+                        <input
+                            type="text"
+                            name="cookingTime"
+                            placeholder="조리 시간"
+                            className="recipeIngredients_form_other_input"
+                            value={recipe.cookingTime}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+                    <div className="recipeIngredients_form_title_value_group">
+                        <div className="recipeIngredients_form_title">난이도</div>
+                        <input
+                            type="text"
+                            name="difficulty"
+                            placeholder="난이도"
+                            className="recipeIngredients_form_other_input"
+                            value={recipe.difficulty}
+                            onChange={handleInputChange}
                         />
                     </div>
                 </div>

@@ -214,12 +214,14 @@
     width: 100%;
   }
   .recipe_detail_title_td {
+    height: 30px;
     background-color: #EEFDF2;
     border: 2px solid #A0EBB5 ;
     font-weight: bold;
     padding:5px;
   }
   .recipe_detail_content_tr {
+    height: 30px;
     border: 2px solid #A0EBB5 ;
     padding:5px;
   }
@@ -648,8 +650,11 @@
 }
 
 .recipeIngredients_form_title {
+  width: 75px;
   font-size:18px;
   margin-right: 20px;
+  text-align: center;
+
 }
 .recipeIngredients_form_info_input {
   width: 400px;
@@ -671,6 +676,20 @@
   /*justify-content: start;*/
   /*align-items: start;*/
   /*text-align: start;*/
+  width: 400px;
+  height: 50px;
+  border-radius: 5px;
+  background-color: white;
+  /*background-color: #F7FFF9;*/
+  border: 2px solid #A0EBB5;
+
+  word-wrap: break-word; /* 긴 단어를 잘라서 줄바꿈 */
+  word-break: break-word; /* 단어가 너무 길면 줄바꿈 */
+  white-space: normal; /* 공백을 포함하여 텍스트가 자동으로 줄바꿈되도록 */
+  overflow-wrap: break-word; /* overflow시 텍스트를 줄바꿈 */
+}
+
+.recipeIngredients_form_other_input {
   width: 400px;
   height: 50px;
   border-radius: 5px;
@@ -832,4 +851,22 @@
 
   /*border-bottom: solid 3px #C4E9CE;*/
   font-size: 21px;
+}
+.update_recipe_button {
+  width: 100px;
+  height: 40px;
+  background-color: #F7FFF9;
+  border-radius: 5px;
+  border: 2px solid #C4E9CE;
+  margin-top: 20px;
+
+  cursor: pointer;
+  font-family: "Do Hyeon", sans-serif;
+  font-weight: 0;
+  font-style: normal;
+  font-size: 18px;
+}
+
+.update_recipe_button:hover {
+  background-color: #C4E9CE;
 }

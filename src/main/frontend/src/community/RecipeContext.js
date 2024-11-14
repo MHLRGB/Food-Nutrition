@@ -7,10 +7,13 @@ export const RecipeProvider = ({children}) => {
         recipeTitle: '',
         recipeInfo: '',
         hashtag: '',
-        byType: '',
-        bySituation: '',
-        byIngredient: '',
-        byMethod: '',
+        chef : '',
+        difficulty : '',
+        cookingTime : '',
+        byType: '전체',
+        bySituation: '전체',
+        byIngredient: '전체',
+        byMethod: '전체',
     });
 
 

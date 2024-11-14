@@ -181,8 +181,17 @@ public class RecipeService {
             recipeIngredientsId.setIngredientId(ingredientRequestDTO.getIngredientId());
             recipeIngredientsId.setSection(ingredientRequestDTO.getSection());
 
+
             Ingredients ingredient = ingredientsRepository.findById(ingredientRequestDTO.getIngredientId())
                     .orElseThrow(() -> new IllegalArgumentException("Invalid Ingredient ID"));
+
+            Long maxId = recipeIngredientsRepository.findMaxId(); // 쿼리 메서드를 사용해 최대 id 값을 가져옴
+            if (maxId == null) {
+                maxId = 1L;  // 데이터가 없을 경우 기본값으로 1 설정
+            } else {
+                maxId += 1;
+            }
+            recipeIngredientsId.setId(maxId);
 
             recipeIngredients.setId(recipeIngredientsId);
             recipeIngredients.setRecipe(updatedRecipe);
