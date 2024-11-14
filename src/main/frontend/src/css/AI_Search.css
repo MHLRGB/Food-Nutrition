@@ -1,13 +1,13 @@
 .ai_search_body {
   width: 100%;
-  min-height: 85vh;
+  height: 100vh;
   background: linear-gradient(to top, #F7FFF9, #FFFFFF);
 
   display: flex;
   justify-content: flex-start; /* 자식 요소들을 상단으로 정렬 */
   flex-direction: column;
   align-items: center; /* 자식 요소들을 좌우 가운데 정렬 */
-  padding-top:130px;
+  /*padding-top:130px;*/
 }
 
 
@@ -18,7 +18,9 @@
   justify-content: center;
   align-items: center;
   width:800px;
+  /*width:auto;*/
   margin-bottom:20px;
+  padding-top:130px;
 }
 
 .ai_search_input {
@@ -53,7 +55,7 @@
   cursor : pointer;
 
   position: absolute;
-  top: 14px;
+  top: 144px;
   right: 115px;
   /*top: 14px;*/
   /*right: 23px;*/
@@ -70,21 +72,29 @@
 
 .ai_search_result_container {
   width: 100%;
+  /*height: 100vh;*/
   display: flex;
   justify-content: center;
+  /*flex-direction: column;*/
   align-items: center;
 }
 
 .ai_search_result_box {
-  width: 1000px; /* 너비를 100%로 설정하여 화면을 가득 채움 */
+  /*width: 1000px; !* 너비를 100%로 설정하여 화면을 가득 채움 *!*/
+  /*!*height: 100vh;*!*/
+  /*display: flex;*/
+  /*align-items: center; !* 중앙 정렬 *!*/
+  /*!*justify-content: center;*!*/
+  /*flex-direction: column;*/
+  /*font-size: 20px;*/
+  /*margin-top: 20px;*/
+  /*gap:15px;*/
   display: flex;
-  align-items: center; /* 중앙 정렬 */
-  justify-content: center;
   flex-direction: column;
-  font-size: 20px;
-  margin-top: 20px;
-  gap:15px;
-
+  align-items: center;
+  width: 100%;
+  background-color: #ffffff;
+  padding: 20px;
 }
 
 .recipe_item_box {
@@ -117,9 +127,8 @@
 .ai_search_result_detail {
   width: 900px;
   /*min-height: 600px;*/
-  /*display: flex;*/
-  /*flex-direction: column;*/
-  /*justify-content: center;*/
+  display: flex;
+  justify-content: center;
   /*text-align: center;*/
   /*border: 3px solid #CEF5D9;*/
   /*border-radius: 20px;*/
@@ -145,6 +154,9 @@
 
 /* 로딩 상태에서의 아이템 애니메이션 */
 .loading {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
   animation: moveUpDown 1s infinite; /* 1초마다 반복되는 애니메이션 */
   font-size: 16px;
   color: #555;
@@ -179,6 +191,54 @@
   }
 }
 
+/* 배경에서 떠다니는 이미지 스타일 */
+.floating-image {
+  position: absolute;
+  animation: floatImage 10s ease-in-out infinite;
+  pointer-events: none; /* 이미지가 클릭되지 않도록 설정 */
+  z-index: 0; /* 배경 이미지가 검색창 아래에 오도록 설정 */
+  width: 80px; /* 이미지 크기 조정 (조금 더 크게) */
+  height: 80px; /* 이미지 크기 조정 (조금 더 크게) */
+  transform-origin: center; /* 중심을 기준으로 회전 */
+}
+
+.floating-image:nth-child(1) {
+  top: 10%; left: 5%;
+  animation-delay: 0s;
+  transform: rotate(-10deg); /* 왼쪽으로 기울임, 계속 유지 */
+}
+
+.floating-image:nth-child(2) {
+  top: 30%; left: 75%; /* 검색창 위치가 겹치지 않도록 조정 */
+  animation-delay: 2s;
+  transform: rotate(10deg); /* 오른쪽으로 기울임, 계속 유지 */
+}
+
+.floating-image:nth-child(3) {
+  top: 40%; left: 30%;
+  animation-delay: 4s;
+  transform: rotate(-10deg); /* 왼쪽으로 기울임, 계속 유지 */
+}
+
+.floating-image:nth-child(4) {
+  top: 70%; left: 80%;
+  animation-delay: 6s;
+  transform: rotate(10deg); /* 오른쪽으로 기울임, 계속 유지 */
+}
+
+/* 이미지 떠다니는 애니메이션 */
+@keyframes floatImage {
+  0% {
+    transform: translateY(0) translateX(0) rotate(-10deg); /* 시작 시 기울임 상태로 시작 */
+  }
+  50% {
+    transform: translateY(-20px) translateX(15px) rotate(-10deg); /* 기울임 상태 유지 */
+  }
+  100% {
+    transform: translateY(0) translateX(0) rotate(-10deg); /* 기울임 상태 유지 */
+  }
+}
+
 .ai_search_result_detail {
   animation: slideInFromBottom 0.5s ease-out; /* 0.5초 동안 아래에서 위로 */
 }
@@ -192,6 +252,13 @@
 
 .ai_search_result_side {
   width:100%;
-  height: 100vh;
-  align-items: center;
+  height: 100%;
+  /*align-items: center;*/
+  padding: 20px;
 }
+
+.ai_recipe_title_after {
+  height: 100%;
+  z-index: 1;
+}
+

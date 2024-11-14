@@ -3,7 +3,6 @@ package com.example.TestSecurity.controller;
 import com.example.TestSecurity.dto.CommunityResponseDTO;
 import com.example.TestSecurity.dto.IngredientResponseDTO;
 import com.example.TestSecurity.dto.IngredientSearchDTO;
-import com.example.TestSecurity.entity.Community;
 import com.example.TestSecurity.entity.Ingredients;
 import com.example.TestSecurity.entity.Recipe;
 import com.example.TestSecurity.service.IngredientService;
@@ -36,6 +35,7 @@ public class IngredientController {
             IngredientResponseDTO responseDTO = new IngredientResponseDTO();
             responseDTO.setIngredientsID(ing.getIngredientId()); // id 필드 매핑
             responseDTO.setIngredientName(ing.getIngredientName()); // name 필드 매핑
+            responseDTO.setIngredientGroup(ing.getIngredientGroup()); // name 필드 매핑
             responseDTO.setCal(ing.getEnergyKcal()); // cal 필드 매핑
             responseDTO.setCarbohydrates(ing.getCarbohydrateG()); // carbohydrates 필드 매핑
             responseDTO.setSugars(ing.getSugarG()); // sugars 필드 매핑

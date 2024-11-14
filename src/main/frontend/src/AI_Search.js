@@ -5,7 +5,11 @@ import ai_icon from "./image/ai_search_button.png";
 import axios from "axios";
 import RecipeIngredientsBox from "./main/RecipeIngredientsBox";
 import StickyBanner from "./main/StickyBanner";
-import {MainProvider} from "./main/MainContext";
+import {MainContext, MainProvider} from "./main/MainContext";
+import eggImage from './image/egg.png';
+import burgerImage from './image/buger.png';
+import knifeImage from './image/knife.png';
+import soraImage from './image/sora.png';
 
 const getAIRecipes = async (input) => {
     const response = await axios.post('/api/recommend-recipes',
@@ -22,8 +26,10 @@ const getAIRecipes = async (input) => {
 const AI_Search = () => {
     return (
         <div className='document'>
-            <Header />
-            <Body />
+            <MainProvider>
+                <Header />
+                <Body />
+            </MainProvider>
         </div>
     );
 };
@@ -34,6 +40,9 @@ const Body = () => {
     const [inputValue, setInputValue] = useState('');
     const [loading, setLoading] = useState(false); // 로딩 상태 추가
     const [elapsedTime, setElapsedTime] = useState(0); // 경과 시간 상태 추가
+    const [animateResults, setAnimateResults] = useState(false); // 결과 애니메이션 상태 추가
+
+    const { totalIngredients, setTotalIngredients } = React.useContext(MainContext);
 
     useEffect(() => {
         let timer;
@@ -52,9 +61,11 @@ const Body = () => {
 
     const handleButtonClick = async () => {
         try {
-            setLoading(true); // API 호출 시작 시 로딩 상태 설정
+            setLoading(true);
+            setAnimateResults(false);// API 호출 시작 시 로딩 상태 설정
             const fetchedRecipes = await getAIRecipes(inputValue);
             setRecipes(fetchedRecipes);
+            setAnimateResults(true);
         } catch (error) {
             console.error("Error fetching recipes:", error);
         } finally {
@@ -63,6 +74,7 @@ const Body = () => {
     };
 
     const handleRecipeClick = (recipeId) => {
+        setTotalIngredients([]);
         setSelectedRecipeId(recipeId);
     };
 
@@ -72,8 +84,15 @@ const Body = () => {
 
     const selectedRecipe = recipes.find(recipe => recipe.recipe_number === selectedRecipeId);
 
+    const floatingImages = [
+        eggImage,
+        burgerImage,
+        knifeImage,
+        soraImage,
+    ];
+
+
     return (
-        <MainProvider>
         <div className='ai_search_body'>
             <div className='ai_search_group'>
                 <div className="ai_search_input_box">
@@ -91,45 +110,60 @@ const Body = () => {
             </div>
 
             <div className='ai_search_result_container'>
-                <div className='ai_search_result_side' />
-                <div className='ai_search_result_box'>
-                    {loading ? ( // 로딩 상태에 따라 메시지 또는 스피너 표시
-                        <div className='loading'>
-                            로딩 중... {elapsedTime}초
-                        </div>
-                    ) : (
+                {/* 배경에 떠다니는 이미지들 */}
+                {floatingImages.map((img, index) => (
+                    <img
+                        key={index}
+                        className="floating-image"
+                        src={img}
+                        alt={`floating-${index}`}
+                    />
+                ))}
+
+                <div className='ai_search_result_side'/>
+
+                {/* Loading message and recipe title group moved outside of ai_search_result_box */}
+                {loading && (
+                    <div className='loading'>
+                        로딩 중... {elapsedTime}초
+                    </div>
+                )}
+
+                <div className="ai_recipe_title_after">
+                    {!loading && (
                         <>
-                            <div className="ai_recipe_title_group">
-                                {recipes.map((recipe) => (
-                                    <div
-                                        key={recipe.recipe_number}
-                                        className="recipe_item_box"
-                                        onClick={() => handleRecipeClick(recipe.recipe_number)}
-                                    >
-                                        <div className='recipe_item_name'>{recipe.recipe_title}</div>
-                                    </div>
-                                ))}
-                            </div>
-                            {selectedRecipe ? (
-                                <>
-                                    <div className='ai_search_result_detail'>
-                                        아이디: {selectedRecipe.recipe_number}
-                                        <RecipeIngredientsBox recipeId={selectedRecipe.recipe_number}/>
-                                    </div>
+                        <div className="ai_recipe_title_group">
+                            {recipes.map((recipe) => (
+                                <div
+                                    key={recipe.recipe_number}
+                                    className="recipe_item_box"
+                                    onClick={() => handleRecipeClick(recipe.recipe_number)}
+                                >
+                                    <div className='recipe_item_name'>{recipe.recipe_title}</div>
+                                </div>
+                            ))}
+                        </div>
 
-                                </>
-
-                            ) : null}
-
-                        </>
+                        {selectedRecipe && (
+                        <div className='ai_search_result_box'>
+                            <>
+                                <div className='ai_search_result_detail'>
+                                    {/*아이디: {selectedRecipe.recipe_number}*/}
+                                    <RecipeIngredientsBox recipeId={selectedRecipe.recipe_number} />
+                                </div>
+                            </>
+                        </div>
+                        )}
+                    </>
                     )}
                 </div>
+
+
                 <div className='ai_search_result_side'>
-                    <StickyBanner/>
+                    {selectedRecipe && <StickyBanner />}
                 </div>
             </div>
         </div>
-        </MainProvider>
     );
 }
 

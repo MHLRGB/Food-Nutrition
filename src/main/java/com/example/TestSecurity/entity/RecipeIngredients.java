@@ -38,15 +38,13 @@ public class RecipeIngredients {
     @Column(name = "unit")
     private String unit;
 
-
-
     @Getter
     @Setter
     @Embeddable
     public static class RecipeIngredientsId implements Serializable {
         // RecipeID, IngredientID, Section을 복합키로 두어 각 레시피의 섹션마다 같은 재료를 저장할 수 있게 설정
 
-        @Column(name = "id")// 자동 증가 ID
+        @Column(name = "id")
         private Long id;
 
         @Column(name = "section")

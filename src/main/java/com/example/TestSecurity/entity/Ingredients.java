@@ -23,7 +23,7 @@ public class Ingredients {
     private List<RecipeIngredients> recipeIngredients = new ArrayList<>();
 
     @Column(name = "식품군")
-    private String foodGroup;
+    private String ingredientGroup;
 
     @Column(name = "ingredientName")
     private String ingredientName;

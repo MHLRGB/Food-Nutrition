@@ -11,4 +11,5 @@ public class IngredientSearchDTO {
 
     private Long ingredientId;
     private String ingredientName;
+    private String ingredientGroup;
 }

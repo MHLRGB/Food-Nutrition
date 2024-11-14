@@ -228,9 +228,6 @@ const RecipeIngredientsUpdateBox = ({ recipeId, showEditButton }) => {
             if (sectionIngredients.length > 0) {
                 ingredientsBySection[section.name] = sectionIngredients.map((ingredient) => (
                     <>
-                        {ingredient.ingredientId === 99999 && (
-                            <div className="unknown-ingredient-message">해당 재료의 영양성분을 찾을 수 없습니다.</div>
-                        )}
                         <IngredientGroup
                             key={ingredient.ingredientId}
                             ingredientId={ingredient.ingredientId}
@@ -321,84 +318,157 @@ const RecipeIngredientsUpdateBox = ({ recipeId, showEditButton }) => {
     }
 
     return (
-        <div className="recipe_container">
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    name="recipeTitle"
-                    placeholder="Title"
-                    className="recipeIngredients_form_input"
-                    value={recipe.recipeTitle}
-                    onChange={handleInputChange}
-                    required
-                />
-                <input
-                    type="text"
-                    name="recipeInfo"
-                    placeholder="Recipe Info"
-                    className="recipeIngredients_form_input"
-                    value={recipe.recipeInfo}
-                    onChange={handleInputChange}
-                    required
-                />
-                <input
-                    type="text"
-                    name="hashtag"
-                    placeholder="Hashtag"
-                    className="recipeIngredients_form_input"
-                    value={recipe.hashtag}
-                    onChange={handleInputChange}
-                />
-                <input
-                    type="text"
-                    name="byType"
-                    placeholder="Type"
-                    className="recipeIngredients_form_input"
-                    value={recipe.byType}
-                    onChange={handleInputChange}
-                />
-                <input
-                    type="text"
-                    name="bySituation"
-                    placeholder="Situation"
-                    className="recipeIngredients_form_input"
-                    value={recipe.bySituation}
-                    onChange={handleInputChange}
-                />
-                <input
-                    type="text"
-                    name="byIngredient"
-                    placeholder="Ingredient"
-                    className="recipeIngredients_form_input"
-                    value={recipe.byIngredient}
-                    onChange={handleInputChange}
-                />
-                <input
-                    type="text"
-                    name="byMethod"
-                    placeholder="Method"
-                    className="recipeIngredients_form_input"
-                    value={recipe.byMethod}
-                    onChange={handleInputChange}
-                />
+        <form onSubmit={handleSubmit}>
+            <div className="recipe_container">
+                <div className="recipeIngredients_form_detail_box">
+                    <div className="recipeIngredients_form_title_value_group">
+                        <div className="recipeIngredients_form_title" >레시피 제목</div>
+                        <input
+                            type="text"
+                            name="recipeTitle"
+                            placeholder="Title"
+                            className="recipeIngredients_form_title_input"
+                            value={recipe.recipeTitle}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </div>
+                    <div className="recipeIngredients_form_title_value_group">
+                        <div className="recipeIngredients_form_title">레시피 소개</div>
+                        <input
+                            type="text"
+                            name="recipeInfo"
+                            placeholder="Recipe Info"
+                            className="recipeIngredients_form_info_input"
+                            value={recipe.recipeInfo}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </div>
+                </div>
+                <div className="byGroup_input">
+                    <select
+                        name="byType"
+                        className="recipeIngredients_select"
+                        value={recipe.byType || "전체"}  // 기본 값 설정
+                        onChange={handleInputChange}
+                    >
+                        <option value="전체">전체</option>
+                        // "전체" 옵션 추가
+                        <option value="밑반찬">밑반찬</option>
+                        <option value="메인반찬">메인반찬</option>
+                        <option value="국/탕">국/탕</option>
+                        <option value="찌개">찌개</option>
+                        <option value="디저트">디저트</option>
+                        <option value="면/만두">면/만두</option>
+                        <option value="밥/죽/떡">밥/죽/떡</option>
+                        <option value="퓨전">퓨전</option>
+                        <option value="김치/젓갈/장류">김치/젓갈/장류</option>
+                        <option value="양념/소스/잼">양념/소스/잼</option>
+                        <option value="양식">양식</option>
+                        <option value="샐러드">샐러드</option>
+                        <option value="스프">스프</option>
+                        <option value="빵">빵</option>
+                        <option value="과자">과자</option>
+                        <option value="차/음료/술">차/음료/술</option>
+                        <option value="기타">기타</option>
+                    </select>
 
-                <div className="section-add">
-                    <input
-                        type="text"
-                        placeholder="New Section"
-                        value={newSection}
-                        onChange={(e) => setNewSection(e.target.value)}
-                    />
-                    <button type="button" onClick={handleAddSection}>섹션 추가</button>
+                    <select
+                        name="bySituation"
+                        className="recipeIngredients_select"
+                        value={recipe.bySituation || "전체"}
+                        onChange={handleInputChange}
+                    >
+                        <option value="전체">전체</option>
+                        <option value="일상">일상</option>
+                        <option value="초스피드">초스피드</option>
+                        <option value="손님접대">손님접대</option>
+                        <option value="술안주">술안주</option>
+                        <option value="다이어트">다이어트</option>
+                        <option value="도시락">도시락</option>
+                        <option value="영양식간식">영양식간식</option>
+                        <option value="야식">야식</option>
+                        <option value="푸드스타일링">푸드스타일링</option>
+                        <option value="해장">해장</option>
+                        <option value="명절">명절</option>
+                        <option value="이유식">이유식</option>
+                        <option value="기타">기타</option>
+                    </select>
+
+                    <select
+                        name="byIngredient"
+                        className="recipeIngredients_select"
+                        value={recipe.byIngredient || "전체"}
+                        onChange={handleInputChange}
+                    >
+                        <option value="전체">전체</option>
+                        <option value="소고기">소고기</option>
+                        <option value="돼지고기">돼지고기</option>
+                        <option value="닭고기">닭고기</option>
+                        <option value="육류">육류</option>
+                        <option value="채소류">채소류</option>
+                        <option value="해물류">해물류</option>
+                        <option value="달걀/유제품">달걀/유제품</option>
+                        <option value="가공식품류">가공식품류</option>
+                        <option value="쌀">쌀</option>
+                        <option value="밀가루">밀가루</option>
+                        <option value="건어물류">건어물류</option>
+                        <option value="버섯류">버섯류</option>
+                        <option value="과일류">과일류</option>
+                        <option value="콩/견과류">콩/견과류</option>
+                        <option value="곡류">곡류</option>
+                        <option value="기타">기타</option>
+                    </select>
+
+                    <select
+                        name="byMethod"
+                        className="recipeIngredients_select"
+                        value={recipe.byMethod || "전체"}
+                        onChange={handleInputChange}
+                    >
+                        <option value="전체">전체</option>
+                        <option value="볶음">볶음</option>
+                        <option value="끓이기">끓이기</option>
+                        <option value="부침">부침</option>
+                        <option value="조림">조림</option>
+                        <option value="무침">무침</option>
+                        <option value="비빔">비빔</option>
+                        <option value="찜">찜</option>
+                        <option value="절임">절임</option>
+                        <option value="튀김">튀김</option>
+                        <option value="삶기">삶기</option>
+                        <option value="굽기">굽기</option>
+                        <option value="데치기">데치기</option>
+                        <option value="회">회</option>
+                        <option value="기타">기타</option>
+                    </select>
+
+                </div>
+
+                <div className="section_add_box">
+                    <div className="section_info_message">* 섹션별로 재료를 저장할 수 있습니다.</div>
+                    <div className="section_add_group">
+                        <input
+                            className="section_add_input"
+                            type="text"
+                            placeholder="Section을 추가하세요."
+                            value={newSection}
+                            onChange={(e) => setNewSection(e.target.value)}
+                        />
+                        <button className="section_add_button" type="button" onClick={handleAddSection}>섹션 추가</button>
+                    </div>
                 </div>
 
                 {sections.map((section, index) => (
                     <div key={section.name}>
-                        <div className="section">
-                            <h3>
+                        <div className="section_group">
+                            <div className="section_title">
                                 {section.name}
-                                <button type="button" onClick={() => handleRemoveSection(section.name)}>삭제</button>
-                            </h3>
+                                <button className="delete_section_button" type="button"
+                                        onClick={() => handleRemoveSection(section.name)}>삭제
+                                </button>
+                            </div>
                             <div className="search-container">
                                 <input
                                     type="text"
@@ -419,7 +489,6 @@ const RecipeIngredientsUpdateBox = ({ recipeId, showEditButton }) => {
                                             ))}
                                         </ul>
                                     </div>
-
                                 )}
                             </div>
                         </div>
@@ -432,27 +501,32 @@ const RecipeIngredientsUpdateBox = ({ recipeId, showEditButton }) => {
                 {/*        {renderedIngredients[section.name] || null} /!* 해당 section에 맞는 renderedIngredients 출력 *!/*/}
                 {/*    </div>*/}
                 {/*))}*/}
-                {showEditButton && <button type="submit">Update Recipe</button>}
-            </form>
-        </div>
-    );
+                {/*{showEditButton && <button type="submit">Update Recipe</button>}*/}
+            </div>
+        </form>
+
+    )
+        ;
 };
 
 const IngredientGroup = ({
                              ingredientId, standard, ingredientName, onRemove, unit, section, ParentRecipeIngredients
                          }) => {
-
-    const [currentStandard, setCurrentStandard] = useState(standard || 0);  // 값이 없으면 0으로 설정
+    const [currentStandard, setCurrentStandard] = useState(standard || 0); // 기본값 0 설정
     const [ingredient, setIngredient] = useState(null);
-
-    const {recipeIngredients, setRecipeIngredients} = useContext(RecipeContext);
+    const [currentUnit, setCurrentUnit] = useState(unit);
+    const [ingredientUnitGroup, setIngredientUnitGroup] = useState("기본");
 
     useEffect(() => {
         const fetchData = async () => {
             try {
+                // 재료 데이터 가져오기
                 const ingredientData = await getIngredientById(ingredientId);
+
+                // ingredientData로부터 필요한 데이터 설정
                 setIngredient({
                     ingredientName: ingredientData.ingredientName,
+                    ingredientGroup: ingredientData.ingredientGroup,
                     calorie: ingredientData.cal,
                     sugar: ingredientData.sugars,
                     sodium: ingredientData.sodium,
@@ -479,38 +553,104 @@ const IngredientGroup = ({
     const [carbohydrateAmount, setCarbohydrateAmount] = useState(0);
     const [fatAmount, setFatAmount] = useState(0);
 
+    // 기준이 변경되면 영양소 재계산
     useEffect(() => {
         if (ingredient) {
-            updateTotalIngredient();
+            const fetchIngredientUnitGroup = ingredient && (
+                [
+                    "당류",
+                    "우유 및 그 제품",
+                    "음료류",
+                    "주류",
+                    "차류",
+                    "유지류",
+                    "조미료류",
+                    "소스"
+                ].includes(ingredient.ingredientGroup) ? "액체 및 조미료류" :
+                    [
+                        "두류",
+                        "견과류",
+                        "종실류"
+                    ].includes(ingredient.ingredientGroup) ? "견과류" :
+                        [
+                            "육류 및 그 제품",
+                            "어패류 및 그 제품"
+                        ].includes(ingredient.ingredientGroup) ? "육류" : "기본"
+            );
+            setIngredientUnitGroup(fetchIngredientUnitGroup);
+            calculateTotalIngredient();
         }
-    }, [ingredient, ParentRecipeIngredients]);
-
+    }, [currentStandard, ingredient, currentUnit]);
 
     const handleStandardChange = (e) => {
-        const newQuantity = parseInt(e.target.value) || 0;  // 값이 없으면 0으로 설정
-        setCurrentStandard(newQuantity);
 
-        // Update the quantity in recipeIngredients, checking both ingredientId and section
-        const updatedIngredients = recipeIngredients.map((ing) =>
-            ing.ingredientId === ingredientId && ing.section === section
-                ? {...ing, quantity: newQuantity}
-                : ing
-        );
+        const inputValue = e.target.value;
 
-        setRecipeIngredients(updatedIngredients);
+        // 숫자와 소수점만 허용하는 정규식을 이용해 입력값 검증
+        if (/^\d*\.?\d*$/.test(inputValue)) {
+            setCurrentStandard(inputValue);
+
+            // `inputValue`가 비어있을 때는 0으로 초기화하거나 `parseFloat`로 처리하여 소수점 값으로 변환
+            const newQuantity = parseFloat(inputValue) || 0;
+
+            // totalIngredients 업데이트 로직
+            setTotalIngredients((prevIngredients) => {
+                return prevIngredients.map((ing) =>
+                    ing.id === ingredientId && ing.section === section
+                        ? { ...ing, quantity: newQuantity }
+                        : ing
+                );
+            });
+        }
     };
 
-    const updateTotalIngredient = () => {
-        console.log("updateNumberTotalIngredient() 호출됨");
 
-        const validStandard = currentStandard || 0;  // 값이 없으면 0으로 설정
+    const handleIncrement = () => {
+        setCurrentStandard((prev) => {
+            const newValue = parseFloat(prev) + 1.0;
+            return parseFloat(newValue.toFixed(1)); // 소수점 한 자릿수로 반올림
+        });
+    };
 
-        const newCalorieAmount = Math.round(ingredient.calorie * (validStandard / 100));
-        const newSugarAmount = Math.round(ingredient.sugar * (validStandard / 100));
-        const newSodiumAmount = Math.round(ingredient.sodium * (validStandard / 100));
-        const newProteinAmount = Math.round(ingredient.protein * (validStandard / 100));
-        const newCarbohydrateAmount = Math.round(ingredient.carbohydrates * (validStandard / 100));
-        const newFatAmount = Math.round(ingredient.fat * (validStandard / 100));
+    const handleDecrement = () => {
+        setCurrentStandard((prev) => {
+            const newValue = Math.max(0, parseFloat(prev) - 1.0);
+            return parseFloat(newValue.toFixed(1)); // 소수점 한 자릿수로 반올림
+        });
+    };
+
+    const handleUnitChange = (e) => {
+        const selectedUnit = e.target.value;
+        setCurrentUnit(selectedUnit); // 드롭다운에서 선택된 값을 currentUnit 상태에 반영
+    };
+
+    const unitConversions = {
+        "컵" : 240,
+        "공기" : 200,
+        "줌" : 25,
+        "근" : 600,
+        "알" : 55,
+        "tsp" : 5,
+        "숟가락": 10,
+        "tbsp": 15,
+        "kg": 1000,
+        "ml": 1,
+        "l" : 1000,
+        "g": 1,
+    };
+
+    const calculateTotalIngredient = () => {
+        // currentStandard가 유효하지 않으면 0을 기본값으로 사용
+        const validStandard = currentStandard || 0;
+
+        let multiplier = (unitConversions[currentUnit] || 1) * validStandard;
+
+        const newCalorieAmount = Math.round(ingredient.calorie * (multiplier / 100));
+        const newSugarAmount = Math.round(ingredient.sugar * (multiplier / 100));
+        const newSodiumAmount = Math.round(ingredient.sodium * (multiplier / 100));
+        const newProteinAmount = Math.round(ingredient.protein * (multiplier / 100));
+        const newCarbohydrateAmount = Math.round(ingredient.carbohydrates * (multiplier / 100));
+        const newFatAmount = Math.round(ingredient.fat * (multiplier / 100));
 
         // 상태값 업데이트
         setCalorieAmount(newCalorieAmount);
@@ -520,22 +660,22 @@ const IngredientGroup = ({
         setCarbohydrateAmount(newCarbohydrateAmount);
         setFatAmount(newFatAmount);
 
-        // console.log("ingredientGroup // ingredientId : " + ingredientId + "Section : " + section)
-        //
-        // totalIngredients.forEach((ingredient) => {
-        //     console.log("totalIngredients // ingredientId : " + ingredient.id + " Section : " + ingredient.section);
-        // });
-
+        // 기존 재료 정보를 삭제하고 새로운 재료 정보를 추가
         setTotalIngredients((prevIngredients) =>
             prevIngredients.filter((ing) =>
                 !(ing.id === ingredientId && ing.section === section)
             )
         );
 
+        // 기존 재료 정보를 삭제하고 새로운 재료 정보를 추가
+        // setTotalIngredients((prevIngredients) =>
+        //     prevIngredients.filter((ing) => ing.name !== ingredient.name)
+        // );
+
         const newIngredient = {
+            id : ingredientId,
             // name: ingredient.name,
-            section : section,
-            id: ingredientId,
+            section: section,
             calorie: newCalorieAmount,
             sugar: newSugarAmount,
             sodium: newSodiumAmount,
@@ -547,64 +687,127 @@ const IngredientGroup = ({
         setTotalIngredients((prevIngredients) => [...prevIngredients, newIngredient]);
     };
 
-
     return (
-
         <div className="ingredient_group">
             {ingredient && (
                 <>
                     <div className="ingredient_title">
-                        {/*<div className="ingredient_title_text">{ingredient.name}</div>*/}
                         <div className="ingredient_title_text">
                             {ingredient.ingredientName === "Unknown Ingredient" ? ingredientName : ingredient.ingredientName}
                         </div>
                         <div className="ingredient_standard_input_group">
-                            <input
-                                type="number"
-                                className="ingredient_standard_input"
-                                value={currentStandard}
-                                onChange={handleStandardChange}
-                            />
-                            <div className="ingredient_unit">{unit}</div>
-                            <button type="button" onClick={() => {
-                                onRemove();
-                            }}>Remove
-                            </button>
-                        </div>
+                            {Object.keys(unitConversions).includes(currentUnit) && (
+                                <>
+                                    <div className="quantity_control">
+                                        <button className="quantity_control_button" onClick={handleDecrement}>-</button>
+                                        <button className="quantity_control_button" onClick={handleIncrement}>+</button>
+                                    </div>
+                                    <input
+                                        className="ingredient_standard_input"
+                                        value={currentStandard}
+                                        onChange={handleStandardChange}
+                                    />
+                                </>
+                            )}
+                            <div className="ingredient_unit_dropdown">
+                                <select className="ingredient_unit_dropdown_select" value={currentUnit}
+                                        onChange={handleUnitChange}>
+                                    {/* 항상 currentUnit이 포함된 드롭다운 메뉴 */}
+                                    <option className="ingredient_unit_dropdown_option"
+                                            value={currentUnit}>{currentUnit}</option>
 
+                                    {/* currentUnit과 동일하지 않은 unit이 있을 경우 드롭다운에 추가 */}
+                                    {currentUnit !== unit && unit !== 'g' &&
+                                        <option className="ingredient_unit_dropdown_option"
+                                                value={unit}>{unit}</option>}
+
+                                    {/* 'g'가 currentUnit으로 선택되어 있을 때는 g 외의 다른 단위를 추가 */}
+                                    {currentUnit !== 'g' &&
+                                        <option className="ingredient_unit_dropdown_option" value="g">g</option>}
+                                    {ingredientUnitGroup === "액체 및 조미료류" ? (
+                                        <>
+                                            {currentUnit !== 'l' &&
+                                                <option className="ingredient_unit_dropdown_option" value="l">l</option>}
+                                            {currentUnit !== 'ml' &&
+                                                <option className="ingredient_unit_dropdown_option" value="ml">ml</option>}
+                                            {currentUnit !== '숟가락' &&
+                                                <option className="ingredient_unit_dropdown_option" value="숟가락">숟가락</option>}
+                                            {currentUnit !== 'tsp' &&
+                                                <option className="ingredient_unit_dropdown_option" value="tsp">tsp</option>}
+                                            {currentUnit !== 'tbsp' &&
+                                                <option className="ingredient_unit_dropdown_option" value="tbsp">tbsp</option>}
+                                            {currentUnit !== '컵' &&
+                                                <option className="ingredient_unit_dropdown_option" value="컵">컵</option>}
+                                        </>
+                                    ) : ingredientUnitGroup === "고기류" ? (
+                                        <>
+                                            {currentUnit !== '근' &&
+                                                <option className="ingredient_unit_dropdown_option" value="근">근</option>}
+                                            {currentUnit !== 'kg' &&
+                                                <option className="ingredient_unit_dropdown_option" value="kg">kg</option>}
+                                        </>
+                                    ) : ingredientUnitGroup === "견과류" ? (
+                                        <>
+                                            {currentUnit !== '줌' &&
+                                                <option className="ingredient_unit_dropdown_option" value="줌">줌</option>}
+                                        </>
+                                    ) : (
+                                        <>
+                                            {currentUnit !== 'kg' &&
+                                                <option className="ingredient_unit_dropdown_option" value="kg">kg</option>}
+                                        </>
+                                    )}
+                                </select>
+                            </div>
+
+                        </div>
                     </div>
-
-                    <div className="ingredient_info_group">
-                        <div className="ingredient_info">
-                            <div className="ingredient_info_detail">
-                                <div className="ingredient_info_detail_title">칼로리</div>
-                                <div className="ingredient_info_detail_content">{calorieAmount} kcal</div>
+                    {ingredient.ingredientName === "Unknown Ingredient" ? (
+                        <div className="unknown-ingredient-message">
+                            해당 재료의 영양성분을 찾을 수 없습니다.
+                            <br/>
+                            다른 재료로 바꿔보세요.
+                        </div>
+                    ) : currentStandard > 0 ? (  // standard가 0보다 클 경우 영양성분을 보여줌
+                        <div className="ingredient_info_group">
+                            <div className="ingredient_info">
+                                <div className="ingredient_info_detail">
+                                    <div className="ingredient_info_detail_title">칼로리</div>
+                                    <div className="ingredient_info_detail_content">{calorieAmount} kcal</div>
+                                </div>
+                                <div className="ingredient_info_detail">
+                                    <div className="ingredient_info_detail_title">당류</div>
+                                    <div className="ingredient_info_detail_content">{sugarAmount} g</div>
+                                </div>
                             </div>
-                            <div className="ingredient_info_detail">
-                                <div className="ingredient_info_detail_title">당류</div>
-                                <div className="ingredient_info_detail_content">{sugarAmount} g</div>
+                            <div className="ingredient_info">
+                                <div className="ingredient_info_detail">
+                                    <div className="ingredient_info_detail_title">나트륨</div>
+                                    <div className="ingredient_info_detail_content">{sodiumAmount} mg</div>
+                                </div>
+                                <div className="ingredient_info_detail">
+                                    <div className="ingredient_info_detail_title">단백질</div>
+                                    <div className="ingredient_info_detail_content">{proteinAmount} g</div>
+                                </div>
                             </div>
-                            <div className="ingredient_info_detail">
-                                <div className="ingredient_info_detail_title">나트륨</div>
-                                <div className="ingredient_info_detail_content">{sodiumAmount} mg</div>
+                            <div className="ingredient_info">
+                                <div className="ingredient_info_detail">
+                                    <div className="ingredient_info_detail_title">탄수화물</div>
+                                    <div className="ingredient_info_detail_content">{carbohydrateAmount} g</div>
+                                </div>
+                                <div className="ingredient_info_detail">
+                                    <div className="ingredient_info_detail_title">지방</div>
+                                    <div className="ingredient_info_detail_content">{fatAmount} g</div>
+                                </div>
                             </div>
                         </div>
-
-                        <div className="ingredient_info">
-                            <div className="ingredient_info_detail">
-                                <div className="ingredient_info_detail_title">단백질</div>
-                                <div className="ingredient_info_detail_content">{proteinAmount} g</div>
-                            </div>
-                            <div className="ingredient_info_detail">
-                                <div className="ingredient_info_detail_title">탄수화물</div>
-                                <div className="ingredient_info_detail_content">{carbohydrateAmount} g</div>
-                            </div>
-                            <div className="ingredient_info_detail">
-                                <div className="ingredient_info_detail_title">지방</div>
-                                <div className="ingredient_info_detail_content">{fatAmount} g</div>
-                            </div>
+                    ) : (
+                        <div className="unknown-ingredient-message">
+                            해당 단위로 영양성분을 계산할 수 없습니다.
+                            <br/>
+                            다른 단위로 바꿔보세요.
                         </div>
-                    </div>
+                    )}
                 </>
             )}
         </div>

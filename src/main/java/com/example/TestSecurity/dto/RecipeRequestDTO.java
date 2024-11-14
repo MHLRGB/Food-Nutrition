@@ -12,7 +12,6 @@ public class RecipeRequestDTO {
     private String recipeTitle;
     private String recipeInfo;
     private Integer views;
-    private String chef;
     private String serving;
     private String cookingTime;
     private String difficulty;

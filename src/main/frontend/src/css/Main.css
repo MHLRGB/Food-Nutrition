@@ -2,11 +2,13 @@
 
 .document {
   display: flex;
+  /*min-height: 100vh;*/
   /*background: linear-gradient(to bottom, #A0EBB5, #C4E9CE);*/
   background: linear-gradient(to top, #A0EBB5, #C4E9CE);
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
 
   /* 폰트 지정 */
   font-family: "Noto Sans KR", sans-serif;
@@ -112,7 +114,7 @@
   }
 
 .recipe_container {
-  width: 100%;
+  width: 670px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -120,6 +122,8 @@
   color: #000000;
   border: solid 2px #A0EBB5;
   border-radius: 20px;
+  margin-bottom: 100px;
+  padding-bottom: 100px;
 
   /*background: linear-gradient(135deg, #C4E9CE, #A0EBB5);*/
   background-color: #F7FFF9;
@@ -139,24 +143,85 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     /*margin-top: 20px;*/
+    margin: 40px 0 20px 0;
   }
 
   .recipe_title {
+    width:auto;
     font-size: 27px;
-    text-align: center;
-    margin: 40px 0;
     /*font-weight: bold;*/
-    /*background-color: white;*/
+    text-align: center;
+    padding: 20px 15px 20px 15px;
+    margin: 20px 0 20px 0;
+    /*text-align: center;*/
+    /*margin: 40px 0 20px 0;*/
+    /*font-weight: bold;*/
+    background-color: white;
     /*padding: 15px;*/
-    /*border: solid 2px #C4E9CE;*/
-    /*border-radius: 15px;*/
+    border: solid 3px #C4E9CE;
+    border-radius: 15px;
 
-    font-family: "Hahmlet", serif;
-    font-optical-sizing: auto;
-    font-weight: 500;
+    font-family: "Do Hyeon", sans-serif;
+    font-weight: 0;
     font-style: normal;
 
+    /*font-family: "Hahmlet", serif;*/
+    /*font-optical-sizing: auto;*/
+    /*font-weight: 500;*/
+    /*font-style: normal;*/
+
+  }
+
+  .recipeInfo {
+    width:800px;
+    font-size:18px;
+  }
+
+  .recipe_detail {
+    width:600px;
+    font-size:18px;
+    border : solid 3px #C4E9CE;
+    padding : 15px;
+    border-radius: 15px;
+  }
+  .recipe_detail_table_box {
+    width : 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .recipe_detail_table {
+    width: 400px;
+    text-align: center;
+    /*border: none ;*/
+    border: 2px solid #A0EBB5 ;
+    border-radius: 30px;
+    border-spacing: 0; /* 셀 간 간격 0으로 설정 */
+    /*display: flex;*/
+    /*justify-content: center;*/
+    /*align-items: center;*/
+    border-collapse: collapse;
+    table-layout: fixed
+  }
+  .recipe_detail_title {
+    width: 100%;
+
+    font-weight: bold;
+  }
+  .recipe_detail_content {
+    width: 100%;
+  }
+  .recipe_detail_title_td {
+    background-color: #EEFDF2;
+    border: 2px solid #A0EBB5 ;
+    font-weight: bold;
+    padding:5px;
+  }
+  .recipe_detail_content_tr {
+    border: 2px solid #A0EBB5 ;
+    padding:5px;
   }
 
   .recipe_category, .recipe_author {
@@ -172,13 +237,15 @@
   }
   .ingredient_group {
     width: 550px;
-    height: 120px;
+    height: auto;
+    /*height: 120px;*/
     /*padding: 5px 15px;*/
-    border-radius: 25px;
+    border-radius: 15px;
     background-color: #F7FFF9;
     margin-bottom: 20px;
     display: flex;
     align-items: center;
+    flex-direction: column;
     font-size: 18px;
     color: #000;
     border: 2px solid #A0EBB5;
@@ -193,37 +260,135 @@
 
   .ingredient_title {
     display: flex;
-    width: 180px;
-    height: 70px;
-    font-size: 19px;
-    padding:10px;
+    width: 100%;
+    height: 40px;
+    font-size: 20px;
+    /*padding:10px;*/
     align-items: center;
     justify-content: center;
-    flex-direction: column;
-    border-right: solid 2px #C4E9CE;
+    border-bottom: solid 2px #C4E9CE;
+    /*border-top: solid 2px #C4E9CE;*/
+    padding: 7px 0 7px 0;
+    /*flex-direction: column;*/
+
+
   }
 
   .unknown-ingredient-message {
-    display: block;
-    font-size: 0.8em;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size:20px;
+    padding : 10px 0 10px 0;
     color: gray;
-    margin-top: 4px;
   }
 
   .ingredient_title_text {
-    width: 100%;
+    display: flex;
+    width: auto;
     height: 100%;
+    justify-content: start;
+    align-items: center;
     text-align: center;
-    padding: 15px 0;
+    padding-left:26px;
+
     /*border-bottom: solid 3px #C4E9CE;*/
-    /*font-size: 19px;*/
+    font-size: 21px;
   }
 
+  .byGroup {
+    width: 400px;
+    height: auto;
+    display: flex;
+    justify-content: space-around;
+  }
+
+.byGroup_text {
+  width: 70px;
+  height: 35px;
+  display: flex;
+  font-size: 13px;
+  font-weight: bold;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 0;
+  border-radius: 10px;
+  /*border: solid 2px #C4E9CE;*/
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+}
+
+.byGroup_text:nth-of-type(1) {
+  background-color: #F1F8E9; /* 색상 예시 */
+
+}
+
+.byGroup_text:nth-of-type(2) {
+  background-color: #FFE5D9;
+
+}
+
+.byGroup_text:nth-of-type(3) {
+  background-color: #FFF9E6;
+
+}
+
+.byGroup_text:nth-of-type(4) {
+  background-color: #EDE7F6;
+
+}
+
+.showDetails {
+  width: 100px;
+  height: 40px;
+  font-size:17px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /*background-color: #F7FFF9;*/
+  background-color: white;
+  border : solid 3px #C4E9CE;
+  border-radius: 10px;
+  cursor: pointer;
+  margin:30px 0 20px 0;
+
+  font-family: "Do Hyeon", sans-serif;
+  font-weight: 200;
+  font-style: normal;
+}
+  .showDetails:hover {
+  background-color: #EEFDF2;
+  }
+  .quantity_control {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    .quantity_control_button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 17px;
+      height: 17px;
+      background-color: #F7FFF9;
+      border-radius: 5px;
+      border:2px solid #C4E9CE;
+    }
+    .quantity_control_button:hover {
+      background-color: #C4E9CE;
+    }
+  }
   .ingredient_info_group {
     display: flex;
     width: 100%;
-    margin-left: 20px;
+    margin: 5px 0 5px 0;
+    height: 100%;
     font-size:19px;
+    padding-left:20px;
+    /*border-bottom : solid 2px #C4E9CE;*/
 
     .ingredient_info {
       display: flex;
@@ -246,31 +411,78 @@
       width: 90px;
     }
   }
-.recipeIngredients_form_input {
-  margin-left:30px;
-  width:150px;
-}
+
 
 .ingredient_standard_input_group {
   display: flex;
-  justify-content: center;
+  justify-content: end;
+  align-items: center;
   padding-top:5px;
-  border-top: solid 2px #C4E9CE;
+  margin-right:10px;
+  /*border-top: solid 2px #C4E9CE;*/
+
   width: 100%;
+
 
   .ingredient_standard_input {
     width: 50px;
+    height: 30px;
     background-color: transparent;
     border: none;
-    text-align: center;
-
+    margin-right: 15px;
+    /*text-align: center;*/
+    text-align: end;
+    /*border:2px solid #C4E9CE ;*/
+    /*border-radius: 5px;*/
     /* 폰트 지정 */
     font-family: "Do Hyeon", sans-serif;
     font-weight: 200;
     font-style: normal;
-    font-size: 18px;
+    font-size: 20px;
   }
-  .ingredient_unit {
+  .ingredient_unit_solo {
+    width: 100px;
+    display: flex;
+    justify-content: end;
+    /*align-items: end;*/
+    /*text-align: end;*/
+  }
+  .ingredient_unit_dropdown {
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right:10px;
+
+
+    .ingredient_unit_dropdown_select {
+      /*width:30px;*/
+      height: 30px;
+      border: none;
+      /*border: 2px solid #C4E9CE;*/
+      border-radius: 5px;
+      margin-left:3px;
+
+      font-family: "Do Hyeon", sans-serif;
+      font-weight: 200;
+      font-style: normal;
+      font-size: 20px;
+
+      background-color: #F7FFF9;
+    }
+    .ingredient_unit_dropdown_option {
+      font-family: "Do Hyeon", sans-serif;
+      font-weight: 200;
+      font-style: normal;
+      font-size: 18px;
+    }
+
+    .ingredient_unit_dropdown_option:hover {
+      background-color: #F7FFF9;
+    }
+    .ingredient_unit_dropdown_option:checked {
+      background-color: #F7FFF9;
+    }
 
   }
 
@@ -345,12 +557,6 @@
 
   /* 재료 검색창 CSS === */
 
-.document {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .search-container {
   position: relative;
   max-width: 300px;
@@ -399,3 +605,218 @@
 }
 
 /* === 재료 검색창 CSS */
+
+.byGroup_input {
+  width: 400px;
+  height: auto;
+  display: flex;
+  margin-bottom: 30px;
+  justify-content: space-around;
+}
+
+.recipeIngredients_form_input {
+  width: 70px;
+  height: 35px;
+  display: flex;
+  font-size: 13px;
+  font-weight: bold;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 0;
+  border-radius: 10px;
+  /*border: solid 2px #C4E9CE;*/
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+}
+
+.recipeIngredients_form_detail_box {
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  flex-direction: column;
+  margin:30px 0 30px 0;
+  font-family: "Do Hyeon", sans-serif;
+  font-weight: 0;
+  font-style: normal;
+}
+
+.recipeIngredients_form_title_value_group {
+  display: flex;
+  margin-bottom: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.recipeIngredients_form_title {
+  font-size:18px;
+  margin-right: 20px;
+}
+.recipeIngredients_form_info_input {
+  width: 400px;
+  height: 100px;
+
+  border-radius: 5px;
+  background-color: white;
+  /*background-color: #F7FFF9;*/
+  border: 2px solid #A0EBB5;
+
+  word-wrap: break-word; /* 긴 단어를 잘라서 줄바꿈 */
+  word-break: break-word; /* 단어가 너무 길면 줄바꿈 */
+  white-space: normal; /* 공백을 포함하여 텍스트가 자동으로 줄바꿈되도록 */
+  overflow-wrap: break-word; /* overflow시 텍스트를 줄바꿈 */
+}
+
+.recipeIngredients_form_title_input {
+  /*display: flex;*/
+  /*justify-content: start;*/
+  /*align-items: start;*/
+  /*text-align: start;*/
+  width: 400px;
+  height: 50px;
+  border-radius: 5px;
+  background-color: white;
+  /*background-color: #F7FFF9;*/
+  border: 2px solid #A0EBB5;
+
+  word-wrap: break-word; /* 긴 단어를 잘라서 줄바꿈 */
+  word-break: break-word; /* 단어가 너무 길면 줄바꿈 */
+  white-space: normal; /* 공백을 포함하여 텍스트가 자동으로 줄바꿈되도록 */
+  overflow-wrap: break-word; /* overflow시 텍스트를 줄바꿈 */
+}
+
+.recipeIngredients_select {
+  width: 90px;
+  height: 35px;
+  display: flex;
+  font-size: 13px;
+  font-weight: bold;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 0;
+  border-radius: 10px;
+  border:none;
+  /*border: solid 2px #C4E9CE;*/
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+}
+
+.recipeIngredients_select:nth-of-type(1) {
+  background-color: #F1F8E9; /* 색상 예시 */
+
+}
+
+.recipeIngredients_select:nth-of-type(2) {
+  background-color: #FFE5D9;
+
+}
+
+.recipeIngredients_select:nth-of-type(3) {
+  background-color: #FFF9E6;
+
+}
+
+.recipeIngredients_select:nth-of-type(4) {
+  background-color: #EDE7F6;
+
+}
+
+.section_add_box {
+  width: 100%;
+  height: auto;
+  padding-left:113px;
+  .section_info_message {
+    font-size:small;
+    color:gray;
+    margin-bottom:2px;
+  }
+}
+.section_add_group {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  /*align-items: end;*/
+  align-items: center;
+  /*padding-left:60px;*/
+
+  .section_add_input {
+    width: auto;
+    height: 100%;
+    /*margin-left:60px;*/
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  .section_add_button {
+    width: 80px;
+    height: 40px;
+    background-color: #F7FFF9;
+    border-radius: 5px;
+    border:2px solid #C4E9CE;
+    margin-left:10px;
+    cursor: pointer;
+    font-weight: bold;
+    
+    /*font-family: "Do Hyeon", sans-serif;*/
+    /*font-weight: 0;*/
+    /*font-style: normal;*/
+    font-size:15px;
+
+  }
+
+  .section_add_button:hover {
+    background-color: #C4E9CE;
+  }
+
+}
+.section_group {
+  margin-bottom:15px;
+  width:560px;
+  .section_title {
+    font-weight: bold;
+    font-size:23px;
+    margin: 10px 0 5px 0;
+  }
+}
+
+
+.delete_section_button {
+  width:50px;
+  height: 30px;
+  background-color: #F7FFF9;
+  border-radius: 5px;
+  border:2px solid #C4E9CE;
+  margin-left:10px;
+
+  cursor: pointer;
+  font-family: "Do Hyeon", sans-serif;
+  font-weight: 0;
+  font-style: normal;
+  font-size:16px;
+}
+.delete_section_button:hover {
+  background-color: #C4E9CE;
+}
+.ingredient_title_button_group {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+.ingredient_delete_buton {
+  width:50px;
+  height: 30px;
+  background-color: #F7FFF9;
+  border-radius: 5px;
+  border:2px solid #C4E9CE;
+  margin-left:10px;
+
+  cursor: pointer;
+  font-family: "Do Hyeon", sans-serif;
+  font-weight: 0;
+  font-style: normal;
+  font-size:16px;
+}
+.ingredient_delete_buton:hover {
+  background-color: #C4E9CE;
+}

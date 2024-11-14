@@ -20,9 +20,6 @@ const Recipe_write = () => {
 };
 
 const Body = () => {
-
-    const { recipeTitle, recipeCategory, recipeIngredients } = useContext(RecipeContext);
-
     return (
         <MainProvider>
             <div className='community_board_body_container'>

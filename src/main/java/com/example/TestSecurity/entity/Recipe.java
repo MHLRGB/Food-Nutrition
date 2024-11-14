@@ -20,29 +20,39 @@ public class Recipe {
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RecipeIngredients> recipeIngredients = new ArrayList<>();
 
+    @Column(name = "recipeTitle")
     private String recipeTitle;
 
-    @Lob
+    @Column(name = "recipeInfo")
     private String recipeInfo;
 
+    @Column(name = "views")
     private Integer views;
 
+    @Column(name = "chef")
     private String chef;
 
+    @Column(name = "serving")
     private String serving;
 
+    @Column(name = "cookingTime")
     private String cookingTime;
 
+    @Column(name = "difficulty")
     private String difficulty;
 
-    @Lob
+    @Column(name = "hashtag")
     private String hashtag;
 
+    @Column(name = "byType")
     private String byType;
 
+    @Column(name = "bySituation")
     private String bySituation;
 
+    @Column(name = "byIngredient")
     private String byIngredient;
 
+    @Column(name = "byMethod")
     private String byMethod;
 }

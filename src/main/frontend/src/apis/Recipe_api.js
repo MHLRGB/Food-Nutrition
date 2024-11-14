@@ -28,7 +28,6 @@ export const createRecipe = async (recipe, ingredients) => {
         recipeTitle: recipe.recipeTitle,
         recipeInfo: recipe.recipeInfo,
         views: null, // 기본 값 또는 필요한 경우 추가
-        chef: recipe.chef,
         serving: null, // 기본 값 또는 필요한 경우 추가
         cookingTime: null, // 기본 값 또는 필요한 경우 추가
         difficulty: null, // 기본 값 또는 필요한 경우 추가

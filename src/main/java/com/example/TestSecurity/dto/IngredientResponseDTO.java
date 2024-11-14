@@ -7,6 +7,7 @@ import lombok.Setter;
 public class IngredientResponseDTO {
     private Long ingredientsID;
     private String ingredientName;
+    private String ingredientGroup;
     private Float cal;
     private Float carbohydrates;
     private Float sugars;

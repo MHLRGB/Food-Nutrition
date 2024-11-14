@@ -1,20 +1,24 @@
 {
   "files": {
-    "main.css": "/static/css/main.f2fa04cf.css",
-    "main.js": "/static/js/main.7c31b6ae.js",
+    "main.css": "/static/css/main.0555d2e4.css",
+    "main.js": "/static/js/main.f88a88be.js",
     "static/js/453.8ab44547.chunk.js": "/static/js/453.8ab44547.chunk.js",
     "static/media/slide-3.png": "/static/media/slide-3.d9df98f93847af3de98f.png",
     "static/media/slide-2.png": "/static/media/slide-2.75e8c98acc7dce02cbf5.png",
     "static/media/slide-1.png": "/static/media/slide-1.772a61916e502cb65cbd.png",
     "static/media/search_page_icon.png": "/static/media/search_page_icon.4cd173d8d2282cf9a2e3.png",
+    "static/media/sora.png": "/static/media/sora.41f03457035540d5b3d7.png",
+    "static/media/egg.png": "/static/media/egg.a25bad48290ae07f030e.png",
+    "static/media/buger.png": "/static/media/buger.6f2504b2cc158ae71ebe.png",
+    "static/media/knife.png": "/static/media/knife.20afbfbb285d4e239af1.png",
     "static/media/recipe.png": "/static/media/recipe.49a37917e818138f9f68.png",
     "index.html": "/index.html",
-    "main.f2fa04cf.css.map": "/static/css/main.f2fa04cf.css.map",
-    "main.7c31b6ae.js.map": "/static/js/main.7c31b6ae.js.map",
+    "main.0555d2e4.css.map": "/static/css/main.0555d2e4.css.map",
+    "main.f88a88be.js.map": "/static/js/main.f88a88be.js.map",
     "453.8ab44547.chunk.js.map": "/static/js/453.8ab44547.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.f2fa04cf.css",
-    "static/js/main.7c31b6ae.js"
+    "static/css/main.0555d2e4.css",
+    "static/js/main.f88a88be.js"
   ]
 }
