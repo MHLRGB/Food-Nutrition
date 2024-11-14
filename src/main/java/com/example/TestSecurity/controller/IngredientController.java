@@ -34,8 +34,8 @@ public class IngredientController {
             Ingredients ing = ingredient.get(); // Ingredients 객체 가져오기
 
             IngredientResponseDTO responseDTO = new IngredientResponseDTO();
-            responseDTO.setIngredientsID(ing.getIngredient_id()); // id 필드 매핑
-            responseDTO.setName(ing.getFoodName()); // name 필드 매핑
+            responseDTO.setIngredientsID(ing.getIngredientId()); // id 필드 매핑
+            responseDTO.setIngredientName(ing.getIngredientName()); // name 필드 매핑
             responseDTO.setCal(ing.getEnergyKcal()); // cal 필드 매핑
             responseDTO.setCarbohydrates(ing.getCarbohydrateG()); // carbohydrates 필드 매핑
             responseDTO.setSugars(ing.getSugarG()); // sugars 필드 매핑

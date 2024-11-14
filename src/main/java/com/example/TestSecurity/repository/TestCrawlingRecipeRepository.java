@@ -8,6 +8,5 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface TestCrawlingRecipeRepository extends JpaRepository<TestCrawlingRecipe, Long> {
-    @Query("SELECT r.ingredientsContent FROM TestCrawlingRecipe r") // YourEntity를 실제 엔티티 이름으로 변경
-    List<String> findAllIngredientContents();
+
 }

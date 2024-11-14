@@ -8,7 +8,7 @@ import lombok.Setter;
 public class IngredientRequestDTO {
 
     private String ingredientName;
-    private Long ingredient_id;
+    private Long ingredientId;
     private Double quantity;
     private String unit;
     private String section;

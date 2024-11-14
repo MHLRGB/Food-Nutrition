@@ -203,6 +203,13 @@
     border-right: solid 2px #C4E9CE;
   }
 
+  .unknown-ingredient-message {
+    display: block;
+    font-size: 0.8em;
+    color: gray;
+    margin-top: 4px;
+  }
+
   .ingredient_title_text {
     width: 100%;
     height: 100%;

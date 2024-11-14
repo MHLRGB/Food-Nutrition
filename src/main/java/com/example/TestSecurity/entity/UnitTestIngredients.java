@@ -18,7 +18,7 @@ public class UnitTestIngredients {
     private Long id;
 
     @Column(name = "recipeId")
-    private Integer recipeId;
+    private Long recipeId;
 
     @Column(name = "section")
     private String section;

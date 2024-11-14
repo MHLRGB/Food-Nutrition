@@ -1,5 +1,6 @@
 package com.example.TestSecurity.controller;
 
+import com.example.TestSecurity.dto.IngredientRequestDTO;
 import com.example.TestSecurity.dto.RecipeIngredientsResponseDTO;
 import com.example.TestSecurity.dto.RecipeRequestDTO;
 import com.example.TestSecurity.dto.RecipeResponseDTO;
@@ -34,7 +35,6 @@ public class RecipeController {
     public ResponseEntity<RecipeIngredientsResponseDTO> createRecipe(@RequestBody RecipeRequestDTO recipeRequestDTO) {
 
         try {
-
             RecipeIngredientsResponseDTO createdRecipe = recipeService.createRecipe(recipeRequestDTO);
 
             return new ResponseEntity<>(createdRecipe, HttpStatus.OK);
@@ -50,14 +50,26 @@ public class RecipeController {
         List<Recipe> Recipes = recipeService.getAllRecipes();
         List<RecipeResponseDTO> responseDTOs = Recipes.stream().map(recipe -> {
             RecipeResponseDTO dto = new RecipeResponseDTO();
-            RecipeResponseDTO.from(recipe);
+            dto.setRecipeId(recipe.getRecipeId()); // recipeId
+            dto.setRecipeTitle(recipe.getRecipeTitle()); // recipeTitle
+            dto.setRecipeInfo(recipe.getRecipeInfo()); // recipeInfo
+            dto.setViews(recipe.getViews()); // views
+            dto.setChef(recipe.getChef()); // chef
+            dto.setServing(recipe.getServing()); // serving
+            dto.setCookingTime(recipe.getCookingTime()); // cooking_time
+            dto.setDifficulty(recipe.getDifficulty()); // difficulty
+            dto.setHashtag(recipe.getHashtag()); // hashtag
+            dto.setByType(recipe.getByType()); // byType
+            dto.setBySituation(recipe.getBySituation()); // bySituation
+            dto.setByIngredient(recipe.getByIngredient()); // byIngredient
+            dto.setByMethod(recipe.getByMethod()); // byMethod
+
+
             return dto;
         }).collect(Collectors.toList());
 
         return new ResponseEntity<>(responseDTOs, HttpStatus.OK);
     }
-
-
 
 
 

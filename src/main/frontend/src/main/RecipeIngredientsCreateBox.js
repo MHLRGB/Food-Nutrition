@@ -7,12 +7,8 @@ import { useNavigate } from "react-router-dom";
 const RecipeIngredientsCreateBox = ({ showEditButton }) => {
     const navigate = useNavigate();
     const {
-        recipeTitle,
-        setRecipeTitle,
-        recipeContent,
-        setRecipeContent,
-        recipeCategory,
-        setRecipeCategory,
+        recipe,
+        setRecipe,
         recipeIngredients,
         setRecipeIngredients
     } = useContext(RecipeContext);  // recipeIngredients와 setRecipeIngredients 사용
@@ -30,6 +26,15 @@ const RecipeIngredientsCreateBox = ({ showEditButton }) => {
     const [sections, setSections] = useState([{ name: "재료", searchKeyword: "", searchResults: [] }]);
 
     const debounceTimeoutRef = useRef(null); // 디바운스 타이머를 관리할 ref
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setRecipe((prevRecipe) => ({
+            ...prevRecipe,
+            [name]: value,
+        }));
+    };
+
 
     // 섹션 추가 함수
     const handleAddSection = () => {
@@ -57,6 +62,7 @@ const RecipeIngredientsCreateBox = ({ showEditButton }) => {
 
     // 섹션에서 재료를 검색할 때 해당하는 섹션의 검색창 하단에 검색 결과를 출력하기 위한 함수
     const handleSectionKeywordChange = async (index, keyword) => {
+
         console.log("인덱스 : " + index + " 키워드 : " + keyword);
         const newSections = [...sections];
         newSections[index].searchKeyword = keyword;
@@ -67,7 +73,6 @@ const RecipeIngredientsCreateBox = ({ showEditButton }) => {
             clearTimeout(debounceTimeoutRef.current); // 이전 타이머를 클리어
         }
 
-        debounceTimeoutRef.current = setTimeout(async () => {
             if (keyword.trim().length > 0) {
                 try {
                     newSections[index].searchResults = await searchIngredients(keyword.trim());
@@ -75,20 +80,26 @@ const RecipeIngredientsCreateBox = ({ showEditButton }) => {
 
                     // 로깅
                     newSections[index].searchResults.forEach(ingredient => {
-                        console.log("sections : " + ingredient.ingredient_name);
+                        console.log("sections : " + ingredient.ingredientName);
                     });
                 } catch (error) {
                     console.error("Error fetching search results:", error);
                 }
             }
-        }, 300); // 300ms 후에 실행
     };
 
     // 재료 입력창에서 커서를 잃을 때 검색 결과 초기화
     const handleBlur = (index) => {
-        const newSections = [...sections];
-        newSections[index].searchResults = [];
-        setSections(newSections);
+
+        const updatedSections = [...sections];
+        updatedSections[index].searchKeyword = "";
+        updatedSections[index].searchResults = [];
+        setSections(updatedSections);
+
+
+        // const newSections = [...sections];
+        // newSections[index].searchResults = [];
+        // setSections(newSections);
     };
 
     useEffect(() => {
@@ -142,7 +153,7 @@ const RecipeIngredientsCreateBox = ({ showEditButton }) => {
         event.preventDefault();
 
         try {
-            const response = await createRecipe(recipeTitle, recipeContent, recipeCategory, recipeIngredients);  // prop으로 받은 recipeId 사용
+            const response = await createRecipe(recipe, recipeIngredients);  // prop으로 받은 recipeId 사용
             navigate('/recipe');  // 성공 후 리다이렉트
             console.log('Success:', response);
         } catch (error) {
@@ -152,15 +163,15 @@ const RecipeIngredientsCreateBox = ({ showEditButton }) => {
     };
 
     // 재료 추가 함수
-    const handleAddIngredient = (ingredientId, ingredient_name, section) => {
+    const handleAddIngredient = (ingredientId, ingredientName, sectionName) => {
         // if (!recipeIngredients.some(ingredient => ingredient.ingredientId === ingredientId)) {
         //     setRecipeIngredients([...recipeIngredients, { ingredientId, quantity: 100, foodName, unit: "unittest", section }]);
         // }
 
         // 다른 재료 Section에 같은 재료가 있을 수 있으니 같은 재료 삽입 허용
-        setRecipeIngredients([...recipeIngredients, { ingredientId, ingredient_name:ingredient_name, quantity: 100, unit: "unittest", section }]);
+        setRecipeIngredients([...recipeIngredients, { ingredientId, ingredientName:ingredientName, quantity: 100, unit: "unittest", section: sectionName}]);
 
-        const sectionIndex = sections.findIndex(sec => sec.name === section);
+        const sectionIndex = sections.findIndex(sec => sec.name === sectionName);
         if (sectionIndex !== -1) {
             const updatedSections = [...sections];
             updatedSections[sectionIndex].searchKeyword = "";
@@ -199,27 +210,61 @@ const RecipeIngredientsCreateBox = ({ showEditButton }) => {
                 <div className="recipeIngredients_form">
                     <input
                         type="text"
+                        name="recipeTitle"
                         placeholder="Title"
                         className="recipeIngredients_form_input"
-                        value={recipeTitle}
-                        onChange={(e) => setRecipeTitle(e.target.value)}
+                        value={recipe.recipeTitle}
+                        onChange={handleInputChange}
                         required
                     />
                     <input
                         type="text"
-                        placeholder="Category"
-                        value={recipeCategory}
+                        name="recipeInfo"
+                        placeholder="Recipe Info"
                         className="recipeIngredients_form_input"
-                        onChange={(e) => setRecipeCategory(e.target.value)}
+                        value={recipe.recipeInfo}
+                        onChange={handleInputChange}
                         required
                     />
                     <input
                         type="text"
-                        placeholder="Content"
-                        value={recipeContent}
+                        name="hashtag"
+                        placeholder="Hashtag"
                         className="recipeIngredients_form_input"
-                        onChange={(e) => setRecipeContent(e.target.value)}
-                        required
+                        value={recipe.hashtag}
+                        onChange={handleInputChange}
+                    />
+                    <input
+                        type="text"
+                        name="byType"
+                        placeholder="Type"
+                        className="recipeIngredients_form_input"
+                        value={recipe.byType}
+                        onChange={handleInputChange}
+                    />
+                    <input
+                        type="text"
+                        name="bySituation"
+                        placeholder="Situation"
+                        className="recipeIngredients_form_input"
+                        value={recipe.bySituation}
+                        onChange={handleInputChange}
+                    />
+                    <input
+                        type="text"
+                        name="byIngredient"
+                        placeholder="Ingredient"
+                        className="recipeIngredients_form_input"
+                        value={recipe.byIngredient}
+                        onChange={handleInputChange}
+                    />
+                    <input
+                        type="text"
+                        name="byMethod"
+                        placeholder="Method"
+                        className="recipeIngredients_form_input"
+                        value={recipe.byMethod}
+                        onChange={handleInputChange}
                     />
 
                 </div>
@@ -252,9 +297,9 @@ const RecipeIngredientsCreateBox = ({ showEditButton }) => {
                                 <div className="results-box">
                                     <ul className="results-list">
                                         {section.searchResults.map(ingredient => (
-                                            <li key={ingredient.id} className="results-item"
-                                                onMouseDown={() => handleAddIngredient(ingredient.id, ingredient.ingredient_name, section.name)}>
-                                                {ingredient.foodName}
+                                            <li key={ingredient.ingredientId} className="results-item"
+                                                onMouseDown={() => handleAddIngredient(ingredient.ingredientId, ingredient.ingredientName, section.name)}>
+                                                {ingredient.ingredientName}
                                             </li>
                                         ))}
                                     </ul>
@@ -284,7 +329,7 @@ const IngredientGroup = ({
             try {
                 const ingredientData = await getIngredientById(ingredientId);
                 setIngredient({
-                    name: ingredientData.name,
+                    ingredientName: ingredientData.ingredientName,
                     calorie: ingredientData.cal,
                     sugar: ingredientData.sugars,
                     sodium: ingredientData.sodium,
@@ -377,7 +422,7 @@ const IngredientGroup = ({
                 <>
                     <div className="ingredient_title">
                         {/*<div className="ingredient_title_text">{ingredient.name}</div>*/}
-                        <div className="ingredient_title_text">{ingredient.name}</div>
+                        <div className="ingredient_title_text">{ingredient.ingredientName}</div>
                         <div className="ingredient_standard_input_group">
                             <input
                                 type="number"

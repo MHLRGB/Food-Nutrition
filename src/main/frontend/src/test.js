@@ -51,7 +51,7 @@ function Body() {
                         <ul className="results-list">
                             {results.slice(0, 5).map((ingredient) => (
                                 <li key={ingredient.id} className="results-item">
-                                    {ingredient.id} ({ingredient.foodName})
+                                    {ingredient.id} ({ingredient.ingredientName})
                                 </li>
                             ))}
                         </ul>

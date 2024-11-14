@@ -121,7 +121,7 @@ public class CommunityController {
             // Recipe가 null이 아닌지 확인
             Recipe recipe = community.get().getRecipe();
             if (recipe != null) {
-                responseDTO.setRecipeId(recipe.getId());
+                responseDTO.setRecipeId(recipe.getRecipeId());
             } else {
                 responseDTO.setRecipeId(null);
             }

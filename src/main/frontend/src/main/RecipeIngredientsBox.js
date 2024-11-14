@@ -33,13 +33,36 @@ const RecipeIngredientsBox = ({recipeId}) => {
     }, [recipeId]);  // recipeId가 변경될 때마다 실행
 
     // 섹션별로 재료를 그룹화하는 함수
+    // const groupIngredientsBySection = (ingredients) => {
+    //     return ingredients.reduce((acc, ingredient) => {
+    //         const section = ingredient.section;
+    //         if (!acc[section]) {
+    //             acc[section] = [];
+    //         }
+    //         acc[section].push(ingredient);
+    //         return acc;
+    //     }, {});
+    // };
     const groupIngredientsBySection = (ingredients) => {
-        return ingredients.reduce((acc, ingredient) => {
+        const grouped = ingredients.reduce((acc, ingredient) => {
             const section = ingredient.section;
             if (!acc[section]) {
                 acc[section] = [];
             }
             acc[section].push(ingredient);
+            return acc;
+        }, {});
+
+        // 특정 섹션을 첫 번째로 정렬하여 배열로 변환
+        const sortedSections = Object.keys(grouped).sort((a, b) => {
+            if (a === "재료" || a === "주재료") return -1;
+            if (b === "재료" || b === "주재료") return 1;
+            return 0;
+        });
+
+        // 정렬된 섹션 순서로 새 객체 생성
+        return sortedSections.reduce((acc, section) => {
+            acc[section] = grouped[section];
             return acc;
         }, {});
     };
@@ -61,7 +84,20 @@ const RecipeIngredientsBox = ({recipeId}) => {
     return (
         <div className='recipe_container'>
             <div className="recipe_info">
-                <div className="recipe_title">{recipe.title}</div>
+                <div className="recipe_title">{recipe.recipeTitle}</div>
+            </div>
+            <div>
+                <p><strong>Recipe Info:</strong> {recipe.recipeInfo}</p>
+                <p><strong>Views:</strong> {recipe.views}</p>
+                <p><strong>Chef:</strong> {recipe.chef}</p>
+                <p><strong>Serving:</strong> {recipe.serving}</p>
+                <p><strong>Cooking Time:</strong> {recipe.cookingTime}</p>
+                <p><strong>Difficulty:</strong> {recipe.difficulty}</p>
+                <p><strong>Hashtag:</strong> {recipe.hashtag}</p>
+                <p><strong>By Type:</strong> {recipe.byType}</p>
+                <p><strong>By Situation:</strong> {recipe.bySituation}</p>
+                <p><strong>By Ingredient:</strong> {recipe.byIngredient}</p>
+                <p><strong>By Method:</strong> {recipe.byMethod}</p>
             </div>
 
             {Object.keys(groupedIngredients).map((section) => (
@@ -69,22 +105,28 @@ const RecipeIngredientsBox = ({recipeId}) => {
                     <h3>{section}</h3>
                     <ul>
                         {groupedIngredients[section].map((ingredient) => (
+                            <>
+                            {ingredient.ingredientId === 99999 && (
+                                    <div className="unknown-ingredient-message">해당 재료의 영양성분을 찾을 수 없습니다.</div>
+                                )}
                             <IngredientGroup
                                 key={ingredient.ingredientId}
                                 ingredientId={ingredient.ingredientId}
                                 unit={ingredient.unit}
+                                ingredientName={ingredient.ingredientName}
                                 section={ingredient.section}
                                 standard={ingredient.quantity}
                             />
+                            </>
                         ))}
                     </ul>
                 </div>
             ))}
-            <div className="recipe_bottom" />
+            <div className="recipe_bottom"/>
         </div>
     );
 }
-const IngredientGroup = ({ingredientId, standard, unit, section}) => {
+const IngredientGroup = ({ingredientId, unit, ingredientName, section, standard}) => {
     const [currentStandard, setCurrentStandard] = useState(standard || 0); // 기본값 0 설정
     const [ingredient, setIngredient] = useState(null);
 
@@ -96,7 +138,7 @@ const IngredientGroup = ({ingredientId, standard, unit, section}) => {
 
                 // ingredientData로부터 필요한 데이터 설정
                 setIngredient({
-                    name: ingredientData.name,
+                    ingredientName: ingredientData.ingredientName,
                     calorie: ingredientData.cal,
                     sugar: ingredientData.sugars,
                     sodium: ingredientData.sodium,
@@ -200,8 +242,9 @@ const IngredientGroup = ({ingredientId, standard, unit, section}) => {
             {ingredient && (
                 <>
                     <div className="ingredient_title">
-                        <div className="ingredient_title_text">{ingredient.name}</div>
-
+                        <div className="ingredient_title_text">
+                            {ingredient.ingredientName === "Unknown Ingredient" ? ingredientName : ingredient.ingredientName}
+                        </div>
                         <div className="ingredient_standard_input_group">
                             <input
                                 type="number"
@@ -214,7 +257,7 @@ const IngredientGroup = ({ingredientId, standard, unit, section}) => {
                     </div>
                     <div className="ingredient_info_group">
                         <div className="ingredient_info">
-                            <div className="ingredient_info_detail">
+                        <div className="ingredient_info_detail">
                                 <div className="ingredient_info_detail_title">칼로리</div>
                                 <div className="ingredient_info_detail_content">{calorieAmount} kcal</div>
                             </div>
