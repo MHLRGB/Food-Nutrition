@@ -35,7 +35,6 @@ const RecipeIngredientsCreateBox = ({ showEditButton }) => {
         }));
     };
 
-
     // 섹션 추가 함수
     const handleAddSection = () => {
         if (newSection && !sections.some(section => section.name === newSection)) {
@@ -458,10 +457,19 @@ const IngredientGroup = ({
                         ].includes(ingredient.ingredientGroup) ? "고기류" : "기본"
             );
             setIngredientUnitGroup(fetchIngredientUnitGroup);
+
+
             updateTotalIngredient();
         }
     }, [currentStandard, ingredient, ParentRecipeIngredients, currentUnit]);
 
+    useEffect(() => {
+        const updatedIngredients = recipeIngredients.map((ing) =>
+            ing.ingredientId === ingredientId ? { ...ing, unit:currentUnit } : ing
+        );
+        setRecipeIngredients(updatedIngredients);
+
+    },[currentUnit]);
 
     const handleStandardChange = (e) => {
 
@@ -577,7 +585,7 @@ const IngredientGroup = ({
                 <>
                     <div className="ingredient_title">
                         <div className="ingredient_title_button_group">
-                            <div className="ingredient_title_text">
+                            <div className="ingredient_title_text_input">
                                 {ingredient.ingredientName === "Unknown Ingredient" ? ingredientName : ingredient.ingredientName}
                             </div>
                             <button className="ingredient_delete_buton" type="button" onClick={() => {

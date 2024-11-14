@@ -288,7 +288,7 @@
 
   .ingredient_title_text {
     display: flex;
-    width: auto;
+    width: 100%;
     height: 100%;
     justify-content: start;
     align-items: center;
@@ -819,4 +819,17 @@
 }
 .ingredient_delete_buton:hover {
   background-color: #C4E9CE;
+}
+
+.ingredient_title_text_input {
+  display: flex;
+  width: auto;
+  height: 100%;
+  justify-content: start;
+  align-items: center;
+  text-align: center;
+  padding-left:26px;
+
+  /*border-bottom: solid 3px #C4E9CE;*/
+  font-size: 21px;
 }
