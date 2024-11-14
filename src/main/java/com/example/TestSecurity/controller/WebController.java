@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class WebController {
 
-    @GetMapping(value =  {"/", "/login", "/join", "/test","/admin", "/common","/aisearch",
+    @GetMapping(value =  {"/", "/login", "/join", "/test","/admin", "/common","/aisearch", "/myrecipe",
             "/community", "/community/*" ,
             "recipe","recipe/*", "/recipe/update/*","/recipe/write",
             "/community/board", "community/board/*", "community/board/update/*", "/community/board/write"

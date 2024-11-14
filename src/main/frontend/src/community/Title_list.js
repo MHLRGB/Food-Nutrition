@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {getAllRecipes} from "../apis/Recipe_api";
+import {getAllMyRecipes, getAllRecipes} from "../apis/Recipe_api";
 import {getAllCommunities} from "../apis/Community_api";
 
-const TitleList = ({ category }) => {
+const TitleList = ({ category, myrecipe }) => {
     const [titles, setTitles] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -14,10 +14,10 @@ const TitleList = ({ category }) => {
         const fetchRecipes = async () => {
             try {
             let data;
-            if (category === "board") {
-                data = await getAllCommunities(); // 카테고리 A의 레시피 가져오기
+            if (myrecipe === "1") {
+                data = await getAllMyRecipes();
             } else {
-                data = await getAllRecipes(); // 카테고리 B의 레시피 가져오기
+                data = await getAllRecipes();
             }
                 setTitles(data);
                 setLoading(false);

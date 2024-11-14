@@ -13,11 +13,12 @@
 .mypage_body_container {
   display: flex;
   flex-direction: column; /* 자식 요소들을 수직으로 배치합니다 */
+  padding:20px;
   width: 100%;
 }
 
 .my_page_title {
-  font-size: 40px;
+  font-size: 30px;
   padding: 20px;
   margin-top: 20px;
   margin-left: 20px;
@@ -27,7 +28,7 @@
 
 .mypage_profile-container {
   display: flex;
-  margin-left : 50px;
+  margin-left : 30px;
   align-items: center;
 }
 
@@ -39,7 +40,7 @@
 }
 
 .username {
-  font-size: 30px;
+  font-size: 20px;
   margin-top: 20px;
   margin-left: 10px;
   font-weight: bold;

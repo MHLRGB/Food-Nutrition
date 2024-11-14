@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useRef, useState} from "react";
-import {getIngredientById, getRecipeById, searchIngredients, updateRecipe} from "../apis/Recipe_api";
+import {deleteRecipeById, getIngredientById, getRecipeById, searchIngredients, updateRecipe} from "../apis/Recipe_api";
 import {RecipeContext, RecipeProvider} from "../community/RecipeContext";
 import {MainContext, MainProvider} from "./MainContext";
 import {useLocation, useNavigate} from "react-router-dom";
@@ -11,9 +11,21 @@ const RecipeIngredientsUpdateBox = ({ recipeId, showEditButton }) => {
         recipe,
         setRecipe,
         recipeIngredients,
-        setRecipeIngredients
-    } = useContext(RecipeContext);  // recipeIngredients와 setRecipeIngredients 사용
+        setRecipeIngredients,
+    } = useContext(RecipeContext);
 
+    const deleteRecipe = async (id) => {
+        const confirmed = window.confirm("정말 삭제하시겠습니까?");
+
+        if (confirmed) {
+            try {
+                await deleteRecipeById(id);
+                navigate(-2);
+            } catch (error) {
+                console.log("error:", error);
+            }
+        }
+    };
 
     const { totalIngredients, setTotalIngredients } = React.useContext(MainContext);
 
@@ -138,6 +150,7 @@ const RecipeIngredientsUpdateBox = ({ recipeId, showEditButton }) => {
                 cookingTime: recipeData.cookingTime,
                 chef : recipeData.chef,
                 difficulty: recipeData.difficulty,
+                serving : recipeData.serving,
                 hashtag: recipeData.hashtag,
                 byType: recipeData.byType,
                 bySituation: recipeData.bySituation,
@@ -388,6 +401,17 @@ const RecipeIngredientsUpdateBox = ({ recipeId, showEditButton }) => {
                             onChange={handleInputChange}
                         />
                     </div>
+                    <div className="recipeIngredients_form_title_value_group">
+                        <div className="recipeIngredients_form_title">인원 수</div>
+                        <input
+                            type="text"
+                            name="serving"
+                            placeholder="인원 수"
+                            className="recipeIngredients_form_other_input"
+                            value={recipe.serving}
+                            onChange={handleInputChange}
+                        />
+                    </div>
                 </div>
                 <div className="byGroup_input">
                     <select
@@ -546,10 +570,14 @@ const RecipeIngredientsUpdateBox = ({ recipeId, showEditButton }) => {
                 {/*    </div>*/}
                 {/*))}*/}
 
-                {/*{showEditButton && userdata.username === recipe.chef && (*/}
-                {/*    <button className="update_recipe_button" type="submit">Update Recipe</button>*/}
-                {/*)}*/}
-                <button className="update_recipe_button" type="submit">업데이트</button>
+                {showEditButton && (userdata.username === recipe.chef || userdata.username === "admin") && (
+                    <>
+                        <button className="update_recipe_button" type="submit">업데이트</button>
+                        <button className="update_recipe_button" type='button' onClick={() => deleteRecipe(recipeId)}>
+                            레시피 삭제하기
+                        </button>
+                    </>
+                )}
             </div>
         </form>
 
@@ -606,6 +634,7 @@ const IngredientGroup = ({
     // 기준이 변경되면 영양소 재계산
     useEffect(() => {
         if (ingredient) {
+            calculateTotalIngredient()
             const fetchIngredientUnitGroup = ingredient && (
                 [
                     "당류",
@@ -627,18 +656,17 @@ const IngredientGroup = ({
                             "어패류 및 그 제품"
                         ].includes(ingredient.ingredientGroup) ? "고기류" : "기본"
             );
+
             setIngredientUnitGroup(fetchIngredientUnitGroup);
-            calculateTotalIngredient();
+
         }
-    }, [currentStandard, ingredient, currentUnit]);
+    }, [ingredient, ParentRecipeIngredients]);
 
     useEffect(() => {
-        const updatedIngredients = recipeIngredients.map((ing) =>
-            ing.ingredientId === ingredientId ? { ...ing, unit:currentUnit } : ing
-        );
-        setRecipeIngredients(updatedIngredients);
-
-    },[currentUnit]);
+        if(ingredient) {
+            calculateTotalIngredient();
+        }
+    },[currentStandard, ingredient, currentUnit]);
 
     const handleStandardChange = (e) => {
         console.log("handleStandardChange 호출됨..................")
@@ -648,47 +676,66 @@ const IngredientGroup = ({
         if (/^\d*\.?\d*$/.test(inputValue)) {
             setCurrentStandard(inputValue);
 
-            // `inputValue`가 비어있을 때는 0으로 초기화하거나 `parseFloat`로 처리하여 소수점 값으로 변환
-            const newQuantity = parseFloat(inputValue) || 0;
-
-            // // totalIngredients 업데이트 로직
-            // setTotalIngredients((prevIngredients) => {
-            //     return prevIngredients.map((ing) =>
-            //         ing.id === ingredientId && ing.section === section
-            //             ? { ...ing, quantity: newQuantity }
-            //             : ing
-            //     );
-            // });
             const updatedIngredients = recipeIngredients.map((ing) =>
-                ing.ingredientId === ingredientId ? { ...ing, quantity: newQuantity, unit:currentUnit } : ing
+                ing.ingredientId === ingredientId && ing.section === section
+                    ? {...ing, quantity: inputValue}
+                    : ing
             );
+
             setRecipeIngredients(updatedIngredients);
-
         }
-    };
-
-
-    const handleIncrement = (e) => {
-        e.preventDefault();
-        setCurrentStandard((prev) => {
-            const newValue = parseFloat(prev) + 1.0;
-            return parseFloat(newValue.toFixed(1)); // 소수점 한 자릿수로 반올림
-        });
-    };
-
-    const handleDecrement = (e) => {
-        e.preventDefault();
-        setCurrentStandard((prev) => {
-            const newValue = Math.max(0, parseFloat(prev) - 1.0);
-            return parseFloat(newValue.toFixed(1)); // 소수점 한 자릿수로 반올림
-        });
     };
 
     const handleUnitChange = (e) => {
         e.preventDefault(e);
         const selectedUnit = e.target.value;
-        setCurrentUnit(selectedUnit); // 드롭다운에서 선택된 값을 currentUnit 상태에 반영
+        setCurrentUnit(selectedUnit);
+        const updatedIngredients = recipeIngredients.map((ing) =>
+            ing.ingredientId === ingredientId && ing.section === section
+                ? {...ing, unit: selectedUnit}
+                : ing
+        );
+
+        setRecipeIngredients(updatedIngredients);
+        // 드롭다운에서 선택된 값을 currentUnit 상태에 반영
     };
+
+    const handleIncrement = (e) => {
+        e.preventDefault();
+
+        const incrementValue = 1.0; // 증가할 값
+
+        setCurrentStandard((prev) => {
+            const newValue = parseFloat(prev) + incrementValue;
+            const roundedValue = parseFloat(newValue.toFixed(1)); // 소수점 한 자릿수로 반올림
+
+            const updatedIngredients = recipeIngredients.map((ing) =>
+                ing.ingredientId === ingredientId ? { ...ing, quantity: roundedValue} : ing
+            );
+            setRecipeIngredients(updatedIngredients);
+
+            return roundedValue;
+        });
+    };
+
+    const handleDecrement = (e) => {
+        e.preventDefault();
+
+        const decrementAmount = 1.0; // 감소할 값
+
+        setCurrentStandard((prev) => {
+            const newValue = Math.max(0, parseFloat(prev) - decrementAmount); // 감소 계산
+            const roundedValue = parseFloat(newValue.toFixed(1)); // 소수점 한 자릿수로 반올림
+
+            const updatedIngredients = recipeIngredients.map((ing) =>
+                ing.ingredientId === ingredientId ? { ...ing, quantity: roundedValue} : ing
+            );
+            setRecipeIngredients(updatedIngredients);
+            return roundedValue;
+        });
+    };
+
+
 
     const unitConversions = {
         "컵" : 240,
@@ -707,6 +754,7 @@ const IngredientGroup = ({
 
     const calculateTotalIngredient = () => {
         // currentStandard가 유효하지 않으면 0을 기본값으로 사용
+
         const validStandard = currentStandard || 0;
 
         let multiplier = (unitConversions[currentUnit] || 1) * validStandard;
@@ -741,6 +789,7 @@ const IngredientGroup = ({
         const newIngredient = {
             id : ingredientId,
             // name: ingredient.name,
+            unit: currentUnit,
             section: section,
             calorie: newCalorieAmount,
             sugar: newSugarAmount,
@@ -771,8 +820,8 @@ const IngredientGroup = ({
                             {Object.keys(unitConversions).includes(currentUnit) && (
                                 <>
                                     <div className="quantity_control">
-                                        <button className="quantity_control_button" onClick={handleDecrement}>-</button>
                                         <button className="quantity_control_button" onClick={handleIncrement}>+</button>
+                                        <button className="quantity_control_button" onClick={handleDecrement}>-</button>
                                     </div>
                                     <input
                                         className="ingredient_standard_input"

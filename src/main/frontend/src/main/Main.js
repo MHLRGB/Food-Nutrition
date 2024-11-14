@@ -19,14 +19,17 @@ import RecipeIngredientsBox from "./RecipeIngredientsBox";
 import search_icon from "../image/header/search_icon.png";
 import {getAllCommunities} from "../apis/Community_api";
 import {getAllRecipes} from "../apis/Recipe_api";
+import {RecipeProvider} from "../community/RecipeContext";
 
 
 const Main = () => {
     return (
         <div className='document'>
             <MainProvider>
-                <Header/>
-                <Body/>
+                <RecipeProvider>
+                    <Header/>
+                    <Body/>
+                </RecipeProvider>
             </MainProvider>
         </div>
     );
@@ -102,6 +105,11 @@ const Body = () => {
                             </div>
                         </div>
                     ))}
+                </div>
+                <div className='body_left_bottom'>
+                    <Link className="body_left_top_button" to="/myrecipe">
+                        <div className="my_Recipe">내 레시피</div>
+                    </Link>
                 </div>
             </div>
             <div className='main_body_center'>

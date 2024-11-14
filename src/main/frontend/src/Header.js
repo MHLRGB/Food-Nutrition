@@ -85,7 +85,7 @@ function Header() {
                 <div className="header_user_container">
                     {userdata.username !== "anonymousUser" ? (
                         <>
-                            <Link type="button" to="/mypage" className="header_user_menu">My Page</Link>
+                            {/*<Link type="button" to="/mypage" className="header_user_menu">My Page</Link>*/}
                             <div className="header_user_menu" onClick={handleLogout}>Logout</div>
                         </>
                     ) : (

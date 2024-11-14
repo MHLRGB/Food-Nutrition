@@ -136,7 +136,7 @@ public class RecipeService {
             recipeIngredients.setIngredientName(ingredientRequestDTO.getIngredientName());
             recipeIngredients.setQuantity(ingredientRequestDTO.getQuantity());
             recipeIngredients.setUnit(ingredientRequestDTO.getUnit());
-            System.out.println("ingredientRequestDTO.getSection() : " + ingredientRequestDTO.getSection());
+            // System.out.println("ingredientRequestDTO.getSection() : " + ingredientRequestDTO.getSection());
             recipeIngredientsRepository.save(recipeIngredients);
         }
 

@@ -6,6 +6,7 @@ import IngredientGroup from "../../main/RecipeIngredientsBox";
 import { MainProvider } from "../../main/MainContext";
 import RecipeIngredientsBox from "../../main/RecipeIngredientsBox";
 import StickyBanner from "../../main/StickyBanner";
+import {RecipeProvider} from "../RecipeContext";
 
 const Recipe_detail = () => {
     return (
@@ -40,18 +41,9 @@ const Body = () => {
         fetchData();
     }, [id]);
 
-    const deleteRecipe = async (id) => {
-        try {
-            await deleteRecipeById(id);
-            navigate(-1);
-        } catch (error) {
-            console.log("error:", error);
-        }
-    };
 
-    const handleNavRecipe = (id) => {
-        window.location.href = `/recipe/update/${id}`;
-    };
+
+
 
     if (loading) {
         return <div>Loading...</div>;
@@ -68,6 +60,7 @@ const Body = () => {
     return (
         // IngredientGroup 테스트를 위해 임시로 MainProvider 사용
         <MainProvider>
+            <RecipeProvider>
             <div className='community_board_body_container'>
                 <div className='community_board_body_left'>
 
@@ -75,21 +68,13 @@ const Body = () => {
 
                 <div className='community_board_body_center'>
                     <RecipeIngredientsBox recipeId={recipe.recipeId}/>
-
-                    <button
-                        type='button'
-                        onClick={() => deleteRecipe(recipe.recipeId)}
-                    >
-                        레시피 삭제하기
-                    </button>
-
-                    <div onClick={() => handleNavRecipe(recipe.recipeId)}>수정</div>
                 </div>
 
                 <div className='community_board_body_right'>
                     <StickyBanner />
                 </div>
             </div>
+            </RecipeProvider>
         </MainProvider>
     );
 };

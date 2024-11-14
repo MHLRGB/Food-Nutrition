@@ -87,6 +87,50 @@
     margin-bottom: 20px; /* 각 요소 사이에 20px 간격을 줍니다. */
   }
 
+.body_left_bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  /*border-bottom: solid 2px #A0EBB5;*/
+
+  .recipe_title_group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 230px;
+    height: 50px;
+    border: solid 2px #A0EBB5;
+    border-radius: 10px;
+
+    .body_left_bottom_button {
+      width : 170px;
+      border : none;
+      color:black;
+      font-size : 18px;
+      font-weight: bold;
+    }
+
+    .recipe_title_icon {
+      width: 30px;
+      height: 30px;
+      margin-right: 5px;
+    }
+  }
+  .recipe_title_group:hover {
+    cursor: pointer;
+    font-weight: bold;
+    border: solid 2px #4DBF6C;
+
+  }
+}
+
+.body_left_bottom > * {
+  margin-bottom: 20px; /* 각 요소 사이에 20px 간격을 줍니다. */
+}
+
+
 
 
 
@@ -114,7 +158,7 @@
   }
 
 .recipe_container {
-  width: 670px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -123,6 +167,7 @@
   border: solid 2px #A0EBB5;
   border-radius: 20px;
   margin-bottom: 100px;
+  /*padding: 0 50px 100px 50px;*/
   padding-bottom: 100px;
 
   /*background: linear-gradient(135deg, #C4E9CE, #A0EBB5);*/
@@ -145,7 +190,7 @@
     align-items: center;
     justify-content: center;
     /*margin-top: 20px;*/
-    margin: 40px 0 20px 0;
+    margin: 20px 0 20px 0;
   }
 
   .recipe_title {
@@ -238,7 +283,7 @@
     height: 50px;
   }
   .ingredient_group {
-    width: 550px;
+    width: 575px;
     height: auto;
     /*height: 120px;*/
     /*padding: 5px 15px;*/
@@ -312,7 +357,7 @@
   width: 70px;
   height: 35px;
   display: flex;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: bold;
   align-items: center;
   justify-content: center;
@@ -742,7 +787,7 @@
 .section_add_box {
   width: 100%;
   height: auto;
-  padding-left:113px;
+  padding-left:93px;
   .section_info_message {
     font-size:small;
     color:gray;
@@ -768,7 +813,7 @@
   }
 
   .section_add_button {
-    width: 80px;
+    width: 82px;
     height: 40px;
     background-color: #F7FFF9;
     border-radius: 5px;
@@ -853,7 +898,7 @@
   font-size: 21px;
 }
 .update_recipe_button {
-  width: 100px;
+  width: 150px;
   height: 40px;
   background-color: #F7FFF9;
   border-radius: 5px;
@@ -868,5 +913,60 @@
 }
 
 .update_recipe_button:hover {
+  background-color: #C4E9CE;
+}
+
+.recipe_top_edit_group {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin-top:15px;
+  .recipe_top_edit_button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 15px;
+    margin-right: 20px;
+    padding:10px;
+    background-color: #F7FFF9;
+    border-radius: 10px;
+    border: 2px solid #C4E9CE;
+    text-align: center;
+
+    cursor: pointer;
+    font-family: "Do Hyeon", sans-serif;
+    font-weight: 0;
+    font-style: normal;
+    font-size: 18px;
+  }
+  .recipe_top_edit_button:hover {
+    background-color: #C4E9CE;
+  }
+}
+
+
+.recipe_top_bring_button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  height: 15px;
+  margin-right: 20px;
+  padding:10px;
+  background-color: #F7FFF9;
+  border-radius: 10px;
+  border: 2px solid #C4E9CE;
+  text-align: center;
+
+  cursor: pointer;
+  font-family: "Do Hyeon", sans-serif;
+  font-weight: 0;
+  font-style: normal;
+  font-size: 18px;
+}
+.recipe_top_bring_button:hover {
   background-color: #C4E9CE;
 }

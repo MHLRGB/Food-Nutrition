@@ -73,7 +73,7 @@ export const updateRecipe = async (id, recipe, recipeIngredients) => {
         recipeInfo: recipe.recipeInfo,
         views: null, // 기본 값 또는 필요한 경우 추가
         chef: recipe.chef,
-        serving: null, // 기본 값 또는 필요한 경우 추가
+        serving: recipe.serving || null, // 기본 값 또는 필요한 경우 추가
         cookingTime: recipe.cookingTime || null, // 기본 값 또는 필요한 경우 추가
         difficulty: recipe.difficulty || null, // 기본 값 또는 필요한 경우 추가
         hashtag: recipe.hashtag,
@@ -103,9 +103,53 @@ export const updateRecipe = async (id, recipe, recipeIngredients) => {
         throw error; // 에러를 상위 호출자에게 전달
     }
 };
+export const bringRecipe = async (recipe, recipeIngredients) => {
+
+    // requestDTO 정의
+    const requestDTO = {
+        recipeTitle: recipe.recipeTitle,
+        recipeInfo: recipe.recipeInfo,
+        views: null, // 기본 값 또는 필요한 경우 추가
+        serving: recipe.serving || null, // 기본 값 또는 필요한 경우 추가
+        cookingTime: recipe.cookingTime || null, // 기본 값 또는 필요한 경우 추가
+        difficulty: recipe.difficulty || null, // 기본 값 또는 필요한 경우 추가
+        hashtag: recipe.hashtag,
+        byType: recipe.byType,
+        bySituation: recipe.bySituation,
+        byIngredient: recipe.byIngredient,
+        byMethod: recipe.byMethod,
+        ingredients: recipeIngredients && recipeIngredients.length > 0 ? recipeIngredients.map(ingredient => ({
+            ingredientId: ingredient.ingredientId || null,
+            ingredientName:ingredient.ingredientName || null,
+            quantity: ingredient.quantity,
+            section : ingredient.section,
+            unit : ingredient.unit
+        })) : []
+    };
+
+    try {
+        const response = await axios.post(`/api/recipe`, requestDTO, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.error(`Error :`, error);
+        throw error; // 에러를 상위 호출자에게 전달
+    }
+};
+
+
 
 export const getAllRecipes = async () => {
     const response = await axios.get('/api/recipe');
+    return response.data;
+};
+
+export const getAllMyRecipes = async () => {
+    const response = await axios.get('/api/recipe/my');
     return response.data;
 };
 

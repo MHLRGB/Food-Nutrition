@@ -1,8 +1,9 @@
 .ai_search_body {
   width: 100%;
   height: 100vh;
-  background: linear-gradient(to top, #F7FFF9, #FFFFFF);
+  /*background: linear-gradient(to top, #F7FFF9, #FFFFFF);*/
 
+  background: white;
   display: flex;
   justify-content: flex-start; /* 자식 요소들을 상단으로 정렬 */
   flex-direction: column;
@@ -80,6 +81,7 @@
 }
 
 .ai_search_result_box {
+
   /*width: 1000px; !* 너비를 100%로 설정하여 화면을 가득 채움 *!*/
   /*!*height: 100vh;*!*/
   /*display: flex;*/
@@ -93,8 +95,8 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  background-color: #ffffff;
-  padding: 20px;
+  /*padding: 20px;*/
+  z-index: 1;
 }
 
 .recipe_item_box {
@@ -125,7 +127,7 @@
 }
 
 .ai_search_result_detail {
-  width: 900px;
+  width: 750px;
   /*min-height: 600px;*/
   display: flex;
   justify-content: center;

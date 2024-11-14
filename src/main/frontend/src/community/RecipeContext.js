@@ -10,14 +10,14 @@ export const RecipeProvider = ({children}) => {
         chef : '',
         difficulty : '',
         cookingTime : '',
+        serving : '',
         byType: '전체',
         bySituation: '전체',
         byIngredient: '전체',
         byMethod: '전체',
     });
 
-
-    const [recipeIngredients, setRecipeIngredients] = useState([{ ingredientId: '', quantity: '' }]);
+    const [recipeIngredients, setRecipeIngredients] = useState([{ ingredientId: '', ingredientName: '', quantity: '', section:'' }]);
 
     return (
         <RecipeContext.Provider value={{recipe, setRecipe, recipeIngredients, setRecipeIngredients}}>
