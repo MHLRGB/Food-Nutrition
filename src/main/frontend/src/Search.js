@@ -97,7 +97,7 @@ const Body = () => {
             <div className="recipe_container_wrapper">
                 {searchResults.length > 0 ? (
                     <>
-                        <div className="recipe_container">
+                        <div className="search_recipe_container">
                             {currentRecipes.map((recipe, index) => (
                                 <div
                                     key={recipe.recipeNumber}

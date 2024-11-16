@@ -21,7 +21,7 @@ import StickyBanner from "./StickyBanner";
 import RecipeIngredientsBox from "./RecipeIngredientsBox";
 import search_icon from "../image/header/search_icon.png";
 import {getAllCommunities} from "../apis/Community_api";
-import {getAllMyRecipes, getAllRecipes} from "../apis/Recipe_api";
+import {getAllMyRecipes, getAllRecipes, getRecipeById} from "../apis/Recipe_api";
 import {RecipeProvider} from "../community/RecipeContext";
 import {nowUserInfo} from "../apis/User_api";
 
@@ -48,27 +48,27 @@ const Body = () => {
 
     const [sliderIndex, setSliderIndex] = useState(0);
     const [recipeIndex, setRecipeIndex] = useState(recommendedRecipe[0].recipeId[0]);
-    const [recipeTitle, setRecipeTitle] = useState([]);
+    const [recipeTitles, setRecipeTitles] = useState({}); // 제목을 저장하는 상태
 
     const [titles, setTitles] = useState([]);
 
     const { totalIngredients, setTotalIngredients } = useContext(MainContext);
     const [userdata, setUserdata] = useState('');
 
-
+    const getTitle =  async(id) => {
+        const recipeData = await getRecipeById(id);
+        return recipeData.recipeTitle;
+    }
     useEffect(() => {
-        const fetchRecipes = async () => {
-            try {
-                const recipe = await getAllRecipes();
-                setRecipeTitle(recipe);
-
-                console.log("recipeTitle:"+recipeTitle);
-            } catch (error) {
-                console.log("Error:"+error.message);
+        const fetchTitles = async () => {
+            const titles = {};
+            for (const id of recommendedRecipe[sliderIndex].recipeId) {
+                titles[id] = await getTitle(id);
             }
+            setRecipeTitles(titles); // 가져온 제목을 상태로 설정
         };
-        fetchRecipes();
-    }, [sliderIndex]);
+        fetchTitles();
+    }, [sliderIndex]); // 슬라이더 인덱스가 변경될 때마다 호출
 
     useEffect(() => {
         const fetchRecipes = async () => {
@@ -85,25 +85,25 @@ const Body = () => {
     }, []);
 
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                // 레시피 데이터 가져오기
-                const response = await nowUserInfo();
-                setUserdata(response);
-
-                // response에서 바로 isSetCat을 확인하여 이동
-                if (response.isSetCat === 0) {
-                    // 다른 페이지로 이동 (예: "/selectcategory")
-                    window.location.href = '/selectcategory';
-                }
-            } catch (error) {
-                console.log("Error : " + error);
-            }
-        };
-
-        fetchData();
-    }, []);
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             // 레시피 데이터 가져오기
+    //             const response = await nowUserInfo();
+    //             setUserdata(response);
+    //
+    //             // response에서 바로 isSetCat을 확인하여 이동
+    //             if (response.isSetCat === 0) {
+    //                 // 다른 페이지로 이동 (예: "/selectcategory")
+    //                 window.location.href = '/selectcategory';
+    //             }
+    //         } catch (error) {
+    //             console.log("Error : " + error);
+    //         }
+    //     };
+    //
+    //     fetchData();
+    // }, []);
 
     // 이전 슬라이드로 이동
     const prevSlide = () => {
@@ -127,10 +127,10 @@ const Body = () => {
         setTotalIngredients([]); // 재료 초기화
     };
 
-    const getTitleById = (id) => {
-        const recipe = recipeTitle.find(recipe => recipe.id === id);
-        return recipe ? recipe.recipe_title : 'Unknown Recipe';
-    };
+    // const getTitleById = (id) => {
+    //     const recipe = recipeTitle.find(recipe => recipe.recipeId === id);
+    //     return recipe ? recipe.recipeTitle : 'Unknown Recipe';
+    // };
 
     return (
         <div className='main_body_container'>
@@ -144,7 +144,7 @@ const Body = () => {
                         >
                             <img className="recipe_title_icon" src={recipe_title_icon} alt="recipe_title_icon" />
                             <div className='body_left_top_button'>
-                                {getTitleById(recipe)}
+                                {recipeTitles[recipe] || 'Loading...'}
                             </div>
                         </div>
                     ))}

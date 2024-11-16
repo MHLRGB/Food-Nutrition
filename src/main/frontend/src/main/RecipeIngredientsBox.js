@@ -82,8 +82,20 @@ const RecipeIngredientsBox = ({recipeId}) => {
             });
 
             setRecipeIngredients([]);
+
             const ingredients = recipeData.ingredientsInfo || [];
-            setRecipeIngredients(ingredients);  // recipeIngredients에 설정
+            // setRecipeIngredients(ingredients);  // recipeIngredients에 설정
+            let ingredientOrder = 1;
+            const updatedIngredients = ingredients.map((ingredient, index) => ({
+                ...ingredient,  // 기존 ingredient 데이터를 그대로 복사
+                defaultUnit : ingredient.unit,
+                ingredientOrder: index + 1  // 1부터 시작하는 순차적 증가
+            }));
+
+            setRecipeIngredients(updatedIngredients)
+            let order = 1;  // ingredientOrder 초기값 설정
+
+
             // sections 업데이트
             updateSections(ingredients);
 
@@ -151,9 +163,10 @@ const RecipeIngredientsBox = ({recipeId}) => {
                             ingredientId={ingredient.ingredientId}
                             standard={ingredient.quantity}
                             unit={ingredient.unit}
+                            defaultUnit={ingredient.defaultUnit}
                             section={ingredient.section}
                             ingredientName={ingredient.ingredientName}
-                            onRemove={() => handleRemoveIngredient(ingredient.ingredientId, ingredient.section)}
+                            onRemove={() => handleRemoveIngredient(ingredient.ingredientId, ingredient.section, ingredient.ingredientOrder)}
                             ParentRecipeIngredients={recipeIngredients}
                         />
                     </>
@@ -204,13 +217,13 @@ const RecipeIngredientsBox = ({recipeId}) => {
     };
 
     // 10/01
-    const handleRemoveIngredient = (ingredientIdToRemove, ingredientSectionToRemove) => {
+    const handleRemoveIngredient = (ingredientIdToRemove, ingredientSectionToRemove, ingredientOrderToRemove) => {
         console.log("handleRemoveIngredient() 함수 호출");
 
         // recipeIngredients에서 해당 ingredientId를 제외한 새 배열을 생성
         //const updatedIngredients = recipeIngredients.filter(ingredient => ingredient.ingredientId !== ingredientIdToRemove);
         const updatedIngredients = recipeIngredients.filter(ingredient =>
-            !(ingredient.ingredientId === ingredientIdToRemove && ingredient.section === ingredientSectionToRemove)
+            !(ingredient.ingredientId === ingredientIdToRemove && ingredient.section === ingredientSectionToRemove && ingredient.ingredientOrder === ingredientOrderToRemove)
         );
         // 상태 업데이트 (recipeIngredients)
         setRecipeIngredients(updatedIngredients);
@@ -218,7 +231,7 @@ const RecipeIngredientsBox = ({recipeId}) => {
         // totalIngredients에서 해당 ingredientId를 가진 재료의 영양소 정보 제거
         setTotalIngredients((prevIngredients) =>
             prevIngredients.filter(
-                ingredient => !(ingredient.id === ingredientIdToRemove && ingredient.section === ingredientSectionToRemove)
+                ingredient => !(ingredient.id === ingredientIdToRemove && ingredient.section === ingredientSectionToRemove && ingredient.ingredientOrder === ingredientOrderToRemove)
             )
         );
 
@@ -400,7 +413,7 @@ const RecipeIngredientsBox = ({recipeId}) => {
     );
 }
 const IngredientGroup = ({
-                             ingredientId, standard, ingredientName, onRemove, unit, section, ParentRecipeIngredients
+                             ingredientId, standard, ingredientName, onRemove, unit, defaultUnit, section, ParentRecipeIngredients
                          }) => {
     const [currentStandard, setCurrentStandard] = useState(standard || 0); // 기본값 0 설정
     const [ingredient, setIngredient] = useState(null);
@@ -631,7 +644,8 @@ const IngredientGroup = ({
                             </button>
                         </div>
                         <div className="ingredient_standard_input_group">
-                            {Object.keys(unitConversions).includes(currentUnit) && (
+                            {/*{Object.keys(unitConversions).includes(currentUnit) && (*/}
+                            {((currentStandard > 0 || Object.keys(unitConversions).includes(currentUnit)) &&
                                 <>
                                     <div className="quantity_control">
                                         <button className="quantity_control_button" onClick={handleIncrement}>+</button>
@@ -653,11 +667,11 @@ const IngredientGroup = ({
                                     {/*<option className="ingredient_unit_dropdown_option"*/}
                                     {/*        value={currentUnit}>{currentUnit}</option>*/}
 
-                                    {/*{currentUnit !== unit && (*/}
-                                    {/*    <option className="ingredient_unit_dropdown_option" value={unit}>*/}
-                                    {/*        {unit}*/}
-                                    {/*    </option>*/}
-                                    {/*)}*/}
+                                    {currentUnit !== defaultUnit && (
+                                        <option className="ingredient_unit_dropdown_option" value={defaultUnit}>
+                                            {defaultUnit}
+                                        </option>
+                                    )}
 
                                     {/*/!* currentUnit과 동일하지 않은 unit이 있을 경우 드롭다운에 추가 *!/*/}
                                     {/*{currentUnit !== unit && unit !== 'g' &&*/}
@@ -721,7 +735,7 @@ const IngredientGroup = ({
                             <br/>
                             다른 재료로 바꿔보세요.
                         </div>
-                    ) : currentStandard > 0 ? (  // standard가 0보다 클 경우 영양성분을 보여줌
+                    ) : currentStandard > 0 && Object.keys(unitConversions).includes(currentUnit)? (  // standard가 0보다 클 경우 영양성분을 보여줌
                         <div className="ingredient_info_group">
                             <div className="ingredient_info">
                                 <div className="ingredient_info_detail">

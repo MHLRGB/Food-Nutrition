@@ -83,13 +83,16 @@ public class UserController {
         UserEntity userEntity = userRepository.findByUsername(username);
 
 
+
         nowUserResponseDTO.setUsername(username);
         nowUserResponseDTO.setRole(role);
-        nowUserResponseDTO.setId(userEntity.getId());
-        nowUserResponseDTO.setIsSetCat(userEntity.getIsSetCat());
-        nowUserResponseDTO.setCat1(userEntity.getCat1());
-        nowUserResponseDTO.setCat2(userEntity.getCat2());
-        nowUserResponseDTO.setCat3(userEntity.getCat3());
+        if (userEntity != null) {
+            nowUserResponseDTO.setId(userEntity.getId() != 0 ? userEntity.getId() : 0);
+            nowUserResponseDTO.setIsSetCat(userEntity.getIsSetCat() != null ? userEntity.getIsSetCat() : 0);
+            nowUserResponseDTO.setCat1(userEntity.getCat1() != null ? userEntity.getCat1() : "0");
+            nowUserResponseDTO.setCat2(userEntity.getCat2() != null ? userEntity.getCat2() : "0");
+            nowUserResponseDTO.setCat3(userEntity.getCat3() != null ? userEntity.getCat3() : "0");
+        }
 
         return nowUserResponseDTO;
     }

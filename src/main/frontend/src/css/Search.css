@@ -112,7 +112,7 @@
 }
 
 /* 레시피 카드들을 감싸는 컨테이너 */
-.recipe_container {
+.search_recipe_container {
     display: flex;
     flex-wrap: wrap; /* 가로로 배치되도록 */
     justify-content: space-between; /* 가로로 정렬하고 공간을 고르게 나누기 */
