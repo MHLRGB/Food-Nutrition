@@ -100,30 +100,37 @@
 }
 
 .recipe_item_box {
-  flex: 1 1 auto; /* 자동 크기 조정 */
-  max-width: 150px; /* 각 아이템의 최대 너비를 설정 */
+  width: 170px;
+  flex-shrink: 0;
+  /*flex: 1 1 auto; !* 자동 크기 조정 *!*/
+  /*max-width: 150px; !* 각 아이템의 최대 너비를 설정 *!*/
   min-height: 40px; /* 높이를 적당히 조정 */
-  padding: 20px; /* 패딩 추가 (필요에 따라 조정) */
+  padding: 10px 5px 10px 5px; /* 패딩 추가 (필요에 따라 조정) */
   border: 3px solid #CEF5D9; /* 테두리 추가 (스타일링을 위한 예시) */
   border-radius: 20px; /* 둥근 모서리 */
   text-align: center; /* 텍스트 가운데 정렬 */
   background-color: #F7FFF9; /* 배경색 설정 */
-  margin-bottom: 15px; /* 각 아이템 간의 세로 간격 추가 */
+  margin: 0 15px 15px 15px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: black;
 }
 .recipe_item_box:hover {
-  font-weight: bold;
+  /*font-weight: bold;*/
+  /*border: 4px solid #CEF5D9;*/
   cursor: pointer;
-  border: 4px solid #CEF5D9;
   background-color: #EEFDF2;
 }
 
 
 .recipe_item_name {
   text-align: center;
+
+  font-family: "Do Hyeon", sans-serif;
+  font-weight: 0;
+  font-style: normal;
+  font-size: 20px;
 }
 
 .ai_search_result_detail {
@@ -132,9 +139,9 @@
   display: flex;
   justify-content: center;
   /*text-align: center;*/
-  /*border: 3px solid #CEF5D9;*/
-  /*border-radius: 20px;*/
-  /*background-color: #F7FFF9;*/
+  border: 3px solid #CEF5D9;
+  border-radius: 20px;
+  background-color: #F7FFF9;
 }
 
 .ai_search_result_detail_category {
@@ -248,8 +255,31 @@
 .ai_recipe_title_group {
   display: flex;
   justify-content: space-around;
-  width:1000px;
+  width:750px;
+  flex-wrap: nowrap; /* 요소들이 한 줄에 배치되도록 설정 */
+  overflow-x: auto; /* 가로로 넘치는 부분에 스크롤 추가 */
+}
+/* 스크롤바 전체 */
+.ai_recipe_title_group::-webkit-scrollbar {
+  height: 11px; /* 가로 스크롤바의 높이 */
+}
 
+/* 스크롤바 트랙 (배경) */
+.ai_recipe_title_group::-webkit-scrollbar-track {
+  background: #f1f1f1; /* 트랙의 배경색 */
+  border-radius: 10px;
+}
+
+/* 스크롤바 막대 (실제 이동하는 부분) */
+.ai_recipe_title_group::-webkit-scrollbar-thumb {
+  background: #888; /* 막대의 배경색 */
+  border-radius: 10px;
+  border: 2px solid #f1f1f1; /* 트랙과 막대 사이에 여백 추가 */
+}
+
+/* 마우스를 올렸을 때 막대 색상 변경 */
+.ai_recipe_title_group::-webkit-scrollbar-thumb:hover {
+  background: #555; /* 마우스를 올렸을 때 막대의 색 */
 }
 
 .ai_search_result_side {

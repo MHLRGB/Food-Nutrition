@@ -92,20 +92,6 @@ const Join = () => {
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                         />
-                        <input
-                            className="join-input"
-                            type="text"
-                            placeholder="이메일"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                        <input
-                            className="join-input"
-                            type="text"
-                            placeholder="전화번호"
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
-                        />
                     <div className="button-group">
                     <button className="form-button" type="submit">회원가입</button>
                     </div>

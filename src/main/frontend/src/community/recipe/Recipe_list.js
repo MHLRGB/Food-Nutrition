@@ -21,9 +21,11 @@ const Body = () => {
     return (
         <div className='community_board_body_container'>
             <div className='community_board_body_center'>
-                <h2>레시피 목록</h2>
+                <h2 className="recipe_list_title">사용자 레시피 목록</h2>
+                <div className="recipe_go_write_button" onClick={() => window.location.href = "recipe/write"}>레시피 글쓰기
+                </div>
                 <TitleList category="recipe"/>
-                <div onClick={() => window.location.href = "recipe/write"}>레시피 글쓰기</div>
+
             </div>
         </div>
     );

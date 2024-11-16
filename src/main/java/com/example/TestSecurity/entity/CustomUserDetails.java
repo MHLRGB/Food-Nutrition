@@ -27,10 +27,13 @@ public class CustomUserDetails implements UserDetails {
             public String getAuthority() {
                 return userEntity.getRole();
             }
+
+
         });
 
         return collection;
     }
+    public Integer getIsSetCat() {return userEntity.getIsSetCat();}
 
     @Override
     public String getPassword() {

@@ -1,10 +1,12 @@
-import React, { useState } from "react";
-import './css/Search.css'; // 스타일 파일을 임포트
-import ai_icon from "./image/header/search_page_icon.png"; // 검색 버튼 아이콘
-import leftArrow from "./image/main/arrow_back_icon.png"; // 왼쪽 버튼 이미지
-import rightArrow from "./image/main/arrow_forward_icon.png"; // 오른쪽 버튼 이미지
-import Header from "./Header"; // Header 컴포넌트 추가
-import axios from 'axios'; // 서버와의 통신을 위한 axios
+import React, { useState, useEffect } from "react";
+import './css/Search.css';
+import ai_icon from "./image/header/search_page_icon.png";
+import leftArrow from "./image/main/arrow_back_icon.png";
+import rightArrow from "./image/main/arrow_forward_icon.png";
+import Header from "./Header";
+import axios from 'axios';
+import buger from "./image/recipe_image/recipe_title_icon.png";
+import {useNavigate} from "react-router-dom";
 
 const Search = () => {
     return (
@@ -16,34 +18,48 @@ const Search = () => {
 };
 
 const Body = () => {
-    const [inputValue, setInputValue] = useState(''); // 검색어 상태
-    const [searchResults, setSearchResults] = useState([]); // 검색 결과 상태
-    const [currentPage, setCurrentPage] = useState(0); // 현재 페이지 상태
+    const [inputValue, setInputValue] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
+    const [currentPage, setCurrentPage] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const [searchAttempted, setSearchAttempted] = useState(false);
 
-    const ITEMS_PER_PAGE = 5; // 한 페이지에 표시할 레시피 수
+    const ITEMS_PER_PAGE = 3; // 한 페이지에 3개씩
 
-    // 검색어 입력 시 상태 관리
+    const navigate = useNavigate();
+
+    const handleImageClick = (id) => {
+        navigate(`/recipe/${id}`);
+    };
+
+    useEffect(() => {
+        setSearchResults([]);
+        setSearchAttempted(false);
+    }, []);
+
     const handleInputChange = (e) => {
         setInputValue(e.target.value);
     };
 
-    // 검색 버튼 클릭 시 서버로 검색 요청
     const handleSearch = async () => {
-        if (inputValue.trim() === "") return; // 빈 검색어 입력 방지
+        if (inputValue.trim() === "") return;
+
+        setLoading(true);
+        setSearchAttempted(true);
 
         try {
-            // 여기에서 axios 요청을 기다립니다.
-            const response = await axios.get("http://localhost:8080/api/search/recipes", {
+            const response = await axios.get("http://localhost:3000/api/search/recipes", {
                 params: { title: inputValue }
             });
-            setSearchResults(response.data); // 서버에서 받은 데이터를 검색 결과로 설정
-            setCurrentPage(0); // 검색 후 첫 페이지로 리셋
+            setSearchResults(response.data);
+            setCurrentPage(0);
         } catch (error) {
             console.error("검색 중 오류 발생:", error);
+        } finally {
+            setLoading(false);
         }
     };
 
-    // 페이지 전환 핸들러
     const changePage = (direction) => {
         setCurrentPage(prevPage => {
             const maxPage = Math.ceil(searchResults.length / ITEMS_PER_PAGE) - 1;
@@ -56,7 +72,6 @@ const Body = () => {
         });
     };
 
-    // 현재 페이지의 레시피만 표시
     const currentRecipes = searchResults.slice(
         currentPage * ITEMS_PER_PAGE,
         (currentPage + 1) * ITEMS_PER_PAGE
@@ -79,36 +94,42 @@ const Body = () => {
                 </div>
             </div>
 
-            {/* 구분선 */}
-            <div className="separator"></div>
-
-            {/* 레시피 결과 표시 */}
             <div className="recipe_container_wrapper">
                 {searchResults.length > 0 ? (
                     <>
-                        {/* 레시피 목록 */}
                         <div className="recipe_container">
-                            {currentRecipes.map(recipe => (
-                                <div key={recipe.recipeNumber} className="recipe_item">
-                                    <span>{recipe.title}</span>
+                            {currentRecipes.map((recipe, index) => (
+                                <div
+                                    key={recipe.recipeNumber}
+                                    className="recipe_card"
+                                    style={{animationDelay: `${index * 0.3}s`}} // 애니메이션 딜레이
+                                >
+                                    <img
+                                        className="recipe_image"
+                                        src={buger}  // 테스트용 이미지 경로
+                                        alt={recipe.title}
+                                        onClick={handleImageClick(recipe.recipeNumber)}
+                                    />
+                                    <h2 className="recipe_title">{recipe.title}</h2>
                                 </div>
                             ))}
                         </div>
-
-                        {/* 페이지 전환 버튼 */}
-                        <div className="pagination_buttons">
-                            <button className="left_button" onClick={() => changePage("prev")}>
-                                <img src={leftArrow} alt="Previous"/>
-                            </button>
-
-                            <button className="right_button" onClick={() => changePage("next")}>
-                                <img src={rightArrow} alt="Next"/>
-                            </button>
-                        </div>
                     </>
                 ) : (
-                    <div className="no_results">검색 결과가 없습니다.</div>
+                    searchAttempted && !loading && (
+                        <div className="no_results">검색 결과가 없습니다.</div>
+                    )
                 )}
+            </div>
+
+            {/* 페이지 네비게이션 버튼을 recipe_container_wrapper 바깥으로 빼서 가로로 배치 */}
+            <div className="pagination_buttons">
+                <button className="left_button" onClick={() => changePage("prev")}>
+                    <img src={leftArrow} alt="Previous"/>
+                </button>
+                <button className="right_button" onClick={() => changePage("next")}>
+                    <img src={rightArrow} alt="Next"/>
+                </button>
             </div>
         </div>
     );

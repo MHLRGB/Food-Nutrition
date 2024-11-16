@@ -20,7 +20,8 @@ import Community_board_detail from "./community/board/Community_board_detail";
 import Community_update from "./community/board/Community_board_update";
 import AI_Search from "./AI_Search";
 import Search from "./Search";
-import MyRecipe from "./main/MyRecipe"; // Search 컴포넌트 임포트 추가
+import MyRecipe from "./main/MyRecipe";
+import SelectCategory from "./main/SelectCategory"; // Search 컴포넌트 임포트 추가
 
 const App = () => {
     return (
@@ -33,6 +34,7 @@ const App = () => {
                 <Route path="/common" element={<Common />} />
                 <Route path="/mypage" element={<MyPage />} />
                 <Route path="/myrecipe" element={<MyRecipe />} />
+                <Route path="/selectcategory" element={<SelectCategory />} />
                 <Route path="/aisearch" element={<AI_Search />} />
                 <Route path="/search" element={<Search />} /> {/* 여기에 /search 경로 추가 */}
 
