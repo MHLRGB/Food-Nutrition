@@ -658,16 +658,18 @@ const IngredientGroup = ({
                                     />
                                 </>
                             )}
+
                             <div className="ingredient_unit_dropdown">
                                 <select className="ingredient_unit_dropdown_select" value={currentUnit}
                                         onChange={handleUnitChange}>
                                     {/* 항상 currentUnit이 포함된 드롭다운 메뉴 */}
+
                                     <option className="ingredient_unit_dropdown_option"
-                                            value={unit}>{unit}</option>
+                                            value={currentUnit}>{currentUnit}</option>
                                     {/*<option className="ingredient_unit_dropdown_option"*/}
                                     {/*        value={currentUnit}>{currentUnit}</option>*/}
 
-                                    {currentUnit !== defaultUnit && (
+                                    {(currentUnit !== defaultUnit) && (defaultUnit !== "" ) && (
                                         <option className="ingredient_unit_dropdown_option" value={defaultUnit}>
                                             {defaultUnit}
                                         </option>
