@@ -142,14 +142,13 @@ export const bringRecipe = async (recipe, recipeIngredients) => {
 };
 
 
-
-export const getAllRecipes = async () => {
-    const response = await axios.get('/api/recipe');
+export const getAllRecipes = async (page = 1) => {
+    const response = await axios.get(`/api/recipe?page=${page}`);
     return response.data;
 };
 
-export const getAllMyRecipes = async () => {
-    const response = await axios.get('/api/recipe/my');
+export const getAllMyRecipes = async (page = 1) => {
+    const response = await axios.get(`/api/recipe/my?page=${page}`);
     return response.data;
 };
 

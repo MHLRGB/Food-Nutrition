@@ -231,7 +231,7 @@ const RecipeIngredientsBox = ({recipeId}) => {
         // totalIngredients에서 해당 ingredientId를 가진 재료의 영양소 정보 제거
         setTotalIngredients((prevIngredients) =>
             prevIngredients.filter(
-                ingredient => !(ingredient.id === ingredientIdToRemove && ingredient.section === ingredientSectionToRemove && ingredient.ingredientOrder === ingredientOrderToRemove)
+                ingredient => !(ingredient.id === ingredientIdToRemove && ingredient.section === ingredientSectionToRemove)
             )
         );
 

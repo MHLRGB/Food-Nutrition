@@ -29,7 +29,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-mustache'
 
-	// implementation 'org.springframework.boot:spring-boot-starter-batch'
+	 implementation 'org.springframework.boot:spring-boot-starter-batch'
 
 	implementation 'org.springframework.boot:spring-boot-starter'
 	compileOnly 'org.projectlombok:lombok'

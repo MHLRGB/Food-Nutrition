@@ -15,10 +15,6 @@ public class RecipeIngredients {
     @EmbeddedId
     private RecipeIngredientsId id;
 
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)  // 자동 증가 설정
-//    @Column(name = "id")
-//    private Long id;
-
     @Column(name = "quantity")
     private Double quantity;
 
@@ -56,6 +52,9 @@ public class RecipeIngredients {
         @Column(name = "IngredientId", length = 20)
         private Long ingredientId;
 
+        @Column(name = "sourceType")
+        private String sourceType;
+
         // equals() and hashCode() methods
         @Override
         public boolean equals(Object o) {
@@ -65,6 +64,7 @@ public class RecipeIngredients {
             return  id.equals(that.id) &&
                     section.equals(that.section) &&
                     recipeId.equals(that.recipeId) &&
+                    sourceType.equals(that.sourceType) &&
                     ingredientId.equals(that.ingredientId);
 
         }

@@ -1,11 +1,8 @@
-package com.example.TestSecurity.dto;
+package com.example.TestSecurity.dto.recipe;
 
-import com.example.TestSecurity.entity.Ingredients;
-import com.example.TestSecurity.entity.Recipe;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter

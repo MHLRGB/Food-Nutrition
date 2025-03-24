@@ -1,3 +1,5 @@
+// Recipe와 Community 분리 취소로 임시 주석처리
+
 //package com.example.TestSecurity.controller;
 //
 //import com.example.TestSecurity.dto.*;

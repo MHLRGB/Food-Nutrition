@@ -1,7 +1,6 @@
 package com.example.TestSecurity.service;
 
-import com.example.TestSecurity.dto.IngredientResponseDTO;
-import com.example.TestSecurity.dto.IngredientSearchDTO;
+import com.example.TestSecurity.dto.recipe.IngredientSearchDTO;
 import com.example.TestSecurity.entity.Ingredients;
 import com.example.TestSecurity.repository.IngredientsRepository;
 import com.example.TestSecurity.repository.RecipeIngredientsRepository;
@@ -9,7 +8,6 @@ import com.example.TestSecurity.repository.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;

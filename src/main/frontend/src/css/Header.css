@@ -38,6 +38,7 @@
     font-weight: bold;
     align-items: center;
     justify-content: center;
+    cursor:pointer;
 }
 
 .header_nav_circle:hover {

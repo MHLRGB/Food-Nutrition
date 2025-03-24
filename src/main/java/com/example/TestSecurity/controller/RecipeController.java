@@ -1,14 +1,12 @@
 package com.example.TestSecurity.controller;
 
-import com.example.TestSecurity.dto.IngredientRequestDTO;
-import com.example.TestSecurity.dto.RecipeIngredientsResponseDTO;
-import com.example.TestSecurity.dto.RecipeRequestDTO;
-import com.example.TestSecurity.dto.RecipeResponseDTO;
-import com.example.TestSecurity.entity.Ingredients;
+import com.example.TestSecurity.dto.recipe.RecipeIngredientsResponseDTO;
+import com.example.TestSecurity.dto.recipe.RecipeRequestDTO;
+import com.example.TestSecurity.dto.recipe.RecipeResponseDTO;
 import com.example.TestSecurity.entity.Recipe;
-import com.example.TestSecurity.service.IngredientProcessService;
 import com.example.TestSecurity.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,12 +21,10 @@ import java.util.stream.Collectors;
 public class RecipeController {
 
     private final RecipeService recipeService;
-    private final IngredientProcessService ingredientProcessService;
 
     @Autowired
-    public RecipeController(RecipeService recipeService, IngredientProcessService ingredientProcessService) {
+    public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
-        this.ingredientProcessService = ingredientProcessService;
     }
 
     @PostMapping
@@ -46,64 +42,64 @@ public class RecipeController {
     }
 
     @GetMapping
-    public ResponseEntity<List<RecipeResponseDTO>> getAllRecipes() {
+    public ResponseEntity<List<RecipeResponseDTO>> getAllRecipes(
+            @RequestParam(defaultValue = "1") int page) {
 
-        List<Recipe> Recipes = recipeService.getAllRecipes();
-        List<RecipeResponseDTO> responseDTOs = Recipes.stream().map(recipe -> {
+        int pageSize = 10; // 페이지당 10개씩 조회
+        Page<Recipe> recipePage = recipeService.getAllRecipes(page, pageSize);
+
+        List<RecipeResponseDTO> responseDTOs = recipePage.getContent().stream().map(recipe -> {
             RecipeResponseDTO dto = new RecipeResponseDTO();
-            dto.setRecipeId(recipe.getRecipeId()); // recipeId
-            dto.setRecipeTitle(recipe.getRecipeTitle()); // recipeTitle
-            dto.setRecipeInfo(recipe.getRecipeInfo()); // recipeInfo
-            dto.setViews(recipe.getViews()); // views
-            dto.setChef(recipe.getChef()); // chef
-            dto.setServing(recipe.getServing()); // serving
-            dto.setCookingTime(recipe.getCookingTime()); // cooking_time
-            dto.setDifficulty(recipe.getDifficulty()); // difficulty
-            dto.setHashtag(recipe.getHashtag()); // hashtag
-            dto.setByType(recipe.getByType()); // byType
-            dto.setBySituation(recipe.getBySituation()); // bySituation
-            dto.setByIngredient(recipe.getByIngredient()); // byIngredient
-            dto.setByMethod(recipe.getByMethod()); // byMethod
-
-
+            dto.setRecipeId(recipe.getRecipeId());
+            dto.setRecipeTitle(recipe.getRecipeTitle());
+            dto.setRecipeInfo(recipe.getRecipeInfo());
+            dto.setViews(recipe.getViews());
+            dto.setChef(recipe.getChef());
+            dto.setServing(recipe.getServing());
+            dto.setCookingTime(recipe.getCookingTime());
+            dto.setDifficulty(recipe.getDifficulty());
+            dto.setHashtag(recipe.getHashtag());
+            dto.setByType(recipe.getByType());
+            dto.setBySituation(recipe.getBySituation());
+            dto.setByIngredient(recipe.getByIngredient());
+            dto.setByMethod(recipe.getByMethod());
             return dto;
         }).collect(Collectors.toList());
 
         return new ResponseEntity<>(responseDTOs, HttpStatus.OK);
     }
 
+
     @GetMapping("/my")
-    public ResponseEntity<List<RecipeResponseDTO>> getAllMyRecipes() {
-        // 현재 인증된 사용자의 username을 가져옴
+    public ResponseEntity<List<RecipeResponseDTO>> getAllMyRecipes(
+            @RequestParam(defaultValue = "1") int page) {
+
         String author = SecurityContextHolder.getContext().getAuthentication().getName();
+        int pageSize = 10; // 페이지당 10개 조회
 
-        // 레시피 리스트 가져오기
-        List<Recipe> Recipes = recipeService.getAllRecipes();
+        Page<Recipe> recipePage = recipeService.getAllMyRecipes(author, page, pageSize);
 
-        // chef가 인증된 사용자와 동일한 레시피만 필터링
-        List<RecipeResponseDTO> responseDTOs = Recipes.stream()
-                .filter(recipe -> recipe.getChef().equals(author))  // chef가 author와 동일한 경우만 필터링
-                .map(recipe -> {
-                    RecipeResponseDTO dto = new RecipeResponseDTO();
-                    dto.setRecipeId(recipe.getRecipeId()); // recipeId
-                    dto.setRecipeTitle(recipe.getRecipeTitle()); // recipeTitle
-                    dto.setRecipeInfo(recipe.getRecipeInfo()); // recipeInfo
-                    dto.setViews(recipe.getViews()); // views
-                    dto.setChef(recipe.getChef()); // chef
-                    dto.setServing(recipe.getServing()); // serving
-                    dto.setCookingTime(recipe.getCookingTime()); // cooking_time
-                    dto.setDifficulty(recipe.getDifficulty()); // difficulty
-                    dto.setHashtag(recipe.getHashtag()); // hashtag
-                    dto.setByType(recipe.getByType()); // byType
-                    dto.setBySituation(recipe.getBySituation()); // bySituation
-                    dto.setByIngredient(recipe.getByIngredient()); // byIngredient
-                    dto.setByMethod(recipe.getByMethod()); // byMethod
-                    return dto;
-                })
-                .collect(Collectors.toList()); // DTO 리스트로 변환
+        List<RecipeResponseDTO> responseDTOs = recipePage.getContent().stream().map(recipe -> {
+            RecipeResponseDTO dto = new RecipeResponseDTO();
+            dto.setRecipeId(recipe.getRecipeId());
+            dto.setRecipeTitle(recipe.getRecipeTitle());
+            dto.setRecipeInfo(recipe.getRecipeInfo());
+            dto.setViews(recipe.getViews());
+            dto.setChef(recipe.getChef());
+            dto.setServing(recipe.getServing());
+            dto.setCookingTime(recipe.getCookingTime());
+            dto.setDifficulty(recipe.getDifficulty());
+            dto.setHashtag(recipe.getHashtag());
+            dto.setByType(recipe.getByType());
+            dto.setBySituation(recipe.getBySituation());
+            dto.setByIngredient(recipe.getByIngredient());
+            dto.setByMethod(recipe.getByMethod());
+            return dto;
+        }).collect(Collectors.toList());
 
-        return new ResponseEntity<>(responseDTOs, HttpStatus.OK); // 필터링된 레시피 리스트 반환
+        return new ResponseEntity<>(responseDTOs, HttpStatus.OK);
     }
+
 
 
 
@@ -155,16 +151,6 @@ public class RecipeController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
-    @PostMapping("/process-data")
-    public String processData() {
-
-        // 괄호 내용 추출 & 저장
-        List<String> extractedData = ingredientProcessService.extractBracketContents();
-
-        return "추출된 데이터: " + String.join(", ", extractedData);
-    }
-
 
     //
 //    @GetMapping("/top-popular-recipe")

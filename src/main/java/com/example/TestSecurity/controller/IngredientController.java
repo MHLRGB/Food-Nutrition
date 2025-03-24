@@ -1,10 +1,8 @@
 package com.example.TestSecurity.controller;
 
-import com.example.TestSecurity.dto.CommunityResponseDTO;
-import com.example.TestSecurity.dto.IngredientResponseDTO;
-import com.example.TestSecurity.dto.IngredientSearchDTO;
+import com.example.TestSecurity.dto.recipe.IngredientResponseDTO;
+import com.example.TestSecurity.dto.recipe.IngredientSearchDTO;
 import com.example.TestSecurity.entity.Ingredients;
-import com.example.TestSecurity.entity.Recipe;
 import com.example.TestSecurity.service.IngredientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

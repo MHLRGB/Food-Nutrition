@@ -11,8 +11,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +28,6 @@ import java.util.Optional;
 
 @Controller
 public class UserController {
-    private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
     @Autowired
     private JoinService joinService; // 현재 필드 주입으로 선언했지만, 생성자 주입 방식 권고
@@ -39,7 +36,6 @@ public class UserController {
 
     @GetMapping("/joinProc")
     public String joinProcess(JoinDTO joinDTO) {
-        log.info("username : " + joinDTO.getUsername());
 
         joinService.joinProcess(joinDTO);
 
@@ -81,8 +77,6 @@ public class UserController {
         String role = auth.getAuthority();
 
         UserEntity userEntity = userRepository.findByUsername(username);
-
-
 
         nowUserResponseDTO.setUsername(username);
         nowUserResponseDTO.setRole(role);

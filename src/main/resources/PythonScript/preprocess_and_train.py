@@ -15,10 +15,10 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 # 데이터베이스 연결 설정
 db_config = {
-    'host': 'foodlyze.c7sm4eciiv1v.ap-northeast-2.rds.amazonaws.com',
-    'user': 'admin',
-    'password': 'ehgus123',
-    'database': 'Foodlyze'
+    'host': '127.0.0.1',
+    'user': 'root',
+    'password': 'back4607',
+    'database': 'foodlyze'
 }
 
 # Word2Vec 모델 로드

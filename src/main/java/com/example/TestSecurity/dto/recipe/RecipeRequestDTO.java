@@ -1,4 +1,4 @@
-package com.example.TestSecurity.dto;
+package com.example.TestSecurity.dto.recipe;
 
 import lombok.Getter;
 import lombok.Setter;
