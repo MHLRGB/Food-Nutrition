@@ -23,6 +23,12 @@ public class SearchEntity {
     @Column(name = "recipe_title") // 컬럼명과 일치하도록 지정
     private String title;
 
+    @Column(name = "recipe_info") // 컬럼명과 일치하도록 지정
+    private String recipeinfo;
+
+    @Column(name = "ingredient_content") // 컬럼명과 일치하도록 지정
+    private String ingredientcontent;
+
     // 기본 생성자
     public SearchEntity() {}
 
@@ -32,3 +38,4 @@ public class SearchEntity {
         this.title = title;
     }
 }
+

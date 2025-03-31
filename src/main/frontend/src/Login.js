@@ -93,8 +93,6 @@ const Login = () => {
                     </form>
                     <div className="login-bottom-button-group">
                         <Link type="button" className="form-button" to="/join">회원가입</Link>
-                        <Link type="button" className="form-button" to="/join">아이디 찾기</Link>
-                        <Link type="button" className="form-button" to="/join">비밀번호 찾기</Link>
                     </div>
                 </div>
         </div>

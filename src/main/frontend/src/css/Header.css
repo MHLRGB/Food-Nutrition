@@ -38,6 +38,7 @@
     font-weight: bold;
     align-items: center;
     justify-content: center;
+    cursor:pointer;
 }
 
 .header_nav_circle:hover {
@@ -114,3 +115,27 @@
     }
 }
 
+/* 페이드 인 애니메이션 */
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+/* 페이드 인 애니메이션 */
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+/* 페이드 아웃 애니메이션 */
+.fade-out {
+    animation: fadeOut 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}

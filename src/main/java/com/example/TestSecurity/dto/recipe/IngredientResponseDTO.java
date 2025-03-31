@@ -1,0 +1,17 @@
+package com.example.TestSecurity.dto.recipe;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class IngredientResponseDTO {
+    private Long ingredientsID;
+    private String ingredientName;
+    private String ingredientGroup;
+    private Float cal;
+    private Float carbohydrates;
+    private Float sugars;
+    private Float protein;
+    private Float fat;
+    private Float sodium;
+}

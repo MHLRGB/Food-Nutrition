@@ -1,9 +1,9 @@
 //package com.example.TestSecurity.service;
 //
-//import com.example.TestSecurity.dto.IngredientRequestDTO;
-//import com.example.TestSecurity.dto.IngredientsInfoResponseDTO;
-//import com.example.TestSecurity.dto.RecipeIngredientsResponseDTO;
-//import com.example.TestSecurity.dto.RecipeRequestDTO;
+//import com.example.TestSecurity.dto.recipe.IngredientRequestDTO;
+//import com.example.TestSecurity.dto.recipe.IngredientsInfoResponseDTO;
+//import com.example.TestSecurity.dto.recipe.RecipeIngredientsResponseDTO;
+//import com.example.TestSecurity.dto.recipe.RecipeRequestDTO;
 //import com.example.TestSecurity.dto.crawling.UTIIngredientsInfoResponseDTO;
 //import com.example.TestSecurity.dto.crawling.UTIResponseDTO;
 //import com.example.TestSecurity.entity.*;

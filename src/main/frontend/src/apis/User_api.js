@@ -11,3 +11,15 @@ export const nowUserInfo = async () => {
     return response.data;
 };
 
+
+export const saveUser = async (id, cat1, cat2, cat3) => {
+    const requestDto = {
+        cat1:cat1,
+        cat2:cat2,
+        cat3:cat3
+    }
+    const response = await axios.put(`/api/user/save/${id}`, {
+        requestDto
+    });
+    return response.data;
+};

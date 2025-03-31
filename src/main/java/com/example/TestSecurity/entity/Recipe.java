@@ -13,7 +13,7 @@ import java.util.List;
 public class Recipe {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(length = 20)
     private Long recipeId;
 
@@ -55,4 +55,8 @@ public class Recipe {
 
     @Column(name = "byMethod")
     private String byMethod;
+
+    @Column(name = "sourceType")
+    private String sourceType;
 }
+

@@ -29,7 +29,7 @@ const Body = () => {
                     <div className="my_page_title">마이페이지</div>
 
                     <div className="mypage_profile-container">
-                        <img src={profileImg} alt="profile"/>
+                        <img className="profile-image" src={profileImg} alt="profile"/>
                         <div className="username">이문환님</div>
                     </div>
 

@@ -1,10 +1,8 @@
 package com.example.TestSecurity.dto.crawling;
 
-import com.example.TestSecurity.dto.IngredientsInfoResponseDTO;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter

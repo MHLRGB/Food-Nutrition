@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect, useContext} from "react";
 import './css/AI_Search.css';
 import Header from "./Header";
 import ai_icon from "./image/ai_search_button.png";
@@ -10,6 +10,7 @@ import eggImage from './image/egg.png';
 import burgerImage from './image/buger.png';
 import knifeImage from './image/knife.png';
 import soraImage from './image/sora.png';
+import {RecipeContext, RecipeProvider} from "./community/RecipeContext";
 
 const getAIRecipes = async (input) => {
     const response = await axios.post('/api/recommend-recipes',
@@ -27,8 +28,10 @@ const AI_Search = () => {
     return (
         <div className='document'>
             <MainProvider>
-                <Header />
-                <Body />
+                <RecipeProvider>
+                    <Header />
+                    <Body />
+                </RecipeProvider>
             </MainProvider>
         </div>
     );
@@ -40,6 +43,13 @@ const Body = () => {
     const [inputValue, setInputValue] = useState('');
     const [loading, setLoading] = useState(false); // 로딩 상태 추가
     const [elapsedTime, setElapsedTime] = useState(0); // 경과 시간 상태 추가
+    const {
+        recipe,
+        setRecipe,
+        recipeIngredients,
+        setRecipeIngredients
+    } = useContext(RecipeContext);
+
     const [animateResults, setAnimateResults] = useState(false); // 결과 애니메이션 상태 추가
 
     const { totalIngredients, setTotalIngredients } = React.useContext(MainContext);
@@ -75,6 +85,8 @@ const Body = () => {
 
     const handleRecipeClick = (recipeId) => {
         setTotalIngredients([]);
+        setRecipe([]);
+        setRecipeIngredients([]);
         setSelectedRecipeId(recipeId);
     };
 
@@ -149,7 +161,7 @@ const Body = () => {
                             <>
                                 <div className='ai_search_result_detail'>
                                     {/*아이디: {selectedRecipe.recipe_number}*/}
-                                    <RecipeIngredientsBox recipeId={selectedRecipe.recipe_number} />
+                                     <RecipeIngredientsBox key={selectedRecipe.recipe_number} recipeId={selectedRecipe.recipe_number} />
                                 </div>
                             </>
                         </div>
@@ -160,7 +172,7 @@ const Body = () => {
 
 
                 <div className='ai_search_result_side'>
-                    {selectedRecipe && <StickyBanner />}
+                    {selectedRecipe && !loading && <StickyBanner />}
                 </div>
             </div>
         </div>
